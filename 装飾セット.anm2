@@ -30,8 +30,8 @@
 --track@grd_width1:グラデ2幅,0,2000,100,1
 --select@grd_composite1:グラデ2合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
 --check@grd_reverse:効果を逆転,0
---check@string_integrate0:テキスト1枚化(個別オブジェクト時),0
 --group
+--check@string_integrate0:グラデーションテキスト1枚化(個別オブジェクト時),0
 --check@edge:凸エッジ,0
 --track@edge_width0:凸エッジ幅,0,100,3,1
 --track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
@@ -57,8 +57,8 @@
 --track@frame_e1:縁取り2終了文字,0,500,6,1
 --track@frame_s2:縁取り3開始文字,0,500,0,1
 --track@frame_e2:縁取り3終了文字,0,500,0,1
---check@string_integrate1:テキスト1枚化(個別オブジェクト時),0
 --group
+--check@string_integrate1:縁取りテキスト1枚化(個別オブジェクト時),0
 --check@middle_shadow:文字に対して影を付与,0
 --check@behind_shadow:全体に対して影を付与,0
 --color@shadow_col0:影色,0x000000
@@ -66,42 +66,29 @@
 --track@shadow_y0:影y,-1000,1000,10,1
 --track@shadow_deep0:影濃さ,0,100,70,1
 --track@shadow_diffusion0:影拡散,0,500,15,1
---track@background_x_common:ざぶとん共通x,0,2000,1500,1
---track@background_y_common:ざぶとん共通y,0,2000,200,1
---track@background_x0:ざぶとん1x,0,2000,0,1
---track@background_y0:ざぶとん1y,0,2000,0,1
---track@background_alpha0:ざぶとん1透明度,0,100,0,0.1
---color@background_col0:ざぶとん1色,0xc81919
---track@background_frame0:ざぶとん1枠線サイズ,0,500,0,1
---color@background_framecol0:ざぶとん1枠色,0xffffff
---group:個別オブジェクトざぶとん(1)(2)(3)詳細設定,false
---track@background_s0:ざぶとん1開始文字,0,500,0,1
---track@background_e0:ざぶとん1終了文字,0,500,0,1
---track@background_s1:ざぶとん2開始文字,0,500,0,1
---track@background_e1:ざぶとん2終了文字,0,500,0,1
---track@background_s2:ざぶとん3開始文字,0,500,0,1
---track@background_e2:ざぶとん3終了文字,0,500,0,1
---track@background_alpha_common:ざぶとん共通透明度,0,100,0,0.1
---track@background_x1:ざぶとん2x,0,2000,0,1
---track@background_y1:ざぶとん2y,0,2000,0,1
---track@background_alpha1:ざぶとん2透明度,0,100,0,0.1
---color@background_col1:ざぶとん2色,0xffffff
---track@background_frame1:ざぶとん2枠線サイズ,0,500,0,1
---color@background_framecol1:ざぶとん2枠色,0xffffff
---track@background_x2:ざぶとん3x,0,2000,0,1
---track@background_y2:ざぶとん3y,0,2000,0,1
---track@background_alpha2:ざぶとん3透明度,0,100,0,0.1
---color@background_col2:ざぶとん3色,0xffffff
---track@background_frame2:ざぶとん3枠線サイズ,0,500,0,1
---color@background_framecol2:ざぶとん3枠色,0xffffff
---group
---check@string_integrate2:テキスト1枚化(個別オブジェクト時),0
+--check@background0:ざぶとん1,0
+--track@background_x0:ざぶとんサイズx,0,2000,1500,1
+--track@background_y0:ざぶとんサイズy,0,2000,200,1
+--track@background_posx0:ざぶとん位置x,-100000,100000,0,1
+--track@background_posy0:ざぶとん位置y,-100000,100000,0,1
+--track@background_alpha0:ざぶとん透明度,0,100,0,0.1
+--color@background_col0:ざぶとん色,0xc81919
+--track@background_frame0:ざぶとん枠線サイズ,0,500,0,1
+--track@background_frame_blur0:ざぶとん枠線ぼかし,0,100,0,1
+--color@background_framecol0:ざぶとん枠色,0xffffff
 
 local effect = obj.effect
 
 -- 1. 基本設定（色）
 if(char_col0) then
     effect("単色化","強さ",100,"色",char_col0,"輝度を保持する",0)
+end
+
+--luaファイルを呼び出し、「プリセット」を適用させている。
+if(deco_presets ~= 0) then
+    if(require("text_decoration_presets")) then
+        text_decoration_presets(deco_presets)
+    end
 end
 
 -- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
@@ -112,8 +99,7 @@ local isInFramingRange = false
 local isInFramingRange1 = false
 local isInFramingRange2 = false
 local isInFramingRange3 = false
-local isInBackgroundRange1 = false
-local isInBackgroundRange2 = false
+local isInBackgroundRange = false
 
 if (obj.num == 1) then -- オブジェクトが全体の時
     -- 全体オブジェクト時は常に全範囲を真とする
@@ -142,11 +128,6 @@ else -- オブジェクトが個別の時
     )
     isInFramingRange3 = ( -- 縁取り3の範囲
         (frame_s2 <= idx and frame_e2 >= idx)
-    )
-    isInBackgroundRange = ( -- ざぶとんの範囲
-        (background_s0 <= idx and background_e0 >= idx) or
-        (background_s1 <= idx and background_e1 >= idx) or
-        (background_s2 <= idx and background_e2 >= idx)
     )
 end
 
@@ -293,30 +274,50 @@ if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェッ�
     effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
 
+-- ざぶとんの付与は「テキスト一体化」を行った後にしか（私の技術では）出来ないので、luaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
+if(background0 ~= 0) then
+    if(require("Individual_object_join")) then
+        Individual_object_join()
+    end
+end
+
 -- 8. ざぶとん処理（必要に応じてフラグ判定を利用して追加可能）
 -- ざぶとん全体オブジェクト
+if(background0 ~= 0)then -- ざぶとん1のチェックがあれば実行
     local w,h = obj.screen_w,obj.screen_h -- スクリーンの大きさで変数を作成。
-    obj.setoption("drawtarget","tempbuffer",w,h) -- w,hの大きさの仮想バッファを初期化して作成し、描画先を仮想バッファに変更。
-    obj.draw() -- 現在保持しているオブジェクトを仮想バッファに描画。
+    if(obj.index == 1)then
+        obj.setoption("drawtarget","tempbuffer",w,h) -- w,hの大きさの仮想バッファを初期化して作成し、描画先を仮想バッファに変更。
+    else
+        obj.setoption("drawtarget","tempbuffer")
+    end
+    akira_obj_data_table_0121 = {} -- 各文字の位置情報を記録しておくための配列を作成。グローバル変数のため被らないような名前で宣言。
+    local data = akira_obj_data_table_0121 -- テーブル変数名が長いためコンストラクタを作成。
+    local idx = obj.index -- indexを変数に代入。
+    data[idx] = {
+    x     = obj.ox,
+    y     = obj.oy,
+    z     = obj.oz,
+    cx    = obj.cx,
+    cy    = obj.cy,
+    cz    = obj.cz,
+    rx    = obj.rx,
+    ry    = obj.ry,
+    rz    = obj.rz,
+    scale = obj.sx * obj.sy * obj.sz,
+    alpha = obj.alpha,
+    }
+    obj.draw(data[idx].x,data[idx].y,data[idx].z,data[idx].scale,data[idx].alpha,data[idx].rx,data[idx].ry,data[idx].rz) -- 現在保持しているオブジェクトを仮想バッファに描画。
     obj.copybuffer("cache:deco_text","tempbuffer") -- 仮想バッファに描画したものをcache:deco_textに一旦保存。
+    akira_obj_data_table_0121 = nil -- 宣言したテーブル変数にnilを代入して無効化。
     obj.clearbuffer("tempbuffer") -- 仮想バッファをクリア
     obj.load("figure","四角形",background_col0,100)
     -- obj.drawpoly(-background_x0,-background_y0,0,background_x0,-background_y0,0,background_x0,background_y0,0,-background_x0,background_y0,0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用するため、drawpolyはコメントアウトしておく。
-    obj.effect("リサイズ","拡大率",100,"X",background_x_common + background_x0,"Y",background_y_common + background_y0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用する。仮想バッファでは通常縦横比は変わらないらしいが"リサイズ"だけは適用されるらしい。
-    obj.draw()
+    effect("リサイズ","拡大率",100,"X",background_x0,"Y",background_y0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用する。仮想バッファでは通常縦横比は変わらないらしいが"リサイズ"だけは適用されるらしい。
+    effect("縁取り", "サイズ", background_frame0, "ぼかし", background_frame_blur0, "縁色", background_framecol0)
+    obj.draw(background_posx0,background_posy0,0,1,(background_alpha0/100),0,0,0)
     obj.copybuffer("obj","cache:deco_text") -- いったんキャッシュに保存しておいたテキストをobjに再度持ってくる。
     obj.draw()
     obj.setoption("drawtarget","framebuffer") -- 描画先をフレームバッファに戻す。
     obj.load("tempbuffer") -- 仮想バッファをオブジェにロード
     obj.clearbuffer("tempbuffer") -- 一応仮想バッファをクリアーしておく。
-
--- ざぶとん個別オブジェクト（テキスト一枚化なし）
-
--- ざぶとん個別オブジェクト（テキスト一枚化あり）
-
---luaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
-if(string_integrate2 ~= 0) then
-    if(require("Individual_object_join")) then
-        Individual_object_join()
-    end
 end
