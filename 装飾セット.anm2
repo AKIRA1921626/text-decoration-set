@@ -66,10 +66,12 @@
 --track@shadow_y0:影y,-1000,1000,10,1
 --track@shadow_deep0:影濃さ,0,100,70,1
 --track@shadow_diffusion0:影拡散,0,500,15,1
+--track@background_x_common:ざぶとん共通x,0,2000,1500,1
+--track@background_y_common:ざぶとん共通y,0,2000,200,1
 --track@background_x0:ざぶとん1x,0,2000,0,1
 --track@background_y0:ざぶとん1y,0,2000,0,1
 --track@background_alpha0:ざぶとん1透明度,0,100,0,0.1
---color@background_col0:ざぶとん1色,0xffffff
+--color@background_col0:ざぶとん1色,0xc81919
 --track@background_frame0:ざぶとん1枠線サイズ,0,500,0,1
 --color@background_framecol0:ざぶとん1枠色,0xffffff
 --group:個別オブジェクトざぶとん(1)(2)(3)詳細設定,false
@@ -79,8 +81,6 @@
 --track@background_e1:ざぶとん2終了文字,0,500,0,1
 --track@background_s2:ざぶとん3開始文字,0,500,0,1
 --track@background_e2:ざぶとん3終了文字,0,500,0,1
---track@background_x_common:ざぶとん共通x,0,2000,0,1
---track@background_y_common:ざぶとん共通y,0,2000,0,1
 --track@background_alpha_common:ざぶとん共通透明度,0,100,0,0.1
 --track@background_x1:ざぶとん2x,0,2000,0,1
 --track@background_y1:ざぶとん2y,0,2000,0,1
@@ -294,6 +294,25 @@ if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェッ�
 end
 
 -- 8. ざぶとん処理（必要に応じてフラグ判定を利用して追加可能）
+-- ざぶとん全体オブジェクト
+    local w,h = obj.screen_w,obj.screen_h -- スクリーンの大きさで変数を作成。
+    obj.setoption("drawtarget","tempbuffer",w,h) -- w,hの大きさの仮想バッファを初期化して作成し、描画先を仮想バッファに変更。
+    obj.draw() -- 現在保持しているオブジェクトを仮想バッファに描画。
+    obj.copybuffer("cache:deco_text","tempbuffer") -- 仮想バッファに描画したものをcache:deco_textに一旦保存。
+    obj.clearbuffer("tempbuffer") -- 仮想バッファをクリア
+    obj.load("figure","四角形",background_col0,100)
+    -- obj.drawpoly(-background_x0,-background_y0,0,background_x0,-background_y0,0,background_x0,background_y0,0,-background_x0,background_y0,0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用するため、drawpolyはコメントアウトしておく。
+    obj.effect("リサイズ","拡大率",100,"X",background_x_common + background_x0,"Y",background_y_common + background_y0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用する。仮想バッファでは通常縦横比は変わらないらしいが"リサイズ"だけは適用されるらしい。
+    obj.draw()
+    obj.copybuffer("obj","cache:deco_text") -- いったんキャッシュに保存しておいたテキストをobjに再度持ってくる。
+    obj.draw()
+    obj.setoption("drawtarget","framebuffer") -- 描画先をフレームバッファに戻す。
+    obj.load("tempbuffer") -- 仮想バッファをオブジェにロード
+    obj.clearbuffer("tempbuffer") -- 一応仮想バッファをクリアーしておく。
+
+-- ざぶとん個別オブジェクト（テキスト一枚化なし）
+
+-- ざぶとん個別オブジェクト（テキスト一枚化あり）
 
 --luaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
 if(string_integrate2 ~= 0) then
