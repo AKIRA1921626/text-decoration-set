@@ -274,50 +274,39 @@ if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェッ�
     effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
 
--- ざぶとんの付与は「テキスト一体化」を行った後にしか（私の技術では）出来ないので、luaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
-if(background0 ~= 0) then
+-- ざぶとんの付与は「テキスト一体化」を行った後にしか（私の技術では）出来ないので、個別オブジェクトの場合はluaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
+if(background0 ~= 0 and obj.getoption("multi_object")) then
     if(require("Individual_object_join")) then
         Individual_object_join()
     end
 end
 
--- 8. ざぶとん処理（必要に応じてフラグ判定を利用して追加可能）
--- ざぶとん全体オブジェクト
-if(background0 ~= 0)then -- ざぶとん1のチェックがあれば実行
-    local w,h = obj.screen_w,obj.screen_h -- スクリーンの大きさで変数を作成。
-    if(obj.index == 1)then
-        obj.setoption("drawtarget","tempbuffer",w,h) -- w,hの大きさの仮想バッファを初期化して作成し、描画先を仮想バッファに変更。
-    else
-        obj.setoption("drawtarget","tempbuffer")
+-- 8. ざぶとん処理
+if(background0 ~= 0) then
+    local w, h = obj.screen_w, obj.screen_h
+
+    -- 1. 現在の装飾済みテキストを cache:deco_text に退避
+    obj.copybuffer("cache:deco_text", "obj")
+
+    -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
+    obj.setoption("drawtarget", "tempbuffer", w, h)
+    obj.clearbuffer("tempbuffer") -- バッファを一旦透明にする
+
+    -- 3. 四角形をロードしてバッファに描画
+    obj.load("figure", "四角形", background_col0, 100)
+    effect("リサイズ", "拡大率", 100, "X", background_x0, "Y", background_y0)
+    if(background_frame0 > 0) then
+        effect("縁取り", "サイズ", background_frame0, "ぼかし", background_frame_blur0, "縁色", background_framecol0)
     end
-    akira_obj_data_table_0121 = {} -- 各文字の位置情報を記録しておくための配列を作成。グローバル変数のため被らないような名前で宣言。
-    local data = akira_obj_data_table_0121 -- テーブル変数名が長いためコンストラクタを作成。
-    local idx = obj.index -- indexを変数に代入。
-    data[idx] = {
-    x     = obj.ox,
-    y     = obj.oy,
-    z     = obj.oz,
-    cx    = obj.cx,
-    cy    = obj.cy,
-    cz    = obj.cz,
-    rx    = obj.rx,
-    ry    = obj.ry,
-    rz    = obj.rz,
-    scale = obj.sx * obj.sy * obj.sz,
-    alpha = obj.alpha,
-    }
-    obj.draw(data[idx].x,data[idx].y,data[idx].z,data[idx].scale,data[idx].alpha,data[idx].rx,data[idx].ry,data[idx].rz) -- 現在保持しているオブジェクトを仮想バッファに描画。
-    obj.copybuffer("cache:deco_text","tempbuffer") -- 仮想バッファに描画したものをcache:deco_textに一旦保存。
-    akira_obj_data_table_0121 = nil -- 宣言したテーブル変数にnilを代入して無効化。
-    obj.clearbuffer("tempbuffer") -- 仮想バッファをクリア
-    obj.load("figure","四角形",background_col0,100)
-    -- obj.drawpoly(-background_x0,-background_y0,0,background_x0,-background_y0,0,background_x0,background_y0,0,-background_x0,background_y0,0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用するため、drawpolyはコメントアウトしておく。
-    effect("リサイズ","拡大率",100,"X",background_x0,"Y",background_y0) -- drawpolyでもリサイズでも同じことができる。今回はリサイズを使用する。仮想バッファでは通常縦横比は変わらないらしいが"リサイズ"だけは適用されるらしい。
-    effect("縁取り", "サイズ", background_frame0, "ぼかし", background_frame_blur0, "縁色", background_framecol0)
-    obj.draw(background_posx0,background_posy0,0,1,(background_alpha0/100),0,0,0)
-    obj.copybuffer("obj","cache:deco_text") -- いったんキャッシュに保存しておいたテキストをobjに再度持ってくる。
-    obj.draw()
-    obj.setoption("drawtarget","framebuffer") -- 描画先をフレームバッファに戻す。
-    obj.load("tempbuffer") -- 仮想バッファをオブジェにロード
-    obj.clearbuffer("tempbuffer") -- 一応仮想バッファをクリアーしておく。
+    -- 一時バッファの中央（または指定位置）に背景を描画
+    obj.draw(background_posx0, background_posy0, 0, 1, (1 - background_alpha0 / 100))
+
+    -- 4. 退避していたテキストを背景の上に描画する
+    -- 描画ターゲットが tempbuffer のまま、cache からテクスチャをロードして draw する
+    obj.copybuffer("obj", "cache:deco_text")
+    obj.draw(0, 0, 0, 1, 1) -- テキストを座標(0,0)に重ねる
+
+    -- 5. 完成した「背景+テキスト」をメインの描画領域に戻す
+    obj.setoption("drawtarget", "framebuffer") -- ターゲットを戻す
+    obj.copybuffer("obj", "tempbuffer") -- tempbuffer の内容を現在の obj にコピー
 end
