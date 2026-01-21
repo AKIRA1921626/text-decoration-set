@@ -1,0 +1,303 @@
+--label:装飾
+--information:装飾を行いやすくするためのAviutl2用のスクリプトです。
+--select@deco:プリセット=0,装飾なし=0,縁取り1枠=1,縁取り2枠=2,縁取り2枠(2枠目色連動)=3,縁取り3枠=4,グラデ文字=5,グラデ文字縁取り1枠=6,グラデ文字縁取り2枠=7,グラデ文字縁取り2枠(2枠目色連動)影あり=13,縁取り3枠影あり=14,グラデ文字縁取り1枠影あり=15,グラデ文字縁取り2枠影あり=16,グラデ文字縁取り2枠(2枠目色連動)影あり=17,グラデ文字縁取り3枠影あり=18,ざぶとん=19,ざぶとん縁取り1枠=20,ざぶとん縁取り2枠=21,ざぶとん縁取り2枠(2枠目枠色連動)=22,ざぶとん縁取り3枠=23,ざぶとんグラデ文字=24,ざぶとんグラデ文字縁取り1枠=25,ざぶとんグラデ文字縁取り2枠=26,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=27,ざぶとんグラデ文字縁取り3枠=28,ざぶとん陰あり=29,ざぶとんグラデ文字陰あり=30,ざぶとんグラデ文字縁取り1枠陰あり=31,ざぶとんグラデ文字縁取り2枠陰あり=32,ざぶとんグラデ文字縁取り2枠(2枠目色連動)陰あり=33,ざぶとんグラデ文字縁取り3枠陰あり=34
+--color@char_col0:文字色,nil
+--check@grd_0:グラデーション1,0
+--color@grds_col0:グラデ1開始色,0xff0000
+--color@grde_col0:グラデ1終了色,0xffff00
+--select@grd_type0:グラデーション1タイプ=0,線形=0,円形=1,矩形=2,凸形=3
+--group:グラデ(1)詳細設定,false
+--track@grd_pow0:グラデ1強さ,0,100,100,0.1
+--track@grd_x0:グラデ1中心X,-5000,5000,0,0.1
+--track@grd_y0:グラデ1中心Y,-5000,5000,0,0.1
+--track@grd_rotate0:グラデ1角度,-3600,3600,0,0.01
+--track@grd_width0:グラデ1幅,0,2000,100,1
+--select@grd_composite0:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
+--group
+--group:個別オブジェクト時グラデ(1)(2)詳細設定,false
+--track@grd_s0:グラデ1開始文字,0,500,0,1
+--track@grd_e0:グラデ1終了文字,0,500,2,1
+--check@grd_1:グラデーション2,0
+--track@grd_s1:グラデ2開始文字,0,500,3,1
+--track@grd_e1:グラデ2終了文字,0,500,5,1
+--color@grds_col1:グラデ2開始色,0x00ff00
+--color@grde_col1:グラデ2終了色,0x00ffff
+--select@grd_type1:グラデーション2タイプ=0,線形=0,円形=1,矩形=2,凸形=3
+--track@grd_pow1:グラデ2強さ,0,100,100,0.1
+--track@grd_x1:グラデ2中心X,-5000,5000,0,0.1
+--track@grd_y1:グラデ2中心Y,-5000,5000,0,0.1
+--track@grd_rotate1:グラデ2角度,-3600,3600,0,0.01
+--track@grd_width1:グラデ2幅,0,2000,100,1
+--select@grd_composite1:グラデ2合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
+--check@grd_reverse:効果を逆転,0
+--check@string_integrate0:テキスト1枚化(個別オブジェクト時),0
+--group
+--check@edge:凸エッジ,0
+--track@edge_width0:凸エッジ幅,0,100,3,1
+--track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
+--track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
+--check@frame0:縁取り1,0
+--track@frame_size_common:縁取り共通サイズ,0,500,7,1
+--track@frame_blur_common:縁取り共通ぼかし,0,100,5,1
+--color@frame_col0:縁取り1色,0x3232c8
+--track@frame_size0:縁取り1サイズ,0,500,0,1
+--track@frame_blur0:縁取り1ぼかし,0,100,0,1
+--check@frame1:縁取り2,0
+--color@frame_col1:縁取り2色,0x1ec832
+--track@frame_size1:縁取り2サイズ,0,500,0,1
+--track@frame_blur1:縁取り2ぼかし,0,100,0,1
+--check@frame2:縁取り3,0
+--color@frame_col2:縁取り3色,0x14dcdc
+--track@frame_size2:縁取り3サイズ,0,500,0,1
+--track@frame_blur2:縁取り3ぼかし,0,100,0,1
+--group:個別オブジェクト時縁取り(1)(2)(3)詳細設定,false
+--track@frame_s0:縁取り1開始文字,0,500,0,1
+--track@frame_e0:縁取り1終了文字,0,500,3,1
+--track@frame_s1:縁取り2開始文字,0,500,4,1
+--track@frame_e1:縁取り2終了文字,0,500,6,1
+--track@frame_s2:縁取り3開始文字,0,500,0,1
+--track@frame_e2:縁取り3終了文字,0,500,0,1
+--check@string_integrate1:テキスト1枚化(個別オブジェクト時),0
+--group
+--check@middle_shadow:文字に対して影を付与,0
+--check@behind_shadow:全体に対して影を付与,0
+--color@shadow_col0:影色,0x000000
+--track@shadow_x0:影x,-1000,1000,10,1
+--track@shadow_y0:影y,-1000,1000,10,1
+--track@shadow_deep0:影濃さ,0,100,70,1
+--track@shadow_diffusion0:影拡散,0,500,15,1
+--track@background_x0:ざぶとん1x,0,2000,0,1
+--track@background_y0:ざぶとん1y,0,2000,0,1
+--track@background_alpha0:ざぶとん1透明度,0,100,0,0.1
+--color@background_col0:ざぶとん1色,0xffffff
+--track@background_frame0:ざぶとん1枠線サイズ,0,500,0,1
+--color@background_framecol0:ざぶとん1枠色,0xffffff
+--group:個別オブジェクトざぶとん(1)(2)(3)詳細設定,false
+--track@background_s0:ざぶとん1開始文字,0,500,0,1
+--track@background_e0:ざぶとん1終了文字,0,500,0,1
+--track@background_s1:ざぶとん2開始文字,0,500,0,1
+--track@background_e1:ざぶとん2終了文字,0,500,0,1
+--track@background_s2:ざぶとん3開始文字,0,500,0,1
+--track@background_e2:ざぶとん3終了文字,0,500,0,1
+--track@background_x_common:ざぶとん共通x,0,2000,0,1
+--track@background_y_common:ざぶとん共通y,0,2000,0,1
+--track@background_alpha_common:ざぶとん共通透明度,0,100,0,0.1
+--track@background_x1:ざぶとん2x,0,2000,0,1
+--track@background_y1:ざぶとん2y,0,2000,0,1
+--track@background_alpha1:ざぶとん2透明度,0,100,0,0.1
+--color@background_col1:ざぶとん2色,0xffffff
+--track@background_frame1:ざぶとん2枠線サイズ,0,500,0,1
+--color@background_framecol1:ざぶとん2枠色,0xffffff
+--track@background_x2:ざぶとん3x,0,2000,0,1
+--track@background_y2:ざぶとん3y,0,2000,0,1
+--track@background_alpha2:ざぶとん3透明度,0,100,0,0.1
+--color@background_col2:ざぶとん3色,0xffffff
+--track@background_frame2:ざぶとん3枠線サイズ,0,500,0,1
+--color@background_framecol2:ざぶとん3枠色,0xffffff
+--group
+--check@string_integrate2:テキスト1枚化(個別オブジェクト時),0
+
+local effect = obj.effect
+
+-- 1. 基本設定（色）
+if(char_col0) then
+    effect("単色化","強さ",100,"色",char_col0,"輝度を保持する",0)
+end
+
+-- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
+local isInGradationRange = false
+local isInGradationRange1 = false
+local isInGradationRange2 = false
+local isInFramingRange = false
+local isInFramingRange1 = false
+local isInFramingRange2 = false
+local isInFramingRange3 = false
+local isInBackgroundRange1 = false
+local isInBackgroundRange2 = false
+
+if (obj.num == 1) then -- オブジェクトが全体の時
+    -- 全体オブジェクト時は常に全範囲を真とする
+    isInGradationRange = true
+    isInFramingRange = true
+    isInFramingRange1 = false
+    isInFramingRange2 = false
+    isInFramingRange3 = false
+    isInGradationRange1 = false
+    isInGradationRange2 = false
+
+else -- オブジェクトが個別の時
+    -- 個別オブジェクト時はインデックスに基づいて判定
+    local idx = obj.index + 1
+    isInGradationRange1 = ( -- グラデ1の範囲
+        (grd_s0 <= idx and grd_e0 >= idx)
+    )
+    isInGradationRange2 = ( -- グラデ2
+        (grd_s1 <= idx and grd_e1 >= idx)
+    )
+    isInFramingRange1 = ( -- 縁取り1の範囲
+        (frame_s0 <= idx and frame_e0 >= idx)
+    )
+    isInFramingRange2 = ( -- 縁取り2の範囲
+        (frame_s1 <= idx and frame_e1 >= idx)
+    )
+    isInFramingRange3 = ( -- 縁取り3の範囲
+        (frame_s2 <= idx and frame_e2 >= idx)
+    )
+    isInBackgroundRange = ( -- ざぶとんの範囲
+        (background_s0 <= idx and background_e0 >= idx) or
+        (background_s1 <= idx and background_e1 >= idx) or
+        (background_s2 <= idx and background_e2 >= idx)
+    )
+end
+
+-- 3.で使う変数を宣言。
+local applyGrd = false
+local applyGrd1 = false
+local applyGrd2 = false
+-- 3. グラデーション適用ロジックの確定
+if( grd_reverse ~= 0 ) then -- 「効果を反転」がONかOFFかで代入する値を変える。
+    applyGrd1 = isInGradationRange2 -- 「効果を反転」がONなら1に2の値を代入。
+    applyGrd2 = isInGradationRange1 -- 「効果を反転」がONなら2に1の値を代入。
+    applyGrd = isInGradationRange -- 「効果を反転」のON/OFFにかかわらずapplyGrdにはisInGradationRangeを代入。
+else
+    applyGrd1 = isInGradationRange1 -- 「効果を反転」がOFFなら1に1の値を代入。
+    applyGrd2 = isInGradationRange2 -- 「効果を反転」がOFFなら2に2の値を代入。
+    applyGrd = isInGradationRange -- 「効果を反転」のON/OFFにかかわらずapplyGrdにはisInGradationRangeを代入。
+end
+
+-- グラデの色が未指定の時に入れる値
+local noCol1 = (grds_col0 == nil) and 1 or 0
+local noCol2 = (grde_col0 == nil) and 1 or 0
+local noCol3 = (grds_col1 == nil) and 1 or 0
+local noCol4 = (grde_col1 == nil) and 1 or 0
+
+-- 実際に(4)で使用する変数。"grd_composite"で、grd_use_composite[]配列の値を指定する。
+local grd_use_composite0 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
+local grd_use_composite1 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
+
+-- 4. グラデーション・凸エッジ実行
+if (grd_0 ~= 0 and applyGrd1) then -- 個別オブジェクト時のグラデーション1の値。
+effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+elseif (grd_1 ~= 0 and applyGrd2) then -- 個別オブジェクト時のグラデーション2の値。
+effect("グラデーション", "強さ", grd_pow1, "中心X", grd_x1, "中心Y", grd_y1, "角度", grd_rotate1, "幅", grd_width1, "合成モード", grd_use_composite1[grd_composite1],"形状", grd_type1, "開始色", grds_col1, "no_color", noCol3, "終了色", grde_col1, "no_color2", noCol4)
+elseif (grd_0 ~= 0 and applyGrd) then -- 全体オブジェクト時にはグラデーション1のみを適用。
+effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+end
+
+--luaファイルを呼び出し、グラデーションの場合の「テキスト一体化」を行っている。
+if(string_integrate0 ~= 0) then
+    if(require("Individual_object_join")) then
+        Individual_object_join()
+    end
+end
+
+-- 凸エッジ実行。全体に対して実行する。
+if(edge ~= 0) then -- 「凸エッジ」にチェックが入っていた時のみ凸エッジを実行。
+    effect("凸エッジ", "幅", edge_width0, "高さ", edge_height0, "角度", edge_angle0)
+end
+
+-- 「文字に対して」のシャドウを実行。全体に対して実行する。
+if(middle_shadow ~= 0) then -- 「文字に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
+    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+end
+
+-- 5.(6)で使う変数を宣言と初期化。
+local applyFrm = true
+local applyFrm1 = false
+local applyFrm2 = false
+local applyFrm3 = false
+
+-- 6.縁取りのcheckがONの時の縁取り実行の設定。
+if(frame0 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り1のチェックがONならば
+    applyFrm1 = isInFramingRange1
+end
+if(frame0 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り1のチェックがONならば
+    applyFrm1 = true
+end
+if(frame1 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り2のチェックがONならば
+    applyFrm2 = isInFramingRange2
+end
+if(frame1 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り2のチェックがONならば
+    applyFrm2 = true
+end
+if(frame2 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り3のチェックがONならば
+    applyFrm3 = isInFramingRange3
+end
+if(frame2 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り3のチェックがONならば
+    applyFrm3 = true
+end
+
+if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキスト一体化」がONの時の処理。
+
+    -- 6. 縁取り実行
+    if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
+        if (frame0 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+        end
+        if (frame1 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+        end
+        if (frame2 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+        end
+    end
+
+    if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
+        if (frame0 ~= 0) then -- 個別オブジェクトがONの時。縁取り1がONなら、
+            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+        end
+        if (frame1 ~= 0) then
+            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+        end
+        if (frame2 ~= 0) then
+            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+        end
+    end
+
+else -- グラデーションの項目での「テキスト一体化」がOFFの時の処理。
+
+    if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
+        if (frame0 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+        end
+        if (frame1 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+        end
+        if (frame2 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
+            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+        end
+    end
+
+    if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
+        if (frame0 ~= 0 and applyFrm1) then -- 個別オブジェクトがONの時。縁取り1がONなら、
+            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+        end
+        if (frame1 ~= 0 and applyFrm2) then
+            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+        end
+        if (frame2 ~= 0 and applyFrm3) then
+            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+        end
+    end
+end
+
+--luaファイルを呼び出し、縁取りの場合の「テキスト一体化」を行っている。
+if(string_integrate1 ~= 0) then
+    if(require("Individual_object_join")) then
+        Individual_object_join()
+    end
+end
+
+-- 「全体に対して」のシャドウを実行
+if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
+    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+end
+
+-- 8. ざぶとん処理（必要に応じてフラグ判定を利用して追加可能）
+
+--luaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
+if(string_integrate2 ~= 0) then
+    if(require("Individual_object_join")) then
+        Individual_object_join()
+    end
+end
