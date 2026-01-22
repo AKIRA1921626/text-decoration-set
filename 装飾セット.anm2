@@ -1,17 +1,17 @@
 --label:装飾
 --information:装飾を行いやすくするためのAviutl2用のスクリプトです。
---select@deco:装飾プリセット=1,装飾なし=1,縁取り1枠=2,縁取り2枠=3,縁取り2枠(2枠目色連動)=4,縁取り3枠=5,グラデ文字=6,グラデ文字縁取り1枠=7,グラデ文字縁取り2枠=8,グラデ文字縁取り2枠(2枠目色連動)影あり=9,縁取り3枠影あり=10,グラデ文字縁取り1枠影あり=11,グラデ文字縁取り2枠影あり=12,グラデ文字縁取り2枠(2枠目色連動)影あり=13,グラデ文字縁取り3枠影あり=14,ざぶとん=15,ざぶとん縁取り1枠=16,ざぶとん縁取り2枠=17,ざぶとん縁取り2枠(2枠目枠色連動)=18,ざぶとん縁取り3枠=19,ざぶとんグラデ文字=20,ざぶとんグラデ文字縁取り1枠=21,ざぶとんグラデ文字縁取り2枠=22,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=23,ざぶとんグラデ文字縁取り3枠=24,ざぶとん影あり=25,ざぶとんグラデ文字影あり=26,ざぶとんグラデ文字縁取り1枠影あり=27,ざぶとんグラデ文字縁取り2枠影あり=28,ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり=29,ざぶとんグラデ文字縁取り3枠影あり=30,予備31=31,予備32=32,予備33=33,予備34=34,予備35=35
+--select@deco:装飾プリセット=1,装飾なし=1,縁取り1枠=2,縁取り2枠=3,縁取り2枠(2枠目色連動)=4,縁取り3枠=5,縁取り3枠影あり=6,グラデ文字=7,グラデ文字縁取り1枠=8,グラデ文字縁取り2枠=9,グラデ文字縁取り2枠(2枠目色連動)影あり=10,グラデ文字縁取り3枠=11,グラデ文字縁取り1枠影あり=12,グラデ文字縁取り2枠影あり=13,グラデ文字縁取り2枠(2枠目色連動)影あり=14,グラデ文字縁取り3枠影あり=15,ざぶとん=16,ざぶとん縁取り1枠=17,ざぶとん縁取り2枠=18,ざぶとん縁取り2枠(2枠目枠色連動)=19,ざぶとん縁取り3枠=20,ざぶとんグラデ文字=21,ざぶとんグラデ文字縁取り1枠=22,ざぶとんグラデ文字縁取り2枠=23,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=24,ざぶとんグラデ文字縁取り3枠=25,ざぶとん影あり=26,ざぶとんグラデ文字影あり=27,ざぶとんグラデ文字縁取り1枠影あり=28,ざぶとんグラデ文字縁取り2枠影あり=29,ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり=30,ざぶとんグラデ文字縁取り3枠影あり=31
 --color@char_col0:文字色,nil
 --check@grd_0:グラデーション1,0
 --color@grds_col0:グラデ1開始色,0xff0000
 --color@grde_col0:グラデ1終了色,0xffff00
 --select@grd_type0:グラデーション1タイプ=1,線形=1,円形=2,矩形=3,凸形=4
 --group:グラデ(1)詳細設定,false
---track@grd_pow0:グラデ1強さ,0,100,100,0.1
+--track@grd_pow0:グラデ1強さ,0,100,0,0.1
 --track@grd_x0:グラデ1中心X,-5000,5000,0,0.1
 --track@grd_y0:グラデ1中心Y,-5000,5000,0,0.1
 --track@grd_rotate0:グラデ1角度,-3600,3600,0,0.01
---track@grd_width0:グラデ1幅,0,2000,100,1
+--track@grd_width0:グラデ1幅,0,2000,0,1
 --select@grd_composite0:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明) =7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
 --group
 --group:個別オブジェクト時グラデ(1)(2)詳細設定,true
@@ -25,11 +25,11 @@
 --select@grd_type1:グラデーション2タイプ=1,線形=1,円形=2,矩形=3,凸形=4
 --group
 --group:グラデ(2)詳細設定,false
---track@grd_pow1:グラデ2強さ,0,100,100,0.1
+--track@grd_pow1:グラデ2強さ,0,100,0,0.1
 --track@grd_x1:グラデ2中心X,-5000,5000,0,0.1
 --track@grd_y1:グラデ2中心Y,-5000,5000,0,0.1
 --track@grd_rotate1:グラデ2角度,-3600,3600,0,0.01
---track@grd_width1:グラデ2幅,0,2000,100,1
+--track@grd_width1:グラデ2幅,0,2000,0,1
 --select@grd_composite1:グラデ2合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
 --check@grd_reverse:効果を逆転,0
 --group
@@ -39,9 +39,9 @@
 --track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
 --track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
 --check@frame0:縁取り1,0
---track@frame_size_common:縁取り共通サイズ,0,500,7,1
---track@frame_blur_common:縁取り共通ぼかし,0,100,5,1
---color@frame_col0:縁取り1色,0x3232c8
+--track@frame_size_common:縁取り共通サイズ,0,500,0,1
+--track@frame_blur_common:縁取り共通ぼかし,0,100,0,1
+--color@frame_col0:縁取り1色,0xffffff
 --track@frame_size0:縁取り1サイズ,0,500,0,1
 --track@frame_blur0:縁取り1ぼかし,0,100,0,1
 --check@frame1:縁取り2,0
@@ -49,7 +49,7 @@
 --track@frame_size1:縁取り2サイズ,0,500,0,1
 --track@frame_blur1:縁取り2ぼかし,0,100,0,1
 --check@frame2:縁取り3,0
---color@frame_col2:縁取り3色,0x14dcdc
+--color@frame_col2:縁取り3色,0x3232c8
 --track@frame_size2:縁取り3サイズ,0,500,0,1
 --track@frame_blur2:縁取り3ぼかし,0,100,0,1
 --group:個別オブジェクト時縁取り(1)(2)(3)詳細設定,true
@@ -64,13 +64,13 @@
 --check@middle_shadow:文字に対して影を付与,0
 --check@behind_shadow:全体に対して影を付与,0
 --color@shadow_col0:影色,0x000000
---track@shadow_x0:影x,-1000,1000,10,1
---track@shadow_y0:影y,-1000,1000,10,1
---track@shadow_deep0:影濃さ,0,100,70,1
---track@shadow_diffusion0:影拡散,0,500,15,1
+--track@shadow_x0:影x,-1000,1000,0,1
+--track@shadow_y0:影y,-1000,1000,0,1
+--track@shadow_deep0:影濃さ,0,100,0,1
+--track@shadow_diffusion0:影拡散,0,500,0,1
 --check@background0:ざぶとん(個別オブジェクト時は機能しない),0
---track@background_x0:ざぶとんサイズx,0,2000,1000,1
---track@background_y0:ざぶとんサイズy,0,2000,200,1
+--track@background_x0:ざぶとんサイズx,0,2000,0,1
+--track@background_y0:ざぶとんサイズy,0,2000,0,1
 --track@background_posx0:ざぶとん位置x,-100000,100000,0,1
 --track@background_posy0:ざぶとん位置y,-100000,100000,0,1
 --track@background_alpha0:ざぶとん透明度,0,100,0,0.1
@@ -88,77 +88,59 @@ end
 
 -- 最初の設定をすべて配列にして作成。
 local params = {
-    -- 【プリセット定義：deco (1-30)】
+    -- 【プリセット定義：deco (1-31)】
     -- GUIの「装飾プリセット」で選択された番号(1始まり)に対応する定義
-    deco_presets = {
-        -- 基本・縁取り (1-5)
-        no_deco = 1,                        -- 1:装飾なし
-        frame1 = 2,                         -- 2:縁取り1枠
-        frame2 = 3,                         -- 3:縁取り2枠
-        frame2_linked = 4,                  -- 4:縁取り2枠(2枠目色連動)
-        frame3 = 5,                         -- 5:縁取り3枠
+deco_presets = {
+        -- 基本・縁取り (1-6)
+        no_deco = 1,                                    -- 1:装飾なし
+        frame1 = 2,                                     -- 2:縁取り1枠
+        frame2 = 3,                                     -- 3:縁取り2枠
+        frame2_linked = 4,                              -- 4:縁取り2枠(2枠目色連動)
+        frame3 = 5,                                     -- 5:縁取り3枠
+        frame3_shadow = 6,                              -- 6:縁取り3枠影あり
 
-        -- グラデーション文字・縁取り (6-8)
-        grad_char = 6,                      -- 6:グラデ文字
-        grad_char_frame1 = 7,               -- 7:グラデ文字縁取り1枠
-        grad_char_frame2 = 8,               -- 8:グラデ文字縁取り2枠
+        -- グラデーション文字・縁取り (7-11)
+        grad_char = 7,                                  -- 7:グラデ文字
+        grad_char_frame1 = 8,                           -- 8:グラデ文字縁取り1枠
+        grad_char_frame2 = 9,                           -- 9:グラデ文字縁取り2枠
+        grad_char_frame2_linked_shadow_v1 = 10,         -- 10:グラデ文字縁取り2枠(2枠目色連動)影あり
+        grad_char_frame3 = 11,                          -- 11:グラデ文字縁取り3枠
 
-        -- グラデーション文字・縁取り・影あり (9-14)
-        grad_char_frame2_linked_shadow = 9, -- 9:グラデ文字縁取り2枠(2枠目色連動)影あり
-        frame3_shadow = 10,                 -- 10:縁取り3枠影あり
-        grad_char_frame1_shadow = 11,       -- 11:グラデ文字縁取り1枠影あり
-        grad_char_frame2_shadow = 12,       -- 12:グラデ文字縁取り2枠影あり
-        grad_char_frame2_linked_shadow_v2 = 13, -- 13:グラデ文字縁取り2枠(2枠目色連動)影あり
-        grad_char_frame3_shadow = 14,       -- 14:グラデ文字縁取り3枠影あり
+        -- グラデーション文字・縁取り・影あり (12-15)
+        grad_char_frame1_shadow = 12,                   -- 12:グラデ文字縁取り1枠影あり
+        grad_char_frame2_shadow = 13,                   -- 13:グラデ文字縁取り2枠影あり
+        grad_char_frame2_linked_shadow_v2 = 14,         -- 14:グラデ文字縁取り2枠(2枠目色連動)影あり
+        grad_char_frame3_shadow = 15,                   -- 15:グラデ文字縁取り3枠影あり
 
-        -- ざぶとん・縁取り (15-19)
-        zabuton = 15,                       -- 15:ざぶとん
-        zabuton_frame1 = 16,                -- 16:ざぶとん縁取り1枠
-        zabuton_frame2 = 17,                -- 17:ざぶとん縁取り2枠
-        zabuton_frame2_linked = 18,         -- 18:ざぶとん縁取り2枠(2枠目枠色連動)
-        zabuton_frame3 = 19,                -- 19:ざぶとん縁取り3枠
+        -- ざぶとん・縁取り (16-20)
+        zabuton = 16,                                   -- 16:ざぶとん
+        zabuton_frame1 = 17,                            -- 17:ざぶとん縁取り1枠
+        zabuton_frame2 = 18,                            -- 18:ざぶとん縁取り2枠
+        zabuton_frame2_linked = 19,                     -- 19:ざぶとん縁取り2枠(2枠目枠色連動)
+        zabuton_frame3 = 20,                            -- 20:ざぶとん縁取り3枠
 
-        -- ざぶとん・グラデーション文字 (20-24)
-        zabuton_grad = 20,                  -- 20:ざぶとんグラデ文字
-        zabuton_grad_frame1 = 21,           -- 21:ざぶとんグラデ文字縁取り1枠
-        zabuton_grad_frame2 = 22,           -- 22:ざぶとんグラデ文字縁取り2枠
-        zabuton_grad_frame2_linked = 23,    -- 23:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
-        zabuton_grad_frame3 = 24,           -- 24:ざぶとんグラデ文字縁取り3枠
+        -- ざぶとん・グラデーション文字 (21-25)
+        zabuton_grad = 21,                              -- 21:ざぶとんグラデ文字
+        zabuton_grad_frame1 = 22,                       -- 22:ざぶとんグラデ文字縁取り1枠
+        zabuton_grad_frame2 = 23,                       -- 23:ざぶとんグラデ文字縁取り2枠
+        zabuton_grad_frame2_linked = 24,                -- 24:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
+        zabuton_grad_frame3 = 25,                       -- 25:ざぶとんグラデ文字縁取り3枠
 
-        -- ざぶとん・影あり系 (25-30)
-        zabuton_shadow = 25,                -- 25:ざぶとん影あり
-        zabuton_grad_shadow = 26,           -- 26:ざぶとんグラデ文字影あり
-        zabuton_grad_frame1_shadow = 27,    -- 27:ざぶとんグラデ文字縁取り1枠影あり
-        zabuton_grad_frame2_shadow = 28,    -- 28:ざぶとんグラデ文字縁取り2枠影あり
-        zabuton_grad_frame2_linked_shadow = 29, -- 29:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
-        zabuton_grad_frame3_shadow = 30,    -- 30:ざぶとんグラデ文字縁取り3枠影あり
+        -- ざぶとん・影あり系 (26-31)
+        zabuton_shadow = 26,                            -- 26:ざぶとん影あり
+        zabuton_grad_shadow = 27,                       -- 27:ざぶとんグラデ文字影あり
+        zabuton_grad_frame1_shadow = 28,                -- 28:ざぶとんグラデ文字縁取り1枠影あり
+        zabuton_grad_frame2_shadow = 29,                -- 29:ざぶとんグラデ文字縁取り2枠影あり
+        zabuton_grad_frame2_linked_shadow = 30,         -- 30:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+        zabuton_grad_frame3_shadow = 31,                -- 31:ざぶとんグラデ文字縁取り3枠影あり
     },
     
     -- 【グラデーション設定の定義】
-    -- grd_type (1-4) の定義。Lua配列に合わせ1から開始
-    grd_types = { 
-        linear = 1,         -- 1:線形
-        circular = 2,       -- 2:円形
-        rectangular = 3,    -- 3:矩形
-        convex = 4          -- 4:凸形
-    }, 
+    -- grd_type (1-4) の定義。
+    grd_type0 = 1, 
     
-    -- grd_composite (1-13) の定義。ここは元々1から開始のため維持
-    composite_modes = {
-        normal = 1,         -- 1:通常
-        add = 2,            -- 2:加算
-        sub = 3,            -- 3:減算
-        mul = 4,            -- 4:乗算
-        screen = 5,         -- 5:スクリーン
-        overlay = 6,        -- 6:オーバーレイ
-        lighten = 7,        -- 7:比較(明)
-        darken = 8,         -- 8:比較(暗)
-        luminance = 9,      -- 9:輝度
-        difference = 10,    -- 10:色差
-        shadow = 11,        -- 11:陰影
-        light_dark = 12,    -- 12:明暗
-        diff = 13           -- 13:差分
-    },
+    -- grd_comcomposite_modesposite (1-13) の定義。
+    grd_composite0 = 1, -- 1で初期化。のちに判定を行ってここを更新する。
 
     -- 【現在の設定値】
     deco = deco,                            -- 装飾プリセット選択値
@@ -167,7 +149,9 @@ local params = {
     -- グラデーション1 (track/color/select等から取得した値)
     grd_0 = grd_0,                          -- グラデーション1有効化(check)
     grds_col0 = grds_col0,                  -- グラデ1開始色
+    noCol1 = 0,                             -- グラデ1の開始色未指定時
     grde_col0 = grde_col0,                  -- グラデ1終了色
+    noCol2 = 0,                             -- グラデ1の終了色未指定時
     grd_type0 = grd_type0,                  -- グラデ1タイプ選択値(0-3)
     grd_pow0 = grd_pow0,                    -- グラデ1強さ(0-100)
     grd_x0 = grd_x0,                        -- グラデ1中心X
@@ -245,17 +229,53 @@ local params = {
     background_framecol0 = background_framecol0      -- ざぶとん枠色
 }
 
---[[モジュール呼び出し
-
-local my_module -- 現在は意味はないが、後の改変で参照しやすいように"text_decoration_presets"を代入する用の変数を宣言している。
-
---luaファイルを呼び出し、「プリセット」を適用させている。
-if(deco_presets ~= 0) then
-    my_module = require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
-    text_decoration_presets(params) -- 配列paramsを渡している。
+-- 【グラデーション設定の定義】をここで判定して更新する。
+-- grd_type (1-4) の定義。
+if(grd_type0 == 1) then
+    params.grd_type0 = "線形"
+elseif(grd_type0 == 2) then
+    params.grd_type0 = "円形"
+elseif(grd_type0 == 3) then
+    params.grd_type0 = "矩形"
+elseif(grd_type0 == 4) then
+    params.grd_type0 = "凸形"
 end
 
-]]
+-- grd_composite (1-13) の定義。をここで判定して更新する。
+if(grd_composite0 == 1) then
+    params.grd_composite0 = "通常"
+elseif(grd_type0 == 2) then
+    params.grd_composite0 = "加算"
+elseif(grd_type0 == 3) then
+    params.grd_composite0 = "減算"
+elseif(grd_type0 == 4) then
+    params.grd_composite0 = "乗算"
+elseif(grd_type0 == 5) then
+    params.grd_composite0 = "スクリーン"
+elseif(grd_type0 == 6) then
+    params.grd_composite0 = "オーバーレイ"
+elseif(grd_type0 == 7) then
+    params.grd_composite0 = "比較(明)"
+elseif(grd_type0 == 8) then
+    params.grd_composite0 = "比較(暗)"
+elseif(grd_type0 == 9) then
+    params.grd_composite0 = "輝度"
+elseif(grd_type0 == 10) then
+    params.grd_composite0 = "色差"
+elseif(grd_type0 == 11) then
+    params.grd_composite0 = "陰影"
+elseif(grd_type0 == 12) then
+    params.grd_composite0 = "明暗"
+elseif(grd_type0 == 13) then
+    params.grd_composite0 = "差分"
+end
+
+
+-- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
+if(deco_presets ~= 0) then
+    require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
+    text_decoration_presets(params) -- 配列paramsを渡している。
+end
 
 -- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
 local isInGradationRange = false
