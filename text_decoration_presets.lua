@@ -10,17 +10,17 @@
 
 -- 【01. 装飾プリセット (params.deco / params.deco_presets)】
 -- 1:装飾なし / 2:縁取り1枠 / 3:縁取り2枠 / 4:縁取り2枠(2枠目色連動) / 5:縁取り3枠
--- 6:グラデ文字 / 7:グラデ文字縁取り1枠 / 8:グラデ文字縁取り2枠
--- 9:グラデ文字縁取り2枠(2枠目色連動)影あり / 10:縁取り3枠影あり
--- 11:グラデ文字縁取り1枠影あり / 12:グラデ文字縁取り2枠影あり
--- 13:グラデ文字縁取り2枠(2枠目色連動)影あり / 14:グラデ文字縁取り3枠影あり
--- 15:ざぶとん / 16:ざぶとん縁取り1枠 / 17:ざぶとん縁取り2枠
--- 18:ざぶとん縁取り2枠(2枠目枠色連動) / 19:ざぶとん縁取り3枠
--- 20:ざぶとんグラデ文字 / 21:ざぶとんグラデ文字縁取り1枠
--- 22:ざぶとんグラデ文字縁取り2枠 / 23:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
--- 24:ざぶとんグラデ文字縁取り3枠 / 25:ざぶとん影あり / 26:ざぶとんグラデ文字影あり
--- 27:ざぶとんグラデ文字縁取り1枠影あり / 28:ざぶとんグラデ文字縁取り2枠影あり
--- 29:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり / 30:ざぶとんグラデ文字縁取り3枠影あり
+-- 6:縁取り3枠影あり / 7:グラデ文字 / 8:グラデ文字縁取り1枠 / 9:グラデ文字縁取り2枠
+-- 10:グラデ文字縁取り2枠(2枠目色連動)影あり / 11:グラデ文字縁取り3枠
+-- 12:グラデ文字縁取り1枠影あり / 13:グラデ文字縁取り2枠影あり
+-- 14:グラデ文字縁取り2枠(2枠目色連動)影あり / 15:グラデ文字縁取り3枠影あり
+-- 16:ざぶとん / 17:ざぶとん縁取り1枠 / 18:ざぶとん縁取り2枠
+-- 19:ざぶとん縁取り2枠(2枠目枠色連動) / 20:ざぶとん縁取り3枠 / 21:ざぶとんグラデ文字
+-- 22:ざぶとんグラデ文字縁取り1枠 / 23:ざぶとんグラデ文字縁取り2枠
+-- 24:ざぶとんグラデ文字縁取り2枠(2枠目色連動) / 25:ざぶとんグラデ文字縁取り3枠
+-- 26:ざぶとん影あり / 27:ざぶとんグラデ文字影あり / 28:ざぶとんグラデ文字縁取り1枠影あり
+-- 29:ざぶとんグラデ文字縁取り2枠影あり / 30:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+-- 31:ざぶとんグラデ文字縁取り3枠影あり
 
 -- 【02. グラデーション設定 (params.grd_type0, params.grd_type1)】
 -- 1:線形 / 2:円形 / 3:矩形 / 4:凸形
@@ -73,8 +73,11 @@
 -- 【10. 影】
 -- p.middle_shadow    : 文字に対して影を付与 (0/1)
 -- p.behind_shadow    : 全体に対して影を付与 (0/1)
--- p.shadow_col0      : 影色 / p.shadow_x0 / p.shadow_y0 : 影座標
--- p.shadow_deep0     : 影濃さ / p.shadow_diffusion0 : 影拡散
+-- p.shadow_x0        : 影座標x
+-- p.shadow_y0        : 影座標y
+-- p.shadow_col0      : 影色 
+-- p.shadow_deep0     : 影濃さ
+-- p.shadow_diffusion0: 影拡散
 
 -- 【11. ざぶとん】
 -- p.background0      : ざぶとん1有効化 (0/1)
@@ -85,18 +88,249 @@
 -- p.background_framecol0 : 枠線色
 -- ============================================================
 
+-- エフェクト例:effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_use_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+
+-- ============================================================
+-- プログラムB：プリセット適用ロジック
+-- ============================================================
 function text_decoration_presets(p)
 
-    local effect = obj.effect
-
-    local various_settings= {
-            effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
-            effect("")
-            effect("")
-
+    local effect = obj.effect -- obj,effectはよく使うためeffect変数に代入している。
+    
+    -- 基本的なベースとなる値をテーブル変数の中にあるテーブル変数で記載。ここを書き換えるだけでベースとなる値はすべて変更できる。
+    local b = { -- bはbase_settingsの略称という意味で、書きやすいようにbとしている。
+        frame = {
+            size = 7, -- 縁取りサイズ 
+            blur = 5  -- 縁取りぼかし
+        },
+        grd = {
+            pow = 100, -- グラデーション強さ
+            x = 0,     -- グラデーション中心x
+            y = 0, -- グラデーション中心y
+            r = 0, -- グラデーション角度
+            w = 100, -- グラデーション幅
+        },
+        shadow = {
+            x = 10,
+            y = 10,
+            deep = 70,
+            diffsion = 15
+        },
+        shapes = {
+            sizex = 1000,
+            sizey = 200,
+            posx = 0,
+            posy = 0,
+            alpha = 0,
+            frames = 0,
+            frameb = 0
+        },
     }
 
-    local vs = various_settings
+    -- プリセット番号 p.deco に基づく条件分岐
+    -- 1: 装飾なし の場合は色だけ適用
+    if(p.char_col0 ~= nil) then
+        effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
+    end
 
+    -- 2: 縁取り1枠
+    if( p.deco == 2 ) then
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
 
+    -- 3: 縁取り2枠
+    elseif( p.deco == 3 ) then
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+
+    -- 4: 縁取り2枠(2枠目色連動)
+    elseif( p.deco == 4 ) then
+        if(p.char_col0 ~= nil) then
+            effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
+            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
+        else
+            effect("単色化","強さ",100,"色",p.frame_col1,"輝度を保持する",0)
+            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        end
+
+    -- 5: 縁取り3枠
+    elseif( p.deco == 5 ) then
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+
+    -- 6: 縁取り3枠影あり
+    elseif( p.deco == 6 ) then
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
+
+    -- 7: グラデ文字
+    elseif( p.deco == 7 ) then
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+
+    -- 8: グラデ文字縁取り1枠
+    elseif( p.deco == 8 ) then
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        p.frame0 = 1
+
+    -- 9: グラデ文字縁取り2枠
+    elseif( p.deco == 9 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+
+    -- 10: グラデ文字縁取り2枠(2枠目色連動)影あり
+    elseif( p.deco == 10 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame_col1 = p.char_col0
+        p.behind_shadow = 1
+
+    -- 11: グラデ文字縁取り3枠
+    elseif( p.deco == 11 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame2 = 1
+
+    -- 12: グラデ文字縁取り1枠影あり
+    elseif( p.deco == 12 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.behind_shadow = 1
+
+    -- 13: グラデ文字縁取り2枠影あり
+    elseif( p.deco == 13 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.behind_shadow = 1
+
+    -- 14: グラデ文字縁取り2枠(2枠目色連動)影あり
+    elseif( p.deco == 14 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame_col1 = p.char_col0
+        p.behind_shadow = 1
+
+    -- 15: グラデ文字縁取り3枠影あり
+    elseif( p.deco == 15 ) then
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame2 = 1
+        p.behind_shadow = 1
+
+    -- 16: ざぶとん
+    elseif( p.deco == 16 ) then
+        p.background0 = 1
+
+    -- 17: ざぶとん縁取り1枠
+    elseif( p.deco == 17 ) then
+        p.background0 = 1
+        p.frame0 = 1
+
+    -- 18: ざぶとん縁取り2枠
+    elseif( p.deco == 18 ) then
+        p.background0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+
+    -- 19: ざぶとん縁取り2枠(2枠目枠色連動)
+    elseif( p.deco == 19 ) then
+        p.background0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.background_framecol0 = p.frame_col1
+
+    -- 20: ざぶとん縁取り3枠
+    elseif( p.deco == 20 ) then
+        p.background0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame2 = 1
+
+    -- 21: ざぶとんグラデ文字
+    elseif( p.deco == 21 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+
+    -- 22: ざぶとんグラデ文字縁取り1枠
+    elseif( p.deco == 22 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+
+    -- 23: ざぶとんグラデ文字縁取り2枠
+    elseif( p.deco == 23 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+
+    -- 24: ざぶとんグラデ文字縁取り2枠(2枠目色連動)
+    elseif( p.deco == 24 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame_col1 = p.char_col0
+
+    -- 25: ざぶとんグラデ文字縁取り3枠
+    elseif( p.deco == 25 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame2 = 1
+
+    -- 26: ざぶとん影あり
+    elseif( p.deco == 26 ) then
+        p.background0 = 1
+        p.behind_shadow = 1
+
+    -- 27: ざぶとんグラデ文字影あり
+    elseif( p.deco == 27 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.behind_shadow = 1
+
+    -- 28: ざぶとんグラデ文字縁取り1枠影あり
+    elseif( p.deco == 28 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.behind_shadow = 1
+
+    -- 29: ざぶとんグラデ文字縁取り2枠影あり
+    elseif( p.deco == 29 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.behind_shadow = 1
+
+    -- 30: ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+    elseif( p.deco == 30 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame_col1 = p.char_col0
+        p.behind_shadow = 1
+
+    -- 31: ざぶとんグラデ文字縁取り3枠影あり
+    elseif( p.deco == 31 ) then
+        p.background0 = 1
+        p.grd_0 = 1
+        p.frame0 = 1
+        p.frame1 = 1
+        p.frame2 = 1
+        p.behind_shadow = 1
+    end
 end
