@@ -66,7 +66,7 @@
 --track@shadow_y0:影y,-1000,1000,10,1
 --track@shadow_deep0:影濃さ,0,100,70,1
 --track@shadow_diffusion0:影拡散,0,500,15,1
---check@background0:ざぶとん1,0
+--check@background0:ざぶとん(個別オブジェクト時は機能しない),0
 --track@background_x0:ざぶとんサイズx,0,2000,1000,1
 --track@background_y0:ざぶとんサイズy,0,2000,200,1
 --track@background_posx0:ざぶとん位置x,-100000,100000,0,1
@@ -331,7 +331,7 @@ end
 
 -- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
 local w,h = 0,0
-if(obj.getoption("multi_object") and string_integrate1 == 0) then -- 文字ごとに個別オブジェが有効であり、縁取りの「テキスト一枚化」が行われていないときのみ適用。
+if(obj.getoption("multi_object") and string_integrate0 ~= 0) then -- 文字ごとに個別オブジェが有効であり、グラデーションの場合の「テキスト一枚化」のcheckがONの時のみ適用。
     for i=0, obj.num do
         local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
         w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
@@ -448,11 +448,6 @@ if(obj.getoption("multi_object") and string_integrate0 == 0) then -- 文字ご�
     end
 end
 
--- 「全体に対して」のシャドウを実行
-if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
-end
-
 -- ざぶとんの付与は「テキスト一枚化」を行った後にしか（私の技術では？）出来ないので、個別オブジェクトの場合はluaファイルを呼び出し、最終的な「テキスト一枚化」を行っている。
 if(background0 ~= 0 and obj.getoption("multi_object")) then -- ざぶとんのチェックがONであり、なおかつ個別オブジェクトの場合にのみ実行。
     if(require("Individual_object_join")) then
@@ -461,19 +456,29 @@ if(background0 ~= 0 and obj.getoption("multi_object")) then -- ざぶとんの�
 end
 
 -- 8. ざぶとん処理
-if(background0 ~= 0) then
-    local w, h = obj.screen_w, obj.screen_h
+if(background0 ~= 0 and not obj.getoption("multi_object")) then -- ざぶとんのチェックがONであり、なおかつ個別オブジェクトではない場合にのみ実行。
 
     -- 1. 現在の装飾済みテキストを cache:deco_text に退避
     obj.copybuffer("cache:deco_text", "obj")
 
+    local ow,oh = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
+    local zw,zh = ow * obj.sx, oh * obj.sy -- 拡大率適用（szは2D描画に影響しないため除外）
+    local sx,sy = background_x0, background_y0
+    local px,py = background_posx0, background_posy0
+    local b_edge = background_frame0 + background_frame_blur0 -- 縁とぼかしの幅
+    
+    -- 必要な分だけのサイズを計算し、4000pxで制限（クランプ）
+    local max_size = 4000
+    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * 2) / 16) * 16)
+    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * 2) / 16) * 16)
+
     -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
-    obj.setoption("drawtarget", "tempbuffer", background_x0, background_y0)
+    obj.setoption("drawtarget", "tempbuffer", bw, bh)
     obj.clearbuffer("tempbuffer") -- バッファを一旦透明にする
 
     -- 3. 四角形をロードしてバッファに描画
-    obj.load("figure", "四角形", background_col0, 100)
-    effect("リサイズ", "拡大率", 100, "X", background_x0, "Y", background_y0)
+    obj.load("figure", "四角形", background_col0, zh)
+    effect("リサイズ", "拡大率", 50, "X", background_x0, "Y", background_y0)
     if(background_frame0 > 0) then
         effect("縁取り", "サイズ", background_frame0, "ぼかし", background_frame_blur0, "縁色", background_framecol0)
     end
@@ -488,4 +493,9 @@ if(background0 ~= 0) then
     -- 5. 完成した「背景+テキスト」をメインの描画領域に戻す
     obj.setoption("drawtarget", "framebuffer") -- ターゲットを戻す
     obj.copybuffer("obj", "tempbuffer") -- tempbuffer の内容を現在の obj にコピー
+end
+
+-- 「全体に対して」のシャドウを実行
+if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
+    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
