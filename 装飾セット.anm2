@@ -331,15 +331,17 @@ end
 
 -- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
 local w,h = 0,0
-for i=0, obj.num do
-    local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
-    w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
-end
+if(obj.getoption("multi_object") and string_integrate1 == 0) then -- 文字ごとに個別オブジェが有効であり、縁取りの「テキスト一枚化」が行われていないときのみ適用。
+    for i=0, obj.num do
+        local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
+        w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
+    end
 
---luaファイルを呼び出し、グラデーションの場合の「テキスト一枚化」を行っている。
-if(string_integrate0 ~= 0) then
-    if(require("Individual_object_join")) then
-        Individual_object_join(w,h)
+    --luaファイルを呼び出し、グラデーションの場合の「テキスト一枚化」を行っている。
+    if(string_integrate0 ~= 0) then
+        if(require("Individual_object_join")) then
+            Individual_object_join(w,h)
+        end
     end
 end
 
@@ -433,10 +435,16 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
     end
 end
 
---luaファイルを呼び出し、縁取りの場合の「テキスト一枚化」を行っている。
-if(string_integrate1 ~= 0) then
-    if(require("Individual_object_join")) then
-        Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
+if(obj.getoption("multi_object") and string_integrate0 == 0) then -- 文字ごとに個別オブジェが有効であり、グラデーションの「テキスト一枚化」が行われていないときのみ適用。
+    for i=0, obj.num do
+        local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
+        w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
+    end
+    --luaファイルを呼び出し、縁取りの場合の「テキスト一枚化」を行っている。
+    if(string_integrate1 ~= 0) then
+        if(require("Individual_object_join")) then
+            Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
+        end
     end
 end
 
