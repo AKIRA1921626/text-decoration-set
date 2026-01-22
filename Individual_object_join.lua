@@ -7,14 +7,14 @@ rikky氏の「テキスト一体化」スクリプトのようなことを簡易
 このファイルを皆様の使用するスクリプトと同等のファイルに配置し、そのコード内で、
 
 if(require("Individual_object_join")) then
-    Individual_object_join()
+    Individual_object_join(w,h) --  仮想バッファを初期化する時の縦と横のサイズを引数に渡す。
 end
 
 と記述すれば他のスクリプトでも使用することができます。
 ]]
-function Individual_object_join()
+function Individual_object_join(w,h) -- w = 仮想バッファを初期化する時の横のサイズ,h = 仮想バッファを初期化する時の縦のサイズ
     if(obj.index == 0) then -- indexが0のときだけ(1文字目の時だけ)実行する。
-        obj.setoption("drawtarget","tempbuffer",obj.screen_w,obj.screen_h) -- 仮想バッファを新規に作成。
+        obj.setoption("drawtarget","tempbuffer",w,h) -- 引数のw,h仮想バッファを新規に作成。
     end
 
     obj.setoption("drawtarget","tempbuffer")  --  if内の仮想バッファは1回目のみなので、2回目以降はifの外で、初期化せずに作成。
