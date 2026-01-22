@@ -244,29 +244,29 @@ end
 -- grd_composite (1-13) の定義。をここで判定して更新する。
 if(grd_composite0 == 1) then
     params.grd_composite0 = "通常"
-elseif(grd_type0 == 2) then
+elseif(grd_composite0 == 2) then
     params.grd_composite0 = "加算"
-elseif(grd_type0 == 3) then
+elseif(grd_composite0 == 3) then
     params.grd_composite0 = "減算"
-elseif(grd_type0 == 4) then
+elseif(grd_composite0 == 4) then
     params.grd_composite0 = "乗算"
-elseif(grd_type0 == 5) then
+elseif(grd_composite0 == 5) then
     params.grd_composite0 = "スクリーン"
-elseif(grd_type0 == 6) then
+elseif(grd_composite0 == 6) then
     params.grd_composite0 = "オーバーレイ"
-elseif(grd_type0 == 7) then
+elseif(grd_composite0 == 7) then
     params.grd_composite0 = "比較(明)"
-elseif(grd_type0 == 8) then
+elseif(grd_composite0 == 8) then
     params.grd_composite0 = "比較(暗)"
-elseif(grd_type0 == 9) then
+elseif(grd_composite0 == 9) then
     params.grd_composite0 = "輝度"
-elseif(grd_type0 == 10) then
+elseif(grd_composite0 == 10) then
     params.grd_composite0 = "色差"
-elseif(grd_type0 == 11) then
+elseif(grd_composite0 == 11) then
     params.grd_composite0 = "陰影"
-elseif(grd_type0 == 12) then
+elseif(grd_composite0 == 12) then
     params.grd_composite0 = "明暗"
-elseif(grd_type0 == 13) then
+elseif(grd_composite0 == 13) then
     params.grd_composite0 = "差分"
 end
 
@@ -342,13 +342,51 @@ local noCol4 = (grde_col1 == nil) and 1 or 0
 local grd_use_composite0 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
 local grd_use_composite1 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
 
+-- 基本的なベースとなる値をテーブル変数の中にあるテーブル変数で記載。ここを書き換えるだけでベースとなる値はすべて変更できる。
+local b = { -- bはbase_settingsの略称という意味で、書きやすいようにbとしている。
+    frame = {
+        size = 7, -- 縁取りサイズ 
+        blur = 5  -- 縁取りぼかし
+    },
+    grd = {
+        pow = 100, -- グラデーション強さ
+        x = 0,     -- グラデーション中心x
+        y = 0, -- グラデーション中心y
+        r = 0, -- グラデーション角度
+        w = 100, -- グラデーション幅
+    },
+    shadow = {
+        x = 10, -- 影X
+        y = 10, -- 影Y
+        deep = 70, -- 影濃さ
+        diffsion = 15 -- 影拡散
+    },
+    shapes = {
+        sizex = 1000, -- ざぶとんサイズX
+        sizey = 200, -- ざぶとんサイズY
+        posx = 0, -- ざぶとん位置X
+        posy = 0, -- ざぶとん位置Y 
+        alpha = 0, -- ざぶとん透明度
+        frames = 0, -- ざぶとん枠線サイズ
+        frameb = 0  -- ざぶとん枠線ぼかし
+    },
+}
+
+--[[
+グラデーションのテーブル変数の値
+b.grd.pow = 100 -- グラデーション強さ
+b.grd.w = 0 -- グラデーション中心x
+b.grd.y = 0 -- グラデーション中心y
+b.grd.r = 0 -- グラデーション角度
+b.grd.w = 100 -- グラデーション幅
+]]
 -- 4. グラデーション・凸エッジ実行
 if (grd_0 ~= 0 and applyGrd1) then -- 個別オブジェクト時のグラデーション1の値。
-effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", b.grd.w + grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
 elseif (grd_1 ~= 0 and applyGrd2) then -- 個別オブジェクト時のグラデーション2の値。
-effect("グラデーション", "強さ", grd_pow1, "中心X", grd_x1, "中心Y", grd_y1, "角度", grd_rotate1, "幅", grd_width1, "合成モード", grd_use_composite1[grd_composite1],"形状", grd_type1, "開始色", grds_col1, "no_color", noCol3, "終了色", grde_col1, "no_color2", noCol4)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow1, "中心X", b.grd.x + grd_x1, "中心Y", b.grd.y + grd_y1, "角度", b.grd.r + grd_rotate1, "幅", b.grd.w + grd_width1, "合成モード", grd_use_composite1[grd_composite1],"形状", grd_type1, "開始色", grds_col1, "no_color", noCol3, "終了色", grde_col1, "no_color2", noCol4)
 elseif (grd_0 ~= 0 and applyGrd) then -- 全体オブジェクト時にはグラデーション1のみを適用。
-effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", b.grd.w + grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
 end
 
 -- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
@@ -372,9 +410,16 @@ if(edge ~= 0) then -- 「凸エッジ」にチェックが入っていた時の�
     effect("凸エッジ", "幅", edge_width0, "高さ", edge_height0, "角度", edge_angle0)
 end
 
+--[[
+ドロップシャドウのテーブル変数の値
+b.shadow.x = 10 -- 影X
+b.shadow.y = 10 -- 影Y
+b.shadow.deep = 70 -- 影濃さ
+b.shadow.diffsion = 15 -- 影拡散
+]]
 -- 「文字に対して」のシャドウを実行。全体に対して実行する。
 if(middle_shadow ~= 0) then -- 「文字に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+    effect("ドロップシャドウ", "X", b.shadow.x + shadow_x0, "Y", b.shadow.y + shadow_y0, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
 
 -- 5.(6)で使う変数を宣言と初期化。
@@ -404,29 +449,33 @@ if(frame2 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取
 end
 
 if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキスト一体化」がONの時の処理。
-
+--[[
+    縁取りのテーブル変数の値
+    b.frame.size = 7 -- 縁取りサイズ 
+    b.frame.blur = 5 -- 縁取りぼかし
+]]
     -- 6. 縁取り実行
     if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
         if (frame0 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
     if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
         if (frame0 ~= 0) then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0) then
-            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0) then
-            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
@@ -434,25 +483,25 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
 
     if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
         if (frame0 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
     if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
         if (frame0 ~= 0 and applyFrm1) then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", frame_size0 + frame_size_common, "ぼかし", frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0 and applyFrm2) then
-            effect("縁取り", "サイズ", frame_size1 + frame_size_common, "ぼかし", frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0 and applyFrm3) then
-            effect("縁取り", "サイズ", frame_size2 + frame_size_common, "ぼかし", frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 end
@@ -483,11 +532,21 @@ if(background0 ~= 0 and not obj.getoption("multi_object")) then -- ざぶとん�
     -- 1. 現在の装飾済みテキストを cache:deco_text に退避
     obj.copybuffer("cache:deco_text", "obj")
 
+    --[[
+    ざぶとんのテーブル変数の値
+    b.shapes.sizex = 100 -- ざぶとんサイズX
+    b.shapes.sizey = 200 -- ざぶとんサイズY
+    b.shapes.posx = 0 -- ざぶとん位置X
+    b.shapes.posy = 0 -- ざぶとん位置Y 
+    b.shapes.alpha = 0 -- ざぶとん透明度
+    b.shapes.frames = 0 -- ざぶとん枠線サイズ
+    b.shapes.frameb = 0 -- ざぶとん枠線ぼかし
+    ]]
     local ow,oh = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
     local zw,zh = ow * obj.sx, oh * obj.sy -- 拡大率適用（szは2D描画に影響しないため除外）
-    local sx,sy = background_x0, background_y0
-    local px,py = background_posx0, background_posy0
-    local b_edge = background_frame0 + background_frame_blur0 -- 縁とぼかしの幅
+    local sx,sy = b.shapes.sizex + background_x0,  b.shapes.sizey + background_y0
+    local px,py = b.shapes.posx + background_posx0, b.shapes.posy + background_posy0
+    local b_edge = b.shapes.frames + background_frame0 + b.shapes.frameb + background_frame_blur0 -- 縁とぼかしの幅
     
     -- 必要な分だけのサイズを計算し、4000pxで制限（クランプ）
     local max_size = 4000
@@ -498,14 +557,24 @@ if(background0 ~= 0 and not obj.getoption("multi_object")) then -- ざぶとん�
     obj.setoption("drawtarget", "tempbuffer", bw, bh)
     obj.clearbuffer("tempbuffer") -- バッファを一旦透明にする
 
+    --[[
+    ざぶとんのテーブル変数の値
+    b.shapes.sizex = 100 -- ざぶとんサイズX
+    b.shapes.sizey = 200 -- ざぶとんサイズY
+    b.shapes.posx = 0 -- ざぶとん位置X
+    b.shapes.posy = 0 -- ざぶとん位置Y 
+    b.shapes.alpha = 0 -- ざぶとん透明度
+    b.shapes.frames = 0 -- ざぶとん枠線サイズ
+    b.shapes.frameb = 0 -- ざぶとん枠線ぼかし
+    ]]
     -- 3. 四角形をロードしてバッファに描画
     obj.load("figure", "四角形", background_col0, zh)
-    effect("リサイズ", "拡大率", 50, "X", background_x0, "Y", background_y0)
+    effect("リサイズ", "拡大率", 50, "X", b.shapes.sizex + background_x0, "Y", b.shapes.sizey + background_y0)
     if(background_frame0 > 0) then
-        effect("縁取り", "サイズ", background_frame0, "ぼかし", background_frame_blur0, "縁色", background_framecol0)
+        effect("縁取り", "サイズ", b.shapes.frames + background_frame0, "ぼかし", b.shapes.frameb + background_frame_blur0, "縁色", background_framecol0)
     end
     -- 一時バッファの中央（または指定位置）に背景を描画
-    obj.draw(background_posx0, background_posy0, 0, 1, (1 - background_alpha0 / 100))
+    obj.draw(b.shapes.posx + background_posx0, b.shapes.posy + background_posy0, 0, 1, (1 - b.shapes.alpha + background_alpha0 / 100))
 
     -- 4. 退避していたテキストを背景の上に描画する
     -- 描画ターゲットが tempbuffer のまま、cache からテクスチャをロードして draw する
@@ -517,7 +586,14 @@ if(background0 ~= 0 and not obj.getoption("multi_object")) then -- ざぶとん�
     obj.copybuffer("obj", "tempbuffer") -- tempbuffer の内容を現在の obj にコピー
 end
 
+--[[
+ドロップシャドウのテーブル変数の値
+b.shadow.x = 10 -- 影X
+b.shadow.y = 10 -- 影Y
+b.shadow.deep = 70 -- 影濃さ
+b.shadow.diffsion = 15 -- 影拡散
+]]
 -- 「全体に対して」のシャドウを実行
 if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+    effect("ドロップシャドウ", "X", b.shadow.x + shadow_x0, "Y", b.shadow.y + shadow_y0, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
