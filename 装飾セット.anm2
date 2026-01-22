@@ -1,6 +1,6 @@
 --label:装飾
 --information:装飾を行いやすくするためのAviutl2用のスクリプトです。
---select@deco:プリセット=0,装飾なし=0,縁取り1枠=1,縁取り2枠=2,縁取り2枠(2枠目色連動)=3,縁取り3枠=4,グラデ文字=5,グラデ文字縁取り1枠=6,グラデ文字縁取り2枠=7,グラデ文字縁取り2枠(2枠目色連動)影あり=13,縁取り3枠影あり=14,グラデ文字縁取り1枠影あり=15,グラデ文字縁取り2枠影あり=16,グラデ文字縁取り2枠(2枠目色連動)影あり=17,グラデ文字縁取り3枠影あり=18,ざぶとん=19,ざぶとん縁取り1枠=20,ざぶとん縁取り2枠=21,ざぶとん縁取り2枠(2枠目枠色連動)=22,ざぶとん縁取り3枠=23,ざぶとんグラデ文字=24,ざぶとんグラデ文字縁取り1枠=25,ざぶとんグラデ文字縁取り2枠=26,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=27,ざぶとんグラデ文字縁取り3枠=28,ざぶとん陰あり=29,ざぶとんグラデ文字陰あり=30,ざぶとんグラデ文字縁取り1枠陰あり=31,ざぶとんグラデ文字縁取り2枠陰あり=32,ざぶとんグラデ文字縁取り2枠(2枠目色連動)陰あり=33,ざぶとんグラデ文字縁取り3枠陰あり=34
+--select@deco:装飾プリセット=0,装飾なし=0,縁取り1枠=1,縁取り2枠=2,縁取り2枠(2枠目色連動)=3,縁取り3枠=4,グラデ文字=5,グラデ文字縁取り1枠=6,グラデ文字縁取り2枠=7,グラデ文字縁取り2枠(2枠目色連動)影あり=8,縁取り3枠影あり=9,グラデ文字縁取り1枠影あり=10,グラデ文字縁取り2枠影あり=11,グラデ文字縁取り2枠(2枠目色連動)影あり=12,グラデ文字縁取り3枠影あり=13,ざぶとん=14,ざぶとん縁取り1枠=15,ざぶとん縁取り2枠=16,ざぶとん縁取り2枠(2枠目枠色連動)=17,ざぶとん縁取り3枠=18,ざぶとんグラデ文字=19,ざぶとんグラデ文字縁取り1枠=20,ざぶとんグラデ文字縁取り2枠=21,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=22,ざぶとんグラデ文字縁取り3枠=23,ざぶとん影あり=24,ざぶとんグラデ文字影あり=25,ざぶとんグラデ文字縁取り1枠影あり=26,ざぶとんグラデ文字縁取り2枠影あり=27,ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり=28,ざぶとんグラデ文字縁取り3枠影あり=29,予備30=30,予備31=31,予備32=32,予備33=33,予備34=34
 --color@char_col0:文字色,nil
 --check@grd_0:グラデーション1,0
 --color@grds_col0:グラデ1開始色,0xff0000
@@ -67,7 +67,7 @@
 --track@shadow_deep0:影濃さ,0,100,70,1
 --track@shadow_diffusion0:影拡散,0,500,15,1
 --check@background0:ざぶとん1,0
---track@background_x0:ざぶとんサイズx,0,2000,1500,1
+--track@background_x0:ざぶとんサイズx,0,2000,1000,1
 --track@background_y0:ざぶとんサイズy,0,2000,200,1
 --track@background_posx0:ざぶとん位置x,-100000,100000,0,1
 --track@background_posy0:ざぶとん位置y,-100000,100000,0,1
@@ -84,12 +84,176 @@ if(char_col0) then
     effect("単色化","強さ",100,"色",char_col0,"輝度を保持する",0)
 end
 
+-- 最初の設定をすべて配列にして作成。
+local params = {
+    -- 【プリセット定義：deco (0-29)】
+    -- GUIの「装飾プリセット」で選択された番号に対応する定義
+    deco_presets = {
+        -- 基本・縁取り (0-4)
+        no_deco = 0,                        -- 0:装飾なし
+        frame1 = 1,                         -- 1:縁取り1枠
+        frame2 = 2,                         -- 2:縁取り2枠
+        frame2_linked = 3,                  -- 3:縁取り2枠(2枠目色連動)
+        frame3 = 4,                         -- 4:縁取り3枠
+
+        -- グラデーション文字・縁取り (5-7)
+        grad_char = 5,                      -- 5:グラデ文字
+        grad_char_frame1 = 6,               -- 6:グラデ文字縁取り1枠
+        grad_char_frame2 = 7,               -- 7:グラデ文字縁取り2枠
+
+        -- グラデーション文字・縁取り・影あり (8-13)
+        grad_char_frame2_linked_shadow = 8, -- 8:グラデ文字縁取り2枠(2枠目色連動)影あり
+        frame3_shadow = 9,                  -- 9:縁取り3枠影あり
+        grad_char_frame1_shadow = 10,       -- 10:グラデ文字縁取り1枠影あり
+        grad_char_frame2_shadow = 11,       -- 11:グラデ文字縁取り2枠影あり
+        grad_char_frame2_linked_shadow_v2 = 12, -- 12:グラデ文字縁取り2枠(2枠目色連動)影あり
+        grad_char_frame3_shadow = 13,       -- 13:グラデ文字縁取り3枠影あり
+
+        -- ざぶとん・縁取り (14-18)
+        zabuton = 14,                       -- 14:ざぶとん
+        zabuton_frame1 = 15,                -- 15:ざぶとん縁取り1枠
+        zabuton_frame2 = 16,                -- 16:ざぶとん縁取り2枠
+        zabuton_frame2_linked = 17,         -- 17:ざぶとん縁取り2枠(2枠目枠色連動)
+        zabuton_frame3 = 18,                -- 18:ざぶとん縁取り3枠
+
+        -- ざぶとん・グラデーション文字 (19-23)
+        zabuton_grad = 19,                  -- 19:ざぶとんグラデ文字
+        zabuton_grad_frame1 = 20,           -- 20:ざぶとんグラデ文字縁取り1枠
+        zabuton_grad_frame2 = 21,           -- 21:ざぶとんグラデ文字縁取り2枠
+        zabuton_grad_frame2_linked = 22,    -- 22:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
+        zabuton_grad_frame3 = 23,           -- 23:ざぶとんグラデ文字縁取り3枠
+
+        -- ざぶとん・影あり系 (24-29)
+        zabuton_shadow = 24,                -- 24:ざぶとん影あり
+        zabuton_grad_shadow = 25,           -- 25:ざぶとんグラデ文字影あり
+        zabuton_grad_frame1_shadow = 26,    -- 26:ざぶとんグラデ文字縁取り1枠影あり
+        zabuton_grad_frame2_shadow = 27,    -- 27:ざぶとんグラデ文字縁取り2枠影あり
+        zabuton_grad_frame2_linked_shadow = 28, -- 28:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+        zabuton_grad_frame3_shadow = 29,    -- 29:ざぶとんグラデ文字縁取り3枠影あり
+    },
+    
+    -- 【グラデーション設定の定義】
+    -- grd_type (0-3) の定義
+    grd_types = { 
+        linear = 0,         -- 0:線形
+        circular = 1,       -- 1:円形
+        rectangular = 2,    -- 2:矩形
+        convex = 3          -- 3:凸形
+    }, 
+    
+    -- grd_composite (1-13) の定義
+    composite_modes = {
+        normal = 1,         -- 1:通常
+        add = 2,            -- 2:加算
+        sub = 3,            -- 3:減算
+        mul = 4,            -- 4:乗算
+        screen = 5,         -- 5:スクリーン
+        overlay = 6,        -- 6:オーバーレイ
+        lighten = 7,        -- 7:比較(明)
+        darken = 8,         -- 8:比較(暗)
+        luminance = 9,      -- 9:輝度
+        difference = 10,    -- 10:色差
+        shadow = 11,        -- 11:陰影
+        light_dark = 12,    -- 12:明暗
+        diff = 13           -- 13:差分
+    },
+
+    -- 【現在の設定値】
+    deco = deco,                            -- 装飾プリセット選択値
+    char_col0 = char_col0,                  -- 文字色
+
+    -- グラデーション1 (track/color/select等から取得した値)
+    grd_0 = grd_0,                          -- グラデーション1有効化(check)
+    grds_col0 = grds_col0,                  -- グラデ1開始色
+    grde_col0 = grde_col0,                  -- グラデ1終了色
+    grd_type0 = grd_type0,                  -- グラデ1タイプ選択値(0-3)
+    grd_pow0 = grd_pow0,                    -- グラデ1強さ(0-100)
+    grd_x0 = grd_x0,                        -- グラデ1中心X
+    grd_y0 = grd_y0,                        -- グラデ1中心Y
+    grd_rotate0 = grd_rotate0,              -- グラデ1角度
+    grd_width0 = grd_width0,                -- グラデ1幅
+    grd_composite0 = grd_composite0,        -- グラデ1合成モード選択値(1-13)
+
+    -- 個別オブジェクト用グラデーション (1&2)
+    grd_s0 = grd_s0,                        -- グラデ1開始文字
+    grd_e0 = grd_e0,                        -- グラデ1終了文字
+    grd_1 = grd_1,                          -- グラデーション2有効化(check)
+    grd_s1 = grd_s1,                        -- グラデ2開始文字
+    grd_e1 = grd_e1,                        -- グラデ2終了文字
+    grds_col1 = grds_col1,                  -- グラデ2開始色
+    grde_col1 = grde_col1,                  -- グラデ2終了色
+    grd_type1 = grd_type1,                  -- グラデ2タイプ選択値(0-3)
+    grd_pow1 = grd_pow1,                    -- グラデ2強さ(0-100)
+    grd_x1 = grd_x1,                        -- グラデ2中心X
+    grd_y1 = grd_y1,                        -- グラデ2中心Y
+    grd_rotate1 = grd_rotate1,              -- グラデ2角度
+    grd_width1 = grd_width1,                -- グラデ2幅
+    grd_composite1 = grd_composite1,        -- グラデ2合成モード選択値(1-13)
+    grd_reverse = grd_reverse,              -- 効果を逆転(check)
+    string_integrate0 = string_integrate0,  -- グラデテキスト1枚化(check)
+
+    -- エッジ・縁取り
+    edge = edge,                            -- 凸エッジ有効化(check)
+    edge_width0 = edge_width0,              -- 凸エッジ幅
+    edge_height0 = edge_height0,            -- 凸エッジ高さ
+    edge_angle0 = edge_angle0,              -- 凸エッジ角度
+    frame_size_common = frame_size_common,  -- 縁取り共通サイズ
+    frame_blur_common = frame_blur_common,  -- 縁取り共通ぼかし
+    frame0 = frame0,                        -- 縁取り1有効化(check)
+    frame_col0 = frame_col0,                -- 縁取り1色
+    frame_size0 = frame_size0,              -- 縁取り1サイズ
+    frame_blur0 = frame_blur0,              -- 縁取り1ぼかし
+    frame1 = frame1,                        -- 縁取り2有効化(check)
+    frame_col1 = frame_col1,                -- 縁取り2色
+    frame_size1 = frame_size1,              -- 縁取り2サイズ
+    frame_blur1 = frame_blur1,              -- 縁取り2ぼかし
+    frame2 = frame2,                        -- 縁取り3有効化(check)
+    frame_col2 = frame_col2,                -- 縁取り3色
+    frame_size2 = frame_size2,              -- 縁取り3サイズ
+    frame_blur2 = frame_blur2,              -- 縁取り3ぼかし
+
+    -- 個別オブジェクト用縁取り
+    frame_s0 = frame_s0,                    -- 縁取り1開始文字
+    frame_e0 = frame_e0,                    -- 縁取り1終了文字
+    frame_s1 = frame_s1,                    -- 縁取り2開始文字
+    frame_e1 = frame_e1,                    -- 縁取り2終了文字
+    frame_s2 = frame_s2,                    -- 縁取り3開始文字
+    frame_e2 = frame_e2,                    -- 縁取り3終了文字
+    string_integrate1 = string_integrate1,  -- 縁取りテキスト1枚化(check)
+
+    -- 影
+    middle_shadow = middle_shadow,          -- 文字に対して影を付与(check)
+    behind_shadow = behind_shadow,          -- 全体に対して影を付与(check)
+    shadow_col0 = shadow_col0,              -- 影色
+    shadow_x0 = shadow_x0,                  -- 影x
+    shadow_y0 = shadow_y0,                  -- 影y
+    shadow_deep0 = shadow_deep0,            -- 影濃さ
+    shadow_diffusion0 = shadow_diffusion0,  -- 影拡散
+
+    -- ざぶとん
+    background0 = background0,              -- ざぶとん1有効化(check)
+    background_x0 = background_x0,          -- ざぶとんサイズx
+    background_y0 = background_y0,          -- ざぶとんサイズy
+    background_posx0 = background_posx0,    -- ざぶとん位置x
+    background_posy0 = background_posy0,    -- ざぶとん位置y
+    background_alpha0 = background_alpha0,  -- ざぶとん透明度
+    background_col0 = background_col0,      -- ざぶとん色
+    background_frame0 = background_frame0,  -- ざぶとん枠線サイズ
+    background_frame_blur0 = background_frame_blur0, -- ざぶとん枠線ぼかし
+    background_framecol0 = background_framecol0      -- ざぶとん枠色
+}
+
+--[[モジュール呼び出し
+
+local my_module -- 現在は意味はないが、後の改変で参照しやすいように"text_decoration_presets"を代入する用の変数を宣言している。
+
 --luaファイルを呼び出し、「プリセット」を適用させている。
 if(deco_presets ~= 0) then
-    if(require("text_decoration_presets")) then
-        text_decoration_presets(deco_presets)
-    end
+    my_module = require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
+    text_decoration_presets(params) -- 配列paramsを渡している。
 end
+
+]]
 
 -- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
 local isInGradationRange = false
