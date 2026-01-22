@@ -14,6 +14,12 @@ end
 ]]
 function Individual_object_join(w,h) -- w = 仮想バッファを初期化する時の横のサイズ,h = 仮想バッファを初期化する時の縦のサイズ
     if(obj.index == 0) then -- indexが0のときだけ(1文字目の時だけ)実行する。
+        if(w == nil)then
+            w = obj.screen_w
+        end
+        if(h == nil)then
+            h = obj.screen_h
+        end
         obj.setoption("drawtarget","tempbuffer",w,h) -- 引数のw,h仮想バッファを新規に作成。
     end
 
