@@ -1,18 +1,18 @@
 --label:装飾
 --information:装飾を行いやすくするためのAviutl2用のスクリプトです。
---select@deco:装飾プリセット=0,装飾なし=0,縁取り1枠=1,縁取り2枠=2,縁取り2枠(2枠目色連動)=3,縁取り3枠=4,グラデ文字=5,グラデ文字縁取り1枠=6,グラデ文字縁取り2枠=7,グラデ文字縁取り2枠(2枠目色連動)影あり=8,縁取り3枠影あり=9,グラデ文字縁取り1枠影あり=10,グラデ文字縁取り2枠影あり=11,グラデ文字縁取り2枠(2枠目色連動)影あり=12,グラデ文字縁取り3枠影あり=13,ざぶとん=14,ざぶとん縁取り1枠=15,ざぶとん縁取り2枠=16,ざぶとん縁取り2枠(2枠目枠色連動)=17,ざぶとん縁取り3枠=18,ざぶとんグラデ文字=19,ざぶとんグラデ文字縁取り1枠=20,ざぶとんグラデ文字縁取り2枠=21,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=22,ざぶとんグラデ文字縁取り3枠=23,ざぶとん影あり=24,ざぶとんグラデ文字影あり=25,ざぶとんグラデ文字縁取り1枠影あり=26,ざぶとんグラデ文字縁取り2枠影あり=27,ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり=28,ざぶとんグラデ文字縁取り3枠影あり=29,予備30=30,予備31=31,予備32=32,予備33=33,予備34=34
+--select@deco:装飾プリセット=1,装飾なし=1,縁取り1枠=2,縁取り2枠=3,縁取り2枠(2枠目色連動)=4,縁取り3枠=5,グラデ文字=6,グラデ文字縁取り1枠=7,グラデ文字縁取り2枠=8,グラデ文字縁取り2枠(2枠目色連動)影あり=9,縁取り3枠影あり=10,グラデ文字縁取り1枠影あり=11,グラデ文字縁取り2枠影あり=12,グラデ文字縁取り2枠(2枠目色連動)影あり=13,グラデ文字縁取り3枠影あり=14,ざぶとん=15,ざぶとん縁取り1枠=16,ざぶとん縁取り2枠=17,ざぶとん縁取り2枠(2枠目枠色連動)=18,ざぶとん縁取り3枠=19,ざぶとんグラデ文字=20,ざぶとんグラデ文字縁取り1枠=21,ざぶとんグラデ文字縁取り2枠=22,ざぶとんグラデ文字縁取り2枠(2枠目色連動)=23,ざぶとんグラデ文字縁取り3枠=24,ざぶとん影あり=25,ざぶとんグラデ文字影あり=26,ざぶとんグラデ文字縁取り1枠影あり=27,ざぶとんグラデ文字縁取り2枠影あり=28,ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり=29,ざぶとんグラデ文字縁取り3枠影あり=30,予備31=31,予備32=32,予備33=33,予備34=34,予備35=35
 --color@char_col0:文字色,nil
 --check@grd_0:グラデーション1,0
 --color@grds_col0:グラデ1開始色,0xff0000
 --color@grde_col0:グラデ1終了色,0xffff00
---select@grd_type0:グラデーション1タイプ=0,線形=0,円形=1,矩形=2,凸形=3
+--select@grd_type0:グラデーション1タイプ=1,線形=1,円形=2,矩形=3,凸形=4
 --group:グラデ(1)詳細設定,false
 --track@grd_pow0:グラデ1強さ,0,100,100,0.1
 --track@grd_x0:グラデ1中心X,-5000,5000,0,0.1
 --track@grd_y0:グラデ1中心Y,-5000,5000,0,0.1
 --track@grd_rotate0:グラデ1角度,-3600,3600,0,0.01
 --track@grd_width0:グラデ1幅,0,2000,100,1
---select@grd_composite0:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
+--select@grd_composite0:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明) =7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
 --group
 --group:個別オブジェクト時グラデ(1)(2)詳細設定,false
 --track@grd_s0:グラデ1開始文字,0,500,0,1
@@ -22,7 +22,7 @@
 --track@grd_e1:グラデ2終了文字,0,500,5,1
 --color@grds_col1:グラデ2開始色,0x00ff00
 --color@grde_col1:グラデ2終了色,0x00ffff
---select@grd_type1:グラデーション2タイプ=0,線形=0,円形=1,矩形=2,凸形=3
+--select@grd_type1:グラデーション2タイプ=1,線形=1,円形=2,矩形=3,凸形=4
 --track@grd_pow1:グラデ2強さ,0,100,100,0.1
 --track@grd_x1:グラデ2中心X,-5000,5000,0,0.1
 --track@grd_y1:グラデ2中心Y,-5000,5000,0,0.1
@@ -86,62 +86,62 @@ end
 
 -- 最初の設定をすべて配列にして作成。
 local params = {
-    -- 【プリセット定義：deco (0-29)】
-    -- GUIの「装飾プリセット」で選択された番号に対応する定義
+    -- 【プリセット定義：deco (1-30)】
+    -- GUIの「装飾プリセット」で選択された番号(1始まり)に対応する定義
     deco_presets = {
-        -- 基本・縁取り (0-4)
-        no_deco = 0,                        -- 0:装飾なし
-        frame1 = 1,                         -- 1:縁取り1枠
-        frame2 = 2,                         -- 2:縁取り2枠
-        frame2_linked = 3,                  -- 3:縁取り2枠(2枠目色連動)
-        frame3 = 4,                         -- 4:縁取り3枠
+        -- 基本・縁取り (1-5)
+        no_deco = 1,                        -- 1:装飾なし
+        frame1 = 2,                         -- 2:縁取り1枠
+        frame2 = 3,                         -- 3:縁取り2枠
+        frame2_linked = 4,                  -- 4:縁取り2枠(2枠目色連動)
+        frame3 = 5,                         -- 5:縁取り3枠
 
-        -- グラデーション文字・縁取り (5-7)
-        grad_char = 5,                      -- 5:グラデ文字
-        grad_char_frame1 = 6,               -- 6:グラデ文字縁取り1枠
-        grad_char_frame2 = 7,               -- 7:グラデ文字縁取り2枠
+        -- グラデーション文字・縁取り (6-8)
+        grad_char = 6,                      -- 6:グラデ文字
+        grad_char_frame1 = 7,               -- 7:グラデ文字縁取り1枠
+        grad_char_frame2 = 8,               -- 8:グラデ文字縁取り2枠
 
-        -- グラデーション文字・縁取り・影あり (8-13)
-        grad_char_frame2_linked_shadow = 8, -- 8:グラデ文字縁取り2枠(2枠目色連動)影あり
-        frame3_shadow = 9,                  -- 9:縁取り3枠影あり
-        grad_char_frame1_shadow = 10,       -- 10:グラデ文字縁取り1枠影あり
-        grad_char_frame2_shadow = 11,       -- 11:グラデ文字縁取り2枠影あり
-        grad_char_frame2_linked_shadow_v2 = 12, -- 12:グラデ文字縁取り2枠(2枠目色連動)影あり
-        grad_char_frame3_shadow = 13,       -- 13:グラデ文字縁取り3枠影あり
+        -- グラデーション文字・縁取り・影あり (9-14)
+        grad_char_frame2_linked_shadow = 9, -- 9:グラデ文字縁取り2枠(2枠目色連動)影あり
+        frame3_shadow = 10,                 -- 10:縁取り3枠影あり
+        grad_char_frame1_shadow = 11,       -- 11:グラデ文字縁取り1枠影あり
+        grad_char_frame2_shadow = 12,       -- 12:グラデ文字縁取り2枠影あり
+        grad_char_frame2_linked_shadow_v2 = 13, -- 13:グラデ文字縁取り2枠(2枠目色連動)影あり
+        grad_char_frame3_shadow = 14,       -- 14:グラデ文字縁取り3枠影あり
 
-        -- ざぶとん・縁取り (14-18)
-        zabuton = 14,                       -- 14:ざぶとん
-        zabuton_frame1 = 15,                -- 15:ざぶとん縁取り1枠
-        zabuton_frame2 = 16,                -- 16:ざぶとん縁取り2枠
-        zabuton_frame2_linked = 17,         -- 17:ざぶとん縁取り2枠(2枠目枠色連動)
-        zabuton_frame3 = 18,                -- 18:ざぶとん縁取り3枠
+        -- ざぶとん・縁取り (15-19)
+        zabuton = 15,                       -- 15:ざぶとん
+        zabuton_frame1 = 16,                -- 16:ざぶとん縁取り1枠
+        zabuton_frame2 = 17,                -- 17:ざぶとん縁取り2枠
+        zabuton_frame2_linked = 18,         -- 18:ざぶとん縁取り2枠(2枠目枠色連動)
+        zabuton_frame3 = 19,                -- 19:ざぶとん縁取り3枠
 
-        -- ざぶとん・グラデーション文字 (19-23)
-        zabuton_grad = 19,                  -- 19:ざぶとんグラデ文字
-        zabuton_grad_frame1 = 20,           -- 20:ざぶとんグラデ文字縁取り1枠
-        zabuton_grad_frame2 = 21,           -- 21:ざぶとんグラデ文字縁取り2枠
-        zabuton_grad_frame2_linked = 22,    -- 22:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
-        zabuton_grad_frame3 = 23,           -- 23:ざぶとんグラデ文字縁取り3枠
+        -- ざぶとん・グラデーション文字 (20-24)
+        zabuton_grad = 20,                  -- 20:ざぶとんグラデ文字
+        zabuton_grad_frame1 = 21,           -- 21:ざぶとんグラデ文字縁取り1枠
+        zabuton_grad_frame2 = 22,           -- 22:ざぶとんグラデ文字縁取り2枠
+        zabuton_grad_frame2_linked = 23,    -- 23:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
+        zabuton_grad_frame3 = 24,           -- 24:ざぶとんグラデ文字縁取り3枠
 
-        -- ざぶとん・影あり系 (24-29)
-        zabuton_shadow = 24,                -- 24:ざぶとん影あり
-        zabuton_grad_shadow = 25,           -- 25:ざぶとんグラデ文字影あり
-        zabuton_grad_frame1_shadow = 26,    -- 26:ざぶとんグラデ文字縁取り1枠影あり
-        zabuton_grad_frame2_shadow = 27,    -- 27:ざぶとんグラデ文字縁取り2枠影あり
-        zabuton_grad_frame2_linked_shadow = 28, -- 28:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
-        zabuton_grad_frame3_shadow = 29,    -- 29:ざぶとんグラデ文字縁取り3枠影あり
+        -- ざぶとん・影あり系 (25-30)
+        zabuton_shadow = 25,                -- 25:ざぶとん影あり
+        zabuton_grad_shadow = 26,           -- 26:ざぶとんグラデ文字影あり
+        zabuton_grad_frame1_shadow = 27,    -- 27:ざぶとんグラデ文字縁取り1枠影あり
+        zabuton_grad_frame2_shadow = 28,    -- 28:ざぶとんグラデ文字縁取り2枠影あり
+        zabuton_grad_frame2_linked_shadow = 29, -- 29:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+        zabuton_grad_frame3_shadow = 30,    -- 30:ざぶとんグラデ文字縁取り3枠影あり
     },
     
     -- 【グラデーション設定の定義】
-    -- grd_type (0-3) の定義
+    -- grd_type (1-4) の定義。Lua配列に合わせ1から開始
     grd_types = { 
-        linear = 0,         -- 0:線形
-        circular = 1,       -- 1:円形
-        rectangular = 2,    -- 2:矩形
-        convex = 3          -- 3:凸形
+        linear = 1,         -- 1:線形
+        circular = 2,       -- 2:円形
+        rectangular = 3,    -- 3:矩形
+        convex = 4          -- 4:凸形
     }, 
     
-    -- grd_composite (1-13) の定義
+    -- grd_composite (1-13) の定義。ここは元々1から開始のため維持
     composite_modes = {
         normal = 1,         -- 1:通常
         add = 2,            -- 2:加算
@@ -329,10 +329,17 @@ elseif (grd_0 ~= 0 and applyGrd) then -- 全体オブジェクト時にはグラ
 effect("グラデーション", "強さ", grd_pow0, "中心X", grd_x0, "中心Y", grd_y0, "角度", grd_rotate0, "幅", grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
 end
 
---luaファイルを呼び出し、グラデーションの場合の「テキスト一体化」を行っている。
+-- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
+local w,h = 0,0
+for i=0, obj.num do
+    local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
+    w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
+end
+
+--luaファイルを呼び出し、グラデーションの場合の「テキスト一枚化」を行っている。
 if(string_integrate0 ~= 0) then
     if(require("Individual_object_join")) then
-        Individual_object_join()
+        Individual_object_join(w,h)
     end
 end
 
@@ -426,10 +433,10 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
     end
 end
 
---luaファイルを呼び出し、縁取りの場合の「テキスト一体化」を行っている。
+--luaファイルを呼び出し、縁取りの場合の「テキスト一枚化」を行っている。
 if(string_integrate1 ~= 0) then
     if(require("Individual_object_join")) then
-        Individual_object_join()
+        Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
     end
 end
 
@@ -438,10 +445,10 @@ if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェッ�
     effect("ドロップシャドウ", "X", shadow_x0, "Y", shadow_y0, "濃さ", shadow_deep0, "拡散", shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
 
--- ざぶとんの付与は「テキスト一体化」を行った後にしか（私の技術では）出来ないので、個別オブジェクトの場合はluaファイルを呼び出し、最終的な「テキスト一体化」を行っている。
-if(background0 ~= 0 and obj.getoption("multi_object")) then
+-- ざぶとんの付与は「テキスト一枚化」を行った後にしか（私の技術では？）出来ないので、個別オブジェクトの場合はluaファイルを呼び出し、最終的な「テキスト一枚化」を行っている。
+if(background0 ~= 0 and obj.getoption("multi_object")) then -- ざぶとんのチェックがONであり、なおかつ個別オブジェクトの場合にのみ実行。
     if(require("Individual_object_join")) then
-        Individual_object_join()
+        Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
     end
 end
 
@@ -453,7 +460,7 @@ if(background0 ~= 0) then
     obj.copybuffer("cache:deco_text", "obj")
 
     -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
-    obj.setoption("drawtarget", "tempbuffer", w, h)
+    obj.setoption("drawtarget", "tempbuffer", background_x0, background_y0)
     obj.clearbuffer("tempbuffer") -- バッファを一旦透明にする
 
     -- 3. 四角形をロードしてバッファに描画
