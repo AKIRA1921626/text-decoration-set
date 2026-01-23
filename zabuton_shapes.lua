@@ -47,8 +47,8 @@ function zabuton_shapes(b,p)
     
     -- 必要な分だけのサイズを計算し、4000pxで制限（クランプ）
     local max_size = 4000
-    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * 2) / 16) * 16)
-    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * 2) / 16) * 16)
+    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * 2 + 400) / 16) * 16)
+    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * 2 + 400) / 16) * 16)
 
     -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
     obj.setoption("drawtarget", "tempbuffer", bw, bh)
