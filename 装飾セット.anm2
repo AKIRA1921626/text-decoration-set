@@ -302,7 +302,7 @@ local b = { -- bはbase_settingsの略称という意味で、書きやすいよ
 }
 
 -- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
-if(deco_presets ~= 0) then
+if(deco_presets ~= 1) then
     require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
     text_decoration_presets(params,b) -- 配列paramsを渡している。
 end
