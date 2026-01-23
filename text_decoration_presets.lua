@@ -10,17 +10,17 @@
 
 -- 【01. 装飾プリセット (params.deco / params.deco_presets)】
 -- 1:装飾なし / 2:縁取り1枠 / 3:縁取り2枠 / 4:縁取り2枠(2枠目色連動) / 5:縁取り3枠
--- 6:縁取り3枠影あり / 7:グラデ文字 / 8:グラデ文字縁取り1枠 / 9:グラデ文字縁取り2枠
--- 10:グラデ文字縁取り2枠(2枠目色連動)影あり / 11:グラデ文字縁取り3枠
--- 12:グラデ文字縁取り1枠影あり / 13:グラデ文字縁取り2枠影あり
--- 14:グラデ文字縁取り2枠(2枠目色連動)影あり / 15:グラデ文字縁取り3枠影あり
+-- 6:縁取り3枠 / 7:グラデ文字 / 8:グラデ文字縁取り1枠 / 9:グラデ文字縁取り2枠
+-- 10:グラデ文字縁取り2枠(2枠目色連動) / 11:グラデ文字縁取り3枠
+-- 12:グラデ文字縁取り1枠 / 13:グラデ文字縁取り2枠
+-- 14:グラデ文字縁取り2枠(2枠目色連動) / 15:グラデ文字縁取り3枠
 -- 16:ざぶとん / 17:ざぶとん縁取り1枠 / 18:ざぶとん縁取り2枠
 -- 19:ざぶとん縁取り2枠(2枠目枠色連動) / 20:ざぶとん縁取り3枠 / 21:ざぶとんグラデ文字
 -- 22:ざぶとんグラデ文字縁取り1枠 / 23:ざぶとんグラデ文字縁取り2枠
 -- 24:ざぶとんグラデ文字縁取り2枠(2枠目色連動) / 25:ざぶとんグラデ文字縁取り3枠
--- 26:ざぶとん影あり / 27:ざぶとんグラデ文字影あり / 28:ざぶとんグラデ文字縁取り1枠影あり
--- 29:ざぶとんグラデ文字縁取り2枠影あり / 30:ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
--- 31:ざぶとんグラデ文字縁取り3枠影あり
+-- 26:ざぶとん / 27:ざぶとんグラデ文字 / 28:ざぶとんグラデ文字縁取り1枠
+-- 29:ざぶとんグラデ文字縁取り2枠 / 30:ざぶとんグラデ文字縁取り2枠(2枠目色連動)
+-- 31:ざぶとんグラデ文字縁取り3枠
 
 -- 【02. グラデーション設定 (params.grd_type0, params.grd_type1)】
 -- 1:線形 / 2:円形 / 3:矩形 / 4:凸形
@@ -165,7 +165,7 @@ function text_decoration_presets(p,b)
         -- 縁取り3
         effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
 
-    -- 6: 縁取り3枠影あり
+    -- 6: 縁取り3枠
     elseif( p.deco == 6 ) then
         -- 縁取り1
         effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
@@ -173,9 +173,6 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
         effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
-
     -- 7: グラデ文字
     elseif( p.deco == 7 ) then
         -- グラデ1
@@ -198,7 +195,7 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
 
 
-    -- 10: グラデ文字縁取り2枠(2枠目グラデ文字開始色と連動)影あり
+    -- 10: グラデ文字縁取り2枠(2枠目グラデ文字開始色と連動)
     elseif( p.deco == 10 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -208,8 +205,6 @@ function text_decoration_presets(p,b)
             -- 縁取り2(p.grds_col0色と連動)
             effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
     -- 11: グラデ文字縁取り3枠
     elseif( p.deco == 11 ) then
@@ -222,16 +217,14 @@ function text_decoration_presets(p,b)
         -- 縁取り3
         effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
 
-    -- 12: グラデ文字縁取り1枠影あり
+    -- 12: グラデ文字縁取り1枠
     elseif( p.deco == 12 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
         effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 13: グラデ文字縁取り2枠影あり
+    -- 13: グラデ文字縁取り2枠
     elseif( p.deco == 13 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -239,11 +232,8 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
         effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-
-    -- 14: グラデ文字縁取り2枠(2枠目色連動)影あり
+    -- 14: グラデ文字縁取り2枠(2枠目色連動)
     elseif( p.deco == 14 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -253,10 +243,8 @@ function text_decoration_presets(p,b)
             -- 縁取り2(p.grds_col0色と連動)
             effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 15: グラデ文字縁取り3枠影あり
+    -- 15: グラデ文字縁取り3枠
     elseif( p.deco == 15 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -266,8 +254,6 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
         effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
     end
 
     require("zabuton_shapes") -- ここで座布団処理用の.luaを呼び出す。
@@ -377,23 +363,19 @@ function text_decoration_presets(p,b)
         -- ざぶとん
         zabuton_shapes(b,p)
 
-    -- 26: ざぶとん影あり
+    -- 26: ざぶとん
     elseif( p.deco == 26 ) then
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 27: ざぶとんグラデ文字影あり
+    -- 27: ざぶとんグラデ文字
     elseif( p.deco == 27 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 28: ざぶとんグラデ文字縁取り1枠影あり
+    -- 28: ざぶとんグラデ文字縁取り1枠
     elseif( p.deco == 28 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -401,10 +383,8 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 29: ざぶとんグラデ文字縁取り2枠影あり
+    -- 29: ざぶとんグラデ文字縁取り2枠
     elseif( p.deco == 29 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -414,10 +394,8 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 30: ざぶとんグラデ文字縁取り2枠(2枠目色連動)影あり
+    -- 30: ざぶとんグラデ文字縁取り2枠(2枠目色連動)
     elseif( p.deco == 30 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -429,10 +407,8 @@ function text_decoration_presets(p,b)
         end
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
 
-    -- 31: ざぶとんグラデ文字縁取り3枠影あり
+    -- 31: ざぶとんグラデ文字縁取り3枠
     elseif( p.deco == 31 ) then
         -- グラデ1
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
@@ -444,7 +420,5 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
         -- ざぶとん
         zabuton_shapes(b,p)
-        -- 影
-        effect("ドロップシャドウ", "X", b.shadow.x + p.shadow_x0, "Y", b.shadow.y + p.shadow_y0, "濃さ", b.shadow.deep + p.shadow_deep0, "拡散", b.shadow.deep + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
     end
 end
