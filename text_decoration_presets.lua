@@ -32,6 +32,8 @@
 -- 【04. 基本設定】
 -- p.deco             : 装飾プリセット選択値 (1始まりの番号)
 -- p.char_col0        : 文字色 (nil または 0xRRGGBB)
+-- p.base_reset       : 装飾のサイズをすべて0
+-- p.resize           : 装飾のサイズをテキストのサイズと連動
 
 -- 【05. グラデーション1 (メイン)】
 -- p.grd_0            : グラデーション1有効化 (0/1)
@@ -129,14 +131,14 @@ function text_decoration_presets(p,b)
     -- 2: 縁取り1枠
     if( p.deco == 2 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
 
     -- 3: 縁取り2枠
     elseif( p.deco == 3 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
 
     -- 4: 縁取り2枠(2枠目文字色と連動)
     elseif( p.deco == 4 ) then
@@ -144,116 +146,116 @@ function text_decoration_presets(p,b)
             -- 文字色変更(char_col0)
             effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(char_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
         else
             -- 文字色変更(frame_col1)
             effect("単色化","強さ",100,"色",p.frame_col1,"輝度を保持する",0)
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(frame_col1色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         end
 
     -- 5: 縁取り3枠
     elseif( p.deco == 5 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
 
     -- 6: 縁取り3枠
     elseif( p.deco == 6 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
     -- 7: グラデ文字
     elseif( p.deco == 7 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
 
     -- 8: グラデ文字縁取り1枠
     elseif( p.deco == 8 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
 
     -- 9: グラデ文字縁取り2枠
     elseif( p.deco == 9 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
 
 
     -- 10: グラデ文字縁取り2枠(2枠目グラデ文字開始色と連動)
     elseif( p.deco == 10 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         if(p.grds_col0 ~= nil) then
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(p.grds_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
 
     -- 11: グラデ文字縁取り3枠
     elseif( p.deco == 11 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
 
     -- 12: グラデ文字縁取り1枠
     elseif( p.deco == 12 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
 
     -- 13: グラデ文字縁取り2枠
     elseif( p.deco == 13 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
 
     -- 14: グラデ文字縁取り2枠(2枠目色連動)
     elseif( p.deco == 14 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         if(p.grds_col0 ~= nil) then
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(p.grds_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
 
     -- 15: グラデ文字縁取り3枠
     elseif( p.deco == 15 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
     end
 
     require("zabuton_shapes") -- ここで座布団処理用の.luaを呼び出す。
@@ -266,16 +268,16 @@ function text_decoration_presets(p,b)
     -- 17: ざぶとん縁取り1枠
     elseif( p.deco == 17 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 18: ざぶとん縁取り2枠
     elseif( p.deco == 18 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- ざぶとん
         zabuton_shapes(b,p)
 
@@ -285,16 +287,16 @@ function text_decoration_presets(p,b)
             -- 文字色変更(char_col0)
             effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(char_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
         else
             -- 文字色変更(frame_col1)
             effect("単色化","強さ",100,"色",p.frame_col1,"輝度を保持する",0)
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(frame_col1色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         end
         -- ざぶとん
         zabuton_shapes(b,p)
@@ -302,50 +304,50 @@ function text_decoration_presets(p,b)
     -- 20: ざぶとん縁取り3枠
     elseif( p.deco == 20 ) then
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 21: ざぶとんグラデ文字
     elseif( p.deco == 21 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 22: ざぶとんグラデ文字縁取り1枠
     elseif( p.deco == 22 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 23: ざぶとんグラデ文字縁取り2枠
     elseif( p.deco == 23 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 24: ざぶとんグラデ文字縁取り2枠(2枠目色連動)
     elseif( p.deco == 24 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         if(p.grds_col0 ~= nil) then
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(p.grds_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
         -- ざぶとん
         zabuton_shapes(b,p)
@@ -353,13 +355,13 @@ function text_decoration_presets(p,b)
     -- 25: ざぶとんグラデ文字縁取り3枠
     elseif( p.deco == 25 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
         -- ざぶとん
         zabuton_shapes(b,p)
 
@@ -371,39 +373,39 @@ function text_decoration_presets(p,b)
     -- 27: ざぶとんグラデ文字
     elseif( p.deco == 27 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 28: ざぶとんグラデ文字縁取り1枠
     elseif( p.deco == 28 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 29: ざぶとんグラデ文字縁取り2枠
     elseif( p.deco == 29 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- ざぶとん
         zabuton_shapes(b,p)
 
     -- 30: ざぶとんグラデ文字縁取り2枠(2枠目色連動)
     elseif( p.deco == 30 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         if(p.grds_col0 ~= nil) then
             -- 縁取り1
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
             -- 縁取り2(p.grds_col0色と連動)
-            effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
         end
         -- ざぶとん
         zabuton_shapes(b,p)
@@ -411,13 +413,13 @@ function text_decoration_presets(p,b)
     -- 31: ざぶとんグラデ文字縁取り3枠
     elseif( p.deco == 31 ) then
         -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", b.grd.w + p.grd_width0, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
         -- 縁取り1
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size0 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         -- 縁取り2
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size1 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
         -- 縁取り3
-        effect("縁取り", "サイズ", b.frame.size + p.frame_size2 + p.frame_size_common, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
         -- ざぶとん
         zabuton_shapes(b,p)
     end

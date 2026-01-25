@@ -37,6 +37,7 @@ function zabuton_shapes(b,p)
     p.background_alpha0: 透明度 / p.background_col0 : 色
     p.background_frame0: 枠線サイズ / p.background_frame_blur0 : 枠線ぼかし
     p.background_framecol0 : 枠線色
+    p.resize : 装飾のサイズをテキストのサイズと連動
     ]]
 
     local ow,oh = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
@@ -47,8 +48,8 @@ function zabuton_shapes(b,p)
     
     -- 必要な分だけのサイズを計算し、4000pxで制限（クランプ）
     local max_size = 4000
-    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * 2 + 400) / 16) * 16)
-    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * 2 + 400) / 16) * 16)
+    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * p.resize * 2 + 400) / 16) * 16)
+    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * p.resize * 2 + 400) / 16) * 16)
 
     -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
     obj.setoption("drawtarget", "tempbuffer", bw, bh)
@@ -56,9 +57,9 @@ function zabuton_shapes(b,p)
 
     -- 3. 四角形をロードしてバッファに描画
     obj.load("figure", "四角形", p.background_col0, zh)
-    effect("リサイズ", "拡大率", 50, "X", b.shapes.sizex + p.background_x0, "Y", b.shapes.sizey + p.background_y0)
+    effect("リサイズ", "拡大率", 50, "X", b.shapes.sizex + p.background_x0 , "Y", b.shapes.sizey + p.background_y0 )
     if(p.background_frame0 > 0) then
-        effect("縁取り", "サイズ", b.shapes.frames + p.background_frame0, "ぼかし", b.shapes.frameb + p.background_frame_blur0, "縁色", p.background_framecol0)
+        effect("縁取り", "サイズ", ( b.shapes.frames + p.background_frame0 ) * p.resize, "ぼかし", b.shapes.frameb + p.background_frame_blur0, "縁色", p.background_framecol0)
     end
     -- 一時バッファの中央（または指定位置）に背景を描画
     obj.draw(b.shapes.posx + p.background_posx0, b.shapes.posy + p.background_posy0, 0, 1,math.max(0, 1 - (b.shapes.alpha + p.background_alpha0 / 100)))

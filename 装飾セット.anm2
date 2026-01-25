@@ -2,6 +2,7 @@
 --information:装飾を行いやすくするためのAviutl2用のスクリプトです。
 --select@deco:装飾プリセット=1, 1:装飾なし=1, 2:縁取り1枠=2, 3:縁取り2枠=3, 4:縁取り2枠(2枠目色連動)=4, 5:縁取り3枠=5, 6:縁取り3枠あり=6, 7:グラデ文字=7, 8:グラデ文字縁取り1枠=8, 9:グラデ文字縁取り2枠=9, 10:グラデ文字縁取り2枠(2枠目色連動)=10, 11:グラデ文字縁取り3枠=11, 12:グラデ文字縁取り1枠=12, 13:グラデ文字縁取り2枠=13, 14:グラデ文字縁取り2枠(2枠目色連動)=14, 15:グラデ文字縁取り3枠=15, 16:ざぶとん=16, 17:ざぶとん縁取り1枠=17, 18:ざぶとん縁取り2枠=18, 19:ざぶとん縁取り2枠(2枠目枠色連動)=19, 20:ざぶとん縁取り3枠=20, 21:ざぶとんグラデ文字=21, 22:ざぶとんグラデ文字縁取り1枠=22, 23:ざぶとんグラデ文字縁取り2枠=23, 24:ざぶとんグラデ文字縁取り2枠(2枠目色連動)=24, 25:ざぶとんグラデ文字縁取り3枠=25, 26:ざぶとん=26, 27:ざぶとんグラデ文字=27, 28:ざぶとんグラデ文字縁取り1枠=28, 29:ざぶとんグラデ文字縁取り2枠=29, 30:ざぶとんグラデ文字縁取り2枠(2枠目色連動)=30, 31:ざぶとんグラデ文字縁取り3枠=31
 --check@base_reset:装飾のサイズをすべて0,0
+--check@alter_size:装飾のサイズをテキストのサイズと連動,1
 --color@char_col0:文字色,nil
 --check@grd_0:グラデーション1,0
 --color@grds_col0:グラデ1開始色,0xff0000
@@ -81,6 +82,13 @@
 --color@background_framecol0:ざぶとん枠色,0xffffff
 
 local effect = obj.effect
+local w,h = obj.getpixel() -- obj.getpixel()は引数を指定しなければ、objの素の縦と横の値を返す。その値にはサイズは適用されるが拡大率は適用されない。
+local resize -- 変数には代入を行わなければ勝手にnilが入る。
+if(alter_size ~= 0) then -- 「装飾のサイズをテキストのサイズと合わせる」のcheckがONかOFFか判定。デフォㇽではON。
+    resize = h/100 -- エフェクトのサイズ、グラデ幅に、*resizeを行い、サイズ補正を行う。エフェクトのサイズ、グラデ幅には、拡大率の影響はあるが、サイズの影響はないため、こちらで補正を行う。
+else
+    resize = 1 -- checkがOFFの場合は、エフェクトのサイズ、グラデ幅に*1を行うことで変更させないようにし、そのまま適用するようにする。
+end
 
 -- 1. 基本設定（色）
 if(char_col0) then
@@ -146,6 +154,8 @@ deco_presets = {
     -- 【現在の設定値】
     deco = deco,                            -- 装飾プリセット選択値
     char_col0 = char_col0,                  -- 文字色
+    base_reset = base_reset,                -- 装飾のサイズをすべて0
+    resize = resize,                        -- 装飾のサイズをテキストのサイズと連動
 
     -- グラデーション1 (track/color/select等から取得した値)
     grd_0 = grd_0,                          -- グラデーション1有効化(check)
@@ -335,6 +345,12 @@ if(base_reset ~= 0) then
     }
 end
 
+-- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
+if(deco_presets ~= 1) then
+    require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
+    text_decoration_presets(params,b) -- 配列paramsを渡している。
+end
+
 -- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
 local isInGradationRange = false
 local isInGradationRange1 = false
@@ -414,19 +430,19 @@ if (grd_0 ~= 0 and applyGrd1 and not (
     (deco >= 21 and deco <= 25) or 
     (deco >= 27 and deco <= 31) )
 ) then -- 個別オブジェクト時のグラデーション1の値。
-effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", b.grd.w + grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", ( b.grd.w + grd_width0 ) * resize, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
 elseif (grd_1 ~= 0 and applyGrd2 and not (
     (deco >= 7 and deco <= 15) or 
     (deco >= 21 and deco <= 25) or 
     (deco >= 27 and deco <= 31) )
 ) then -- 個別オブジェクト時のグラデーション2の値。
-effect("グラデーション", "強さ", b.grd.pow + grd_pow1, "中心X", b.grd.x + grd_x1, "中心Y", b.grd.y + grd_y1, "角度", b.grd.r + grd_rotate1, "幅", b.grd.w + grd_width1, "合成モード", grd_use_composite1[grd_composite1],"形状", grd_type1, "開始色", grds_col1, "no_color", noCol3, "終了色", grde_col1, "no_color2", noCol4)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow1, "中心X", b.grd.x + grd_x1, "中心Y", b.grd.y + grd_y1, "角度", b.grd.r + grd_rotate1, "幅", ( b.grd.w + grd_width1 ) * resize, "合成モード", grd_use_composite1[grd_composite1],"形状", grd_type1, "開始色", grds_col1, "no_color", noCol3, "終了色", grde_col1, "no_color2", noCol4)
 elseif (grd_0 ~= 0 and applyGrd and not (
     (deco >= 7 and deco <= 15) or 
     (deco >= 21 and deco <= 25) or 
     (deco >= 27 and deco <= 31) )
 ) then -- 全体オブジェクト時にはグラデーション1のみを適用。
-effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", b.grd.w + grd_width0, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
+effect("グラデーション", "強さ", b.grd.pow + grd_pow0, "中心X", b.grd.x + grd_x0, "中心Y", b.grd.y + grd_y0, "角度", b.grd.r + grd_rotate0, "幅", ( b.grd.w + grd_width0 ) * resize, "合成モード", grd_use_composite0[grd_composite0],"形状", grd_type0, "開始色", grds_col0, "no_color", noCol1, "終了色", grde_col0, "no_color2", noCol2)
 end
 
 -- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
@@ -445,15 +461,9 @@ if(obj.getoption("multi_object") and string_integrate0 ~= 0) then -- 文字ご�
     end
 end
 
--- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
-if(deco_presets ~= 1) then
-    require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
-    text_decoration_presets(params,b) -- 配列paramsを渡している。
-end
-
 -- 凸エッジ実行。全体に対して実行する。
 if(edge ~= 0) then -- 「凸エッジ」にチェックが入っていた時のみ凸エッジを実行。
-    effect("凸エッジ", "幅", edge_width0, "高さ", edge_height0, "角度", edge_angle0)
+    effect("凸エッジ", "幅", edge_width0 * resize, "高さ", edge_height0, "角度", edge_angle0)
 end
 
 --[[
@@ -465,7 +475,7 @@ b.shadow.diffsion = 15 -- 影拡散
 ]]
 -- 「文字に対して」のシャドウを実行。全体に対して実行する。
 if(middle_shadow ~= 0) then -- 「文字に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", b.shadow.x + shadow_x0, "Y", b.shadow.y + shadow_y0, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+    effect("ドロップシャドウ", "X",( b.shadow.x + shadow_x0 ) * resize, "Y", ( b.shadow.y + shadow_y0 ) * resize, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
 
 -- 5.(6)で使う変数を宣言と初期化。
@@ -509,7 +519,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 22 and deco <= 25) or
             (deco >= 28 and deco <= 31) )
             ) then -- 個別オブジェクトがOFFであり、プリセットで縁取り1が指定されておらず、縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 ) * resize + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0 and not (
             (deco >= 3 and deco <= 6) or 
@@ -519,7 +529,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 23 and deco <= 25) or
             (deco >= 29 and deco <= 31) )
         ) then -- 個別オブジェクトがOFFであり、プリセットで縁取り2が指定されておらず、縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 ) * resize + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0 and not (
             (deco >= 5 and deco <= 6) or 
@@ -530,7 +540,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 25 and deco <= 25) or
             (deco >= 31 and deco <= 31) )
         ) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
@@ -542,7 +552,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 22 and deco <= 25) or
             (deco >= 28 and deco <= 31) )
         )  then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0 and not (
             (deco >= 3 and deco <= 6) or 
@@ -552,7 +562,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 23 and deco <= 25) or
             (deco >= 29 and deco <= 31) )
         ) then
-            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ",( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0 and not (
             (deco >= 5 and deco <= 6) or 
@@ -562,7 +572,7 @@ if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキ�
             (deco >= 25 and deco <= 25) or
             (deco >= 31 and deco <= 31) )
         ) then
-            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
@@ -576,7 +586,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 22 and deco <= 25) or
             (deco >= 28 and deco <= 31) )
         ) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0 and not (
             (deco >= 3 and deco <= 6) or 
@@ -586,7 +596,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 23 and deco <= 25) or
             (deco >= 29 and deco <= 31) )
         ) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0 and not (
             (deco >= 5 and deco <= 6) or 
@@ -596,7 +606,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 25 and deco <= 25) or
             (deco >= 31 and deco <= 31) )
         ) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 
@@ -608,7 +618,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 22 and deco <= 25) or
             (deco >= 28 and deco <= 31) )
         ) then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", b.frame.size + frame_size0 + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", frame_col0)
         end
         if (frame1 ~= 0 and applyFrm2 and not (
             (deco >= 3 and deco <= 6) or 
@@ -618,7 +628,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 23 and deco <= 25) or
             (deco >= 29 and deco <= 31) )
         ) then
-            effect("縁取り", "サイズ", b.frame.size + frame_size1 + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", frame_col1)
         end
         if (frame2 ~= 0 and applyFrm3 and not (
             (deco >= 5 and deco <= 6) or 
@@ -628,7 +638,7 @@ else -- グラデーションの項目での「テキスト一体化」がOFFの
             (deco >= 25 and deco <= 25) or
             (deco >= 31 and deco <= 31) )
         ) then
-            effect("縁取り", "サイズ", b.frame.size + frame_size2 + frame_size_common, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
+            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", frame_col2)
         end
     end
 end
@@ -672,5 +682,5 @@ b.shadow.diffsion = 15 -- 影拡散
 ]]
 -- 「全体に対して」のシャドウを実行
 if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", b.shadow.x + shadow_x0, "Y", b.shadow.y + shadow_y0, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+    effect("ドロップシャドウ", "X", ( b.shadow.x + shadow_x0 ) * resize, "Y", ( b.shadow.y + shadow_y0 ) * resize, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
 end
