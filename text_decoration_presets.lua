@@ -176,13 +176,8 @@ function text_decoration_presets(p,b)
     -- 縁取り3枠目
     if ( p.deco == 5 or p.deco == 10 or p.deco == 15 or p.deco == 20 ) then
         effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-        if(p.edge_order == 1) then
+        if(p.edge_order == 4) then
             apply_edge(4) -- 【タイミング4】縁取り3の後
         end
-    end
-
-    -- 【タイミング5】ざぶとんの後（＝装飾処理の最後）
-    if (p.deco >= 11 and p.deco <= 20 and (p.edge_order == 5) ) then
-        apply_edge(5)
     end
 end
