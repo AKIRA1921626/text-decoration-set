@@ -116,163 +116,73 @@ function text_decoration_presets(p,b)
     b.shapes.frameb = 0 -- ざぶとん枠線ぼかし
 ]]
 
-    -- プリセット番号 p.deco に基づく条件分岐
+-- 凸エッジ描画用の内部関数
+    local function apply_edge(target_order)
+        if (p.edge ~= 0 and p.edge_order == target_order) then
+            effect("凸エッジ", "幅", p.edge_width0, "高さ", p.edge_height0, "角度", p.edge_angle0)
+        end
+    end
 
-    -- 1: 装飾なし の場合は色だけ適用
+    local optiion_judge = obj.getoption("multi_object")
+
+    -- 【1】ベースの色付け（単色化または共通グラデーション）
     if(p.char_col0 ~= nil and ( p.grd_0 ~= 1 and p.grd_1 ~= 1) ) then
-        -- 文字色変更
         effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
     end
 
-    local optiion_judge = obj.getoption("multi_object") -- 個別オブジェクトかどうか判定。戻り値  : true=有効 / false=無効
-
-    if (p.grd_0 ~= 0 and optiion_judge and ( -- グラデ1がONであり、個別オブジェクト時にはグラデーション1のみを適用。
-        (p.deco >= 0 and p.deco <= 5) or
-        (p.deco >= 11 and p.deco <= 14)
-    )) then -- 個別オブジェクト時のグラデーション1の値。
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-    
-    elseif (p.grd_1 ~= 0 and optiion_judge and ( -- グラデ2がONであり、個別オブジェクト時にはグラデーション1のみを適用。
-        (p.deco >= 0 and p.deco <= 5) or
-        (p.deco >= 11 and p.deco <= 14) 
-    )) then -- 個別オブジェクト時のグラデーション2の値。
+    -- 共通グラデーション判定 (1-5, 11-15番用)
+    if (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
+        if (optiion_judge or not optiion_judge) then -- 条件整理
+             effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+        end
+    elseif (p.grd_1 ~= 0 and optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", p.noCol3, "終了色", p.grde_col1, "no_color2", p.noCol4)
-    
-    elseif (p.grd_0 ~= 0 and not (optiion_judge) and( -- グラデ1がONであり、全体オブジェクト時にはグラデーション1のみを適用。
-        (p.deco >= 0 and p.deco <= 5) or
-        (p.deco >= 11 and p.deco <= 14)
-    )) then 
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード",p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
     end
 
-    -- 2: 縁取り1枠
-    if( p.deco == 2 ) then
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+    -- 16-20番用の強制グラデーション
+    if (p.deco >= 16 and p.deco <= 20) then
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+    elseif (p.deco >= 6 and p.deco <= 10) then
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
+    end
 
-    -- 3: 縁取り2枠
-    elseif( p.deco == 3 ) then
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        -- 縁取り2
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+    -- 【タイミング1】文字（色付け）の直後
+    if(p.edge_order == 1) then
+        apply_edge(1)
+    end
 
-    -- 4: 縁取り2枠(2枠目枠色連動)
-    elseif( p.deco == 4 ) then
-        if(p.char_col0 ~= nil and p.grd ~= 1) then
-            -- 文字色変更(char_col0)
-            effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
-            -- 縁取り1
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-            -- 縁取り2(char_col0色と連動)
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.char_col0)
-        elseif(p.grd ~= 0) then
-            -- 縁取り1
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-            -- 縁取り2(grds_col0色と連動)
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
-        else
-            -- 文字色変更(frame_col1)
-            effect("単色化","強さ",100,"色",p.frame_col1,"輝度を保持する",0)
-            -- 縁取り1
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-            -- 縁取り2(frame_col1色と連動)
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
+    -- 【2】各プリセットの縁取り処理
+    -- 縁取り1枠目
+    if ( (p.deco >= 2 and p.deco <= 5) or (p.deco >= 7 and p.deco <= 10) or (p.deco >= 12 and p.deco <= 15) or (p.deco >= 17 and p.deco <= 20) ) then
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
+        if(p.edge_order == 2) then
+            apply_edge(2) -- 【タイミング2】縁取り1の後
         end
+    end
 
-    -- 5: 縁取り3枠
-    elseif( p.deco == 5 ) then
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        -- 縁取り2
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
-        -- 縁取り3
+    -- 縁取り2枠目
+    if ( (p.deco >= 3 and p.deco <= 5) or (p.deco >= 8 and p.deco <= 10) or (p.deco >= 13 and p.deco <= 15) or (p.deco >= 18 and p.deco <= 20) ) then
+        local f_col1 = p.frame_col1
+        -- 色連動判定 (4, 9, 14, 19番)
+        if (p.deco == 4 or p.deco == 9 or p.deco == 14 or p.deco == 19) then
+            f_col1 = p.grds_col0 or p.char_col0 or 0xffffff
+        end
+        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", f_col1)
+        if(p.edge_order == 3) then
+            apply_edge(3) -- 【タイミング3】縁取り2の後
+        end
+    end
+
+    -- 縁取り3枠目
+    if ( p.deco == 5 or p.deco == 10 or p.deco == 15 or p.deco == 20 ) then
         effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
+        if(p.edge_order == 1) then
+            apply_edge(4) -- 【タイミング4】縁取り3の後
+        end
+    end
 
-    -- 6: グラデ文字
-    elseif( p.deco == 6 ) then
-        -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-
-    -- 7: グラデ文字縁取り1枠
-    elseif( p.deco == 7 ) then
-        -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-
-    -- 8: グラデ文字縁取り2枠
-    elseif( p.deco == 8 ) then
-        -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        -- 縁取り2
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
-
-    -- 9: グラデ文字縁取り2枠(2枠目枠色連動)
-    elseif( p.deco == 9 ) then
-        -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-        if(p.grds_col0 ~= nil) then
-            -- 縁取り1
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-            -- 縁取り2(p.grds_col0色と連動)
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.grds_col0)
-        end
-
-    -- 10: グラデ文字縁取り3枠
-    elseif( p.deco == 10 ) then
-        -- グラデ1
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-        -- 縁取り1
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        -- 縁取り2
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", p.frame_col1)
-        -- 縁取り3
-        effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-
--- 11〜15: ざぶとん（通常文字）系の処理
-    -- チェックON時のみグラデを適用し、番号に応じて縁取りを追加
-    elseif (p.deco >= 11 and p.deco <= 15) then
-        if (p.grd_0 ~= 0) then
-            effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-        end
-        
-        -- 12番以上なら縁取り1
-        if (p.deco >= 12) then
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        end
-        -- 13, 14, 15番なら縁取り2
-        if (p.deco >= 13) then
-            local f_col1 = p.frame_col1
-            if (p.deco == 14) then f_col1 = p.grds_col0 or p.char_col0 or 0xffffff end -- 14番は連動色
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", f_col1)
-        end
-        -- 15番なら縁取り3
-        if (p.deco == 15) then
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-        end
-
-    -- 16〜20: ざぶとんグラデ文字 系の処理
-    -- チェックに関わらずグラデーションを強制適用し、番号に応じて縁取りを追加
-    elseif (p.deco >= 16 and p.deco <= 20) then
-        -- グラデーション強制適用
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", p.noCol1, "終了色", p.grde_col0, "no_color2", p.noCol2)
-    
-        -- 17番以上なら縁取り1
-        if (p.deco >= 17) then
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
-        end
-        -- 18, 19, 20番なら縁取り2
-        if (p.deco >= 18) then
-            local f_col1 = p.frame_col1
-            if (p.deco == 19) then f_col1 = p.grds_col0 or p.char_col0 or 0xffffff end -- 19番は連動色
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", f_col1)
-        end
-        -- 20番なら縁取り3
-        if (p.deco == 20) then
-            effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
-        end
+    -- 【タイミング5】ざぶとんの後（＝装飾処理の最後）
+    if (p.deco >= 11 and p.deco <= 20 and (p.edge_order == 5) ) then
+        apply_edge(5)
     end
 end

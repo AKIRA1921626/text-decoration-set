@@ -10,6 +10,9 @@
 --check@frame1:縁取り2,0
 --check@frame2:縁取り3,0
 --check@background0:ざぶとん,0
+--check@edge:凸エッジ,0
+--check@middle_shadow:文字に対して影を付与,0
+--check@behind_shadow:全体に対して影を付与,0
 --color@grds_col0:グラデ1開始色,0xff0000
 --color@grde_col0:グラデ1終了色,0xffff00
 --select@grd_type0:グラデーション1タイプ=1,線形=1,円形=2,矩形=3,凸形=4
@@ -41,7 +44,7 @@
 --check@grd_reverse:効果を逆転,0
 --group
 --check@string_integrate0:グラデーションテキスト1枚化(個別オブジェクト時),0
---check@edge:凸エッジ,0
+
 --track@edge_width0:凸エッジ幅,0,100,3,1
 --track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
 --track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
@@ -68,8 +71,6 @@
 --track@frame_e2:縁取り3終了文字,0,500,0,1
 --group
 --check@string_integrate1:縁取りテキスト1枚化(個別オブジェクト時),0
---check@middle_shadow:文字に対して影を付与,0
---check@behind_shadow:全体に対して影を付与,0
 --color@shadow_col0:影色,0x000000
 --track@shadow_x0:影x,-1000,1000,0,1
 --track@shadow_y0:影y,-1000,1000,0,1
