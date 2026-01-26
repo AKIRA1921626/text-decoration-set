@@ -165,7 +165,7 @@ function text_decoration_presets(p,b)
         local f_col1 = p.frame_col1
         -- 色連動判定 (4, 9, 14, 19番)
         if (p.deco == 4 or p.deco == 9 or p.deco == 14 or p.deco == 19) then
-            f_col1 = p.grds_col0 or p.char_col0 or 0xffffff
+            f_col1 = p.char_col0 or p.grds_col0 or 0xffffff
         end
         effect("縁取り", "サイズ", ( b.frame.size + p.frame_size1 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur1 + p.frame_blur_common, "縁色", f_col1)
         if(p.edge_order == 3) then
