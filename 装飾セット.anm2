@@ -362,7 +362,7 @@ if(base_reset ~= 0) then
         shadow = {
             x = 10, -- 影X
             y = 10, -- 影Y
-            deep = 70, -- 影濃さ
+            deep = 0, -- 影濃さ
             diffsion = 15 -- 影拡散
         },
         shapes = {
@@ -374,15 +374,14 @@ if(base_reset ~= 0) then
             frames = 0, -- ざぶとん枠線サイズ
             frameb = 0  -- ざぶとん枠線ぼかし
         },
-
         glow = { -- 後方グロー
         pow = 0, --グロー強さ
-        diffusion = 0, -- グロー拡散
-        rotate = 0, -- グロー角度
+        diffusion = 120, -- グロー拡散
+        rotate = 25, -- グロー角度
         threshold = 0, -- グローしきい値
-        aspcect = 0, -- グロー比率
-        blur = 0, -- グローぼかし
-    }
+        aspcect = 100, -- グロー比率
+        blur = 20, -- グローぼかし
+        }
     }
 end
 
