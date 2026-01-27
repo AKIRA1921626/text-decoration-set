@@ -68,7 +68,7 @@
 --track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
 --group
 --check@middle_shadow:文字に対して影1を付与,0
---color@shadow_col0:影1色,0x000000
+--color@shadow_col0:影1色,0xffff00
 --group:影1調整,false
 --track@shadow_x0:影1x,-1000,1000,0,1
 --track@shadow_y0:影1y,-1000,1000,0,1
@@ -76,7 +76,7 @@
 --track@shadow_diffusion0:影1拡散,0,500,0,1
 --group
 --check@behind_shadow:全体に対して影2を付与,0
---color@shadow_col1:影2色,0x000000
+--color@shadow_col1:影2色,0x00ffff
 --group:影2調整,false
 --track@shadow_x1:影2x,-1000,1000,0,1
 --track@shadow_y1:影2y,-1000,1000,0,1
@@ -84,7 +84,7 @@
 --track@shadow_diffusion1:影2拡散,0,500,0,1
 --group
 --check@subtitle_glow:後方グロー,0
---color@subtile_glow_col:後方グロー色,0x000000
+--color@subtile_glow_col:後方グロー色,0xff00ff
 --group:後方グロー詳細,false
 --track@subtitle_glow_pow:後方グロー強さ,0,500,0,1
 --track@subtitle_glow_diffusion:後方グロー拡散,0,500,0,1
