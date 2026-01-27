@@ -67,14 +67,21 @@
 --track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
 --track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
 --group
---check@middle_shadow:文字に対して影を付与,0
---check@behind_shadow:全体に対して影を付与,0
---color@shadow_col0:影色,0x000000
---group:影調整,false
---track@shadow_x0:影x,-1000,1000,0,1
---track@shadow_y0:影y,-1000,1000,0,1
---track@shadow_deep0:影濃さ,0,100,0,1
---track@shadow_diffusion0:影拡散,0,500,0,1
+--check@middle_shadow:文字に対して影1を付与,0
+--color@shadow_col0:影1色,0x000000
+--group:影1調整,false
+--track@shadow_x0:影1x,-1000,1000,0,1
+--track@shadow_y0:影1y,-1000,1000,0,1
+--track@shadow_deep0:影1濃さ,0,100,0,1
+--track@shadow_diffusion0:影1拡散,0,500,0,1
+--group
+--check@behind_shadow:全体に対して影2を付与,0
+--color@shadow_col1:影2色,0x000000
+--group:影2調整,false
+--track@shadow_x1:影2x,-1000,1000,0,1
+--track@shadow_y1:影2y,-1000,1000,0,1
+--track@shadow_deep1:影2濃さ,0,100,0,1
+--track@shadow_diffusion1:影2拡散,0,500,0,1
 --group
 --check@subtitle_glow:後方グロー,0
 --color@subtile_glow_col:後方グロー色,0x000000
@@ -250,7 +257,11 @@ deco_presets = {
     background_col0 = background_col0,      -- ざぶとん色
     background_frame0 = background_frame0,  -- ざぶとん枠線サイズ
     background_frame_blur0 = background_frame_blur0, -- ざぶとん枠線ぼかし
-    background_framecol0 = background_framecol0      -- ざぶとん枠色
+    background_framecol0 = background_framecol0,      -- ざぶとん枠色
+
+    -- グロー
+    subtitle_glow = subtitle_glow, -- グローが有効か否か。
+
 }
 
 -- 【グラデーション設定の定義】をここで判定して更新する。
@@ -702,5 +713,5 @@ b.shadow.diffsion = 15 -- 影拡散
 ]]
 -- 「全体に対して」のシャドウを実行
 if(behind_shadow ~= 0) then -- 「全体に対して影を付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", ( b.shadow.x + shadow_x0 ) * resize, "Y", ( b.shadow.y + shadow_y0 ) * resize, "濃さ", b.shadow.deep + shadow_deep0, "拡散", b.shadow.diffsion + shadow_diffusion0, "影色", shadow_col0, "影を別オブジェクトで描画", 0)
+    effect("ドロップシャドウ", "X", ( b.shadow.x + shadow_x1 ) * resize, "Y", ( b.shadow.y + shadow_y1 ) * resize, "濃さ", b.shadow.deep + shadow_deep1, "拡散", b.shadow.diffsion + shadow_diffusion1, "影色", shadow_col1, "影を別オブジェクトで描画", 0)
 end
