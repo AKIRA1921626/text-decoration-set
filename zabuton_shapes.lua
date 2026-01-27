@@ -226,11 +226,37 @@ if(p.background0 ~= 0 or (p.deco >=11 and p.deco <= 20 ) ) then
     local sx,sy = b.shapes.sizex + p.background_x0,  b.shapes.sizey + p.background_y0
     local px,py = b.shapes.posx + p.background_posx0, b.shapes.posy + p.background_posy0
     local b_edge = b.shapes.frames + p.background_frame0 + b.shapes.frameb + p.background_frame_blur0 -- 縁とぼかしの幅
-    
+    local add_w ,add_h = 0,0
+    if( p.frame0 ~= 0 or (p.deco >= 2 and p.deco <= 5) or (p.deco >= 7 and p.deco <= 10) or (p.deco >= 12 and p.deco <= 15) or (p.deco >= 17 and p.deco <= 20) )then
+        add_w = add_w + 50
+        add_h = add_h + 50
+    end
+    if( p.frame1 ~= 0 or (p.deco >= 3 and p.deco <= 5) or (p.deco >= 8 and p.deco <= 10) or (p.deco >= 13 and p.deco <= 15) or (p.deco >= 18 and p.deco <= 20) )then
+        add_w = add_w + 50
+        add_h = add_h + 50
+    end
+    if( p.frame2 ~= 0 or ( p.deco == 5 or p.deco == 10 or p.deco == 15 or p.deco == 20 ) )then
+        add_w = add_w + 50
+        add_h = add_h + 50
+    end
+    if( p.middle_shadow ~= 0 )then
+        add_w = add_w + 100
+        add_h = add_h + 50
+    end
+    if( p.behind_shadow ~= 0 )then
+        add_w = add_w + 50
+        add_h = add_h + 50
+    end
+    if( p.subtitle_glow ~= 0 )then
+        add_w = add_w * 2
+        add_h = add_h * 2
+    end
+
+
     -- 必要な分だけのサイズを計算し、4000pxで制限（クランプ）
     local max_size = 4000
-    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * p.resize * 2 + 400) / 16) * 16)
-    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * p.resize * 2 + 400) / 16) * 16)
+    local bw = math.min(max_size, math.ceil((math.max(zw, math.abs(px*2) + sx) + b_edge * p.resize + add_w ) / 16) * 16)
+    local bh = math.min(max_size, math.ceil((math.max(zh, math.abs(py*2) + sy) + b_edge * p.resize + add_h ) / 16) * 16)
 
     -- 2. 一時バッファ(tempbuffer)をクリアし、背景を作成する
     obj.setoption("drawtarget", "tempbuffer", bw, bh)
