@@ -240,7 +240,7 @@ if(p.background0 ~= 0 or (p.deco >=11 and p.deco <= 20 ) ) then
         add_h = add_h + 50
     end
     if( p.middle_shadow ~= 0 )then
-        add_w = add_w + 100
+        add_w = add_w + 150
         add_h = add_h + 50
     end
     if( p.behind_shadow ~= 0 )then
@@ -248,7 +248,7 @@ if(p.background0 ~= 0 or (p.deco >=11 and p.deco <= 20 ) ) then
         add_h = add_h + 50
     end
     if( p.subtitle_glow ~= 0 )then
-        add_w = add_w * 2
+        add_w = add_w * 2 + 200
         add_h = add_h * 2
     end
 
