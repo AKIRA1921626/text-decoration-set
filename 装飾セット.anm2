@@ -3,7 +3,7 @@
 --select@deco:構造プリセット=1, 1:装飾なし=1, 2:縁取り1枠=2, 3:縁取り2枠=3, 4:縁取り2枠(2枠目枠色連動)=4, 5:縁取り3枠=5, 6:グラデ文字=6, 7:グラデ文字縁取り1枠=7, 8:グラデ文字縁取り2枠=8, 9:グラデ文字縁取り2枠(2枠目枠色連動)=9, 10:グラデ文字縁取り3枠=10, 11:ざぶとん=11, 12:ざぶとん縁取り1枠=12, 13:ざぶとん縁取り2枠=13, 14:ざぶとん縁取り2枠(2枠目枠色連動)=14, 15:ざぶとん縁取り3枠=15, 16:ざぶとんグラデ文字=16, 17:ざぶとんグラデ文字縁取り1枠=17, 18:ざぶとんグラデ文字縁取り2枠=18, 19:ざぶとんグラデ文字縁取り2枠(2枠目枠色連動)=19, 20:ざぶとんグラデ文字縁取り3枠=20
 --select@deco2:数値プリセット=1, 1:装飾なし=1
 --check@base_reset:装飾の初期サイズをすべて0,0
---check@alter_size:装飾のサイズをテキストのサイズと連動,1
+--check@alter_size:装飾のサイズをテキストのサイズと連動(改行非対応),1
 --color@char_col0:文字色,nil
 --check@char_reset:文字色リセット,0
 --check@grd_0:グラデーション1,0
@@ -105,7 +105,7 @@
 
 local effect = obj.effect
 local w,h = obj.getpixel() -- obj.getpixel()は引数を指定しなければ、objの素の縦と横の値を返す。その値にはサイズは適用されるが拡大率は適用されない。
-local resize -- 変数には代入を行わなければ勝手にnilが入る。
+local resize -- 「装飾のサイズをテキストのサイズと合わせる」で実際に使用する変数。変数には代入を行わなければ勝手にnilが入る。
 if(alter_size ~= 0) then -- 「装飾のサイズをテキストのサイズと合わせる」のcheckがONかOFFか判定。デフォㇽではON。
     resize = h/100 -- エフェクトのサイズ、グラデ幅に、*resizeを行い、サイズ補正を行う。エフェクトのサイズ、グラデ幅には、拡大率の影響はあるが、サイズの影響はないため、こちらで補正を行う。
 else
@@ -119,13 +119,13 @@ local function apply_edge(target_order)
     end
 end
 
-if(char_reset ~= 0) then
+if(char_reset ~= 0) then -- 文字色のリセット
     char_col0 = nil
 end
 
-local string_integrate0 = 0
+local string_integrate0 = 0 -- グラデ文字テキスト一体化を行うかどうかの変数
 
-if(string_int_grd0 ~= 0 and string_int_grd ~= 0) then
+if(string_int_grd0 ~= 0 and string_int_grd ~= 0) then -- グラデ文字テキスト一体化1,2のcheckの変数
     string_integrate0 = 1
 end
 
