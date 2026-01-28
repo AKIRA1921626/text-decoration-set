@@ -227,6 +227,8 @@ deco_presets = {
     grd_composite1 = grd_composite1,        -- グラデ2合成モード選択値(1-13)
     grd_reverse = grd_reverse,              -- 効果を逆転(check)
     string_integrate0 = string_integrate0,  -- グラデテキスト1枚化(check)
+    noCol3 = 0,                             -- グラデ2の開始色未指定時
+    noCol4 = 0,                             -- グラデ2の終了色未指定時
 
     -- エッジ・縁取り
     edge = edge,                            -- 凸エッジ有効化(check)
