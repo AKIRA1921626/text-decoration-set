@@ -123,6 +123,13 @@ function text_decoration_presets(p,b)
         end
     end
 
+    -- 影描画1の描画タイミング用の内部関数
+    local function apply_shadow(target_order)
+        if (p.middle_shadow ~= 0 and p.shadow1_order == target_order) then
+            effect("ドロップシャドウ", "X",( b.shadow1.x + p.shadow_x0 ) * p.resize, "Y", ( b.shadow1.y + p.shadow_y0 ) * p.resize, "濃さ", b.shadow1.deep + p.shadow_deep0, "拡散", b.shadow1.diffsion  + p.shadow_diffusion0, "影色", p.shadow_col0, "影を別オブジェクトで描画", 0)
+        end
+    end
+
     local optiion_judge = obj.getoption("multi_object")
 
     -- 【1】ベースの色付け（単色化または共通グラデーション）
@@ -151,12 +158,20 @@ function text_decoration_presets(p,b)
         apply_edge(1)
     end
 
+    if(p.shadow1_order == 1) then
+        apply_shadow(1)
+    end
+
     -- 【2】各プリセットの縁取り処理
     -- 縁取り1枠目
     if ( (p.deco >= 2 and p.deco <= 5) or (p.deco >= 7 and p.deco <= 10) or (p.deco >= 12 and p.deco <= 15) or (p.deco >= 17 and p.deco <= 20) ) then
         effect("縁取り", "サイズ", ( b.frame.size + p.frame_size0 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur0 + p.frame_blur_common, "縁色", p.frame_col0)
         if(p.edge_order == 2) then
             apply_edge(2) -- 【タイミング2】縁取り1の後
+            apply_shadow(2)
+        end
+        if(p.shadow1_order == 2) then
+            apply_shadow(2)
         end
     end
 
@@ -171,6 +186,9 @@ function text_decoration_presets(p,b)
         if(p.edge_order == 3) then
             apply_edge(3) -- 【タイミング3】縁取り2の後
         end
+        if(p.shadow1_order == 3) then
+            apply_shadow(3)
+        end
     end
 
     -- 縁取り3枠目
@@ -178,6 +196,9 @@ function text_decoration_presets(p,b)
         effect("縁取り", "サイズ", ( b.frame.size + p.frame_size2 + p.frame_size_common ) * p.resize, "ぼかし", b.frame.blur + p.frame_blur2 + p.frame_blur_common, "縁色", p.frame_col2)
         if(p.edge_order == 4) then
             apply_edge(4) -- 【タイミング4】縁取り3の後
+        end
+        if(p.shadow1_order == 4) then
+            apply_shadow(4)
         end
     end
 end
