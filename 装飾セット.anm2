@@ -93,6 +93,15 @@
 --track@underline_posy0:下線位置y,-100000,100000,0,1
 --track@underline_alpha0:下線透明度,0,100,0,0.1
 --group
+--check@underline_shadow:下線に対して影2を付与,0
+--color@shadow_col1:影2色,0x00ffff
+--check@shadow2_cleary:影2をくっきりさせる,0
+--group:影2調整,false
+--track@shadow_x1:影2x,-1000,1000,0,1
+--track@shadow_y1:影2y,-1000,1000,0,1
+--track@shadow_deep1:影2濃さ,0,100,0,1
+--track@shadow_diffusion1:影2拡散,0,500,0,1
+--group
 --check@background0:ざぶとん,0
 --track@background_x0:ざぶとんサイズx,0,2000,0,1
 --track@background_y0:ざぶとんサイズy,0,2000,0,1
@@ -105,14 +114,14 @@
 --track@background_frame_blur0:ざぶとん枠線ぼかし,0,100,0,1
 --color@background_framecol0:ざぶとん枠色,0xffffff
 --group
---check@behind_shadow:全体に対して影2を付与,0
---color@shadow_col1:影2色,0x00ffff
---check@shadow2_cleary:影2をくっきりさせる,0
---group:影2調整,false
---track@shadow_x1:影2x,-1000,1000,0,1
---track@shadow_y1:影2y,-1000,1000,0,1
---track@shadow_deep1:影2濃さ,0,100,0,1
---track@shadow_diffusion1:影2拡散,0,500,0,1
+--check@behind_shadow:全体に対して影3を付与,0
+--color@shadow_col2:影3色,0x00ffff
+--check@shadow3_cleary:影3をくっきりさせる,0
+--group:影3調整,false
+--track@shadow_x2:影3x,-1000,1000,0,1
+--track@shadow_y2:影3y,-1000,1000,0,1
+--track@shadow_deep2:影3濃さ,0,100,0,1
+--track@shadow_diffusion2:影3拡散,0,500,0,1
 --group
 
 local effect = obj.effect
@@ -373,7 +382,7 @@ b = { -- bはbase_settingsの略称という意味で、書きやすいように
 
     shadow2 = { -- 影2
         x = 10, -- 影2X
-        y = 10, -- 影2Y
+        y = 59, -- 影2Y
         deep = 70, -- 影2濃さ
         diffsion = 15, -- 影2拡散
     },
@@ -404,7 +413,7 @@ b = { -- bはbase_settingsの略称という意味で、書きやすいように
     },
     glow = { -- 後方グロー
         pow = 100, --グロー強さ
-        diffusion = 120, -- グロー拡散
+        diffusion = 60, -- グロー拡散
         rotate = 25, -- グロー角度
         threshold = 0, -- グローしきい値
         aspcect = 100, -- グロー比率
@@ -436,7 +445,7 @@ if(base_reset ~= 0) then
 
         shadow2 = { -- 影2
             x = 10, -- 影2X
-            y = 10, -- 影2Y
+            y = 59, -- 影2Y
             deep = 0, -- 影2濃さ
             diffsion = 15, -- 影2拡散
         },
@@ -486,7 +495,7 @@ end
 if(shadow2_cleary ~= 0) then -- 「影2をくっきりさせる」のcheckがONならば、影2のテーブルb数値をくっきりした影用に変更。
     b.shadow2 = { -- 影1
             x = 3, -- 影1X
-            y = 5, -- 影1Y
+            y = 54, -- 影1Y
             deep = 100, -- 影1濃さ
             diffsion = 0, -- 影1拡散
         }
@@ -813,6 +822,9 @@ if(underline0 ~=0) then -- アンダーラインのチェックがONであり、
     obj.load("figure", "四角形", underline_col0, 100)
     effect("リサイズ", "拡大率", 50, "X", b.underline.underline_x0 + underline_x0 , "Y", b.underline.underline_y0 + underline_y0 )
     obj.draw( ( b.underline.underline_posx0 + underline_posx0 ) * resize, ( b.underline.underline_posy0 + underline_posy0 ) * resize, 0, 1,math.max(0, 1 - (b.underline.underline_alpha0 + underline_alpha0 / 100)))
+    if(underline_shadow ~= 0) then -- 「全体に対して影2付与」にチェックが入っていた時のみドロップシャドウを実行。
+        effect("ドロップシャドウ", "X", ( b.shadow2.x + shadow_x1 ) * resize, "Y", ( b.shadow2.y + shadow_y1 ) * resize, "濃さ", b.shadow2.deep + shadow_deep1, "拡散", b.shadow2.diffsion + shadow_diffusion1, "影色", shadow_col1, "影を別オブジェクトで描画", 1)
+    end
     obj.copybuffer("obj","cache:soushoku_underline_text")
     obj.draw()
     obj.load("tempbuffer")
@@ -880,6 +892,6 @@ end
         diffsion = 15, -- 影3拡散
 ]]
 -- 「全体に対して」の影2を実行
-if(behind_shadow ~= 0) then -- 「全体に対して影2付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", ( b.shadow2.x + shadow_x1 ) * resize, "Y", ( b.shadow2.y + shadow_y1 ) * resize, "濃さ", b.shadow2.deep + shadow_deep1, "拡散", b.shadow2.diffsion + shadow_diffusion1, "影色", shadow_col1, "影を別オブジェクトで描画", 0)
+if(behind_shadow ~= 0) then -- 「全体に対して影3付与」にチェックが入っていた時のみドロップシャドウを実行。
+    effect("ドロップシャドウ", "X", ( b.shadow3.x + shadow_x2 ) * resize, "Y", ( b.shadow3.y + shadow_y2 ) * resize, "濃さ", b.shadow3.deep + shadow_deep2, "拡散", b.shadow3.diffsion + shadow_diffusion2, "影色", shadow_col2, "影を別オブジェクトで描画", 0)
 end
