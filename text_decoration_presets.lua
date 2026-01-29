@@ -132,8 +132,8 @@ function text_decoration_presets(p,b)
 
     local optiion_judge = obj.getoption("multi_object")
 
-    -- 【1】ベースの色付け（単色化または共通グラデーション）
-    if(p.char_col0 ~= nil and ( p.grd_0 ~= 1 and p.grd_1 ~= 1) ) then
+    -- 【1】ベースの色付け（単色化)
+    if(p.char_col0 ~= nil ) then
         effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
     end
 
@@ -205,15 +205,12 @@ if (applyGrd and obj.num == 1) then -- 個別オブジェクトがOFFの時、ap
     end
 end
 
-if (applyGrd1 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONでの時、applyGrd1はisInGradationRange1が代入される。「効果を反転」のチェックでisInGradationRange2となる。
+if (applyGrd1 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONの時、applyGrd1はisInGradationRange1が代入される。「効果を反転」のチェックでisInGradationRange2となる。
     -- 共通グラデーション判定 (1-5, 11-15番用) 個別オブジェクトがONの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)
     if (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
         if (optiion_judge) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol1, "終了色", p.grde_col0, "no_color2", noCol2)
         end
-    -- 個別オブジェクトがONの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
-    elseif (p.grd_1 ~= 0 and optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol3, "終了色", p.grde_col1, "no_color2", noCol4)
     end
 
     -- 16-20番用の強制グラデーション 個別オブジェクトがONであり、チェックの有無に関わらず、decoが16-20の時、そこにグラデ1を適用。
@@ -225,15 +222,12 @@ if (applyGrd1 and obj.num ~= 1) then -- 個別オブジェクトがONの時。--
     end
 end
 
-if (applyGrd2 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONでの時、applyGrd2はisInGradationRange2が代入される。「効果を反転」のチェックでisInGradationRange1となる。
+if (applyGrd2 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONの時、applyGrd2はisInGradationRange2が代入される。「効果を反転」のチェックでisInGradationRange1となる。
     -- 共通グラデーション判定 (1-5, 11-15番用) 個別オブジェクトがONの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
     if (p.grd_1 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
         if (optiion_judge) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol1, "終了色", p.grde_col1, "no_color2", noCol2)
         end
-    -- 個別オブジェクトがONの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ1を適用。
-    elseif (p.grd_0 ~= 0 and optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol3, "終了色", p.grde_col0, "no_color2", noCol4)
     end
 
     -- 16-20番用の強制グラデーション 個別オブジェクトがONであり、チェックの有無に関わらず、decoが16-20の時、そこにグラデ1を適用。
