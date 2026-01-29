@@ -154,7 +154,7 @@ end
 
 local string_integrate0 = 0 -- グラデ文字テキスト一体化を行うかどうかの変数
 
-if(string_int_grd0 ~= 0 and string_int_grd ~= 0) then -- グラデ文字テキスト一体化1,2のcheckの変数
+if(string_int_grd0 ~= 0 or string_int_grd1 ~= 0) then -- グラデテキスト一体化1,2のどちらかのcheckがONの場合。
     string_integrate0 = 1
 end
 
@@ -584,7 +584,7 @@ b.grd.w = 100 -- グラデーション幅
 
 -- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
 local w,h = 0,0
-if(obj.getoption("multi_object") and string_integrate0 ~= 0) then -- 文字ごとに個別オブジェが有効であり、グラデーションの場合の「テキスト一枚化」のcheckがONの時のみ適用。
+if(obj.getoption("multi_object") and string_integrate0 ~= 0) then -- 文字ごとに個別オブジェが有効であり、グラデーション1のcheckがON場合の「テキスト一枚化」の適用。
     for i=0, obj.num do
         local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
         w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。

@@ -13,13 +13,14 @@ end
 と記述すれば他のスクリプトでも使用することができます。
 ]]
 function Individual_object_join(w,h) -- w = 仮想バッファを初期化する時の横のサイズ,h = 仮想バッファを初期化する時の縦のサイズ
-    if(obj.index == 0) then -- indexが0のときだけ(1文字目の時だけ)実行する。
-        if(w == nil)then
+
+if(obj.index == 0) then -- indexが0のときだけ(1文字目の時だけ)実行する。
+    if(w == nil)then
             w = obj.screen_w
-        end
-        if(h == nil)then
-            h = obj.screen_h
-        end
+    end
+    if(h == nil)then
+        h = obj.screen_h
+    end
         obj.setoption("drawtarget","tempbuffer",w,h) -- 引数のw,h仮想バッファを新規に作成。
     end
 
@@ -30,8 +31,11 @@ function Individual_object_join(w,h) -- w = 仮想バッファを初期化する
 
     obj.draw(obj.ox,obj.oy,obj.oz,scale,alpha,obj.rx,obj.ry,obj.rz) -- 拡大率はscaleに1つにまとめて引数として渡す。
 
-    obj.alpha = 0 -- このままだと仮想バッファに描画したオブジェクトと、手持ちのobj.にあるオブジェクトが2重で存在する事になるため、手持ちのobj.のオブジェクトを透明にする。
-
+if (obj.index ~= obj.num - 1) then -- indexが最後の文字でないときだけ実行。
+    obj.load(" ")-- 切り替え効果「ランダム感覚で落ちながら登場」を選べば分かるが、これを行わなければ、普通のテキストが残ってしまうので、透明な文字をload。空の文字列だとうまくいかない。
+    obj.setoption("drawtarget","framebuffer")
+    obj.draw()
+end
     if (obj.index == obj.num - 1) then -- indexが-1のときだけ(最後の文字の時だけ)実行する処理。最後のオブジェクトはこの部分に来る前のobj.drawですでに仮想バッファに描画されている。
         obj.setoption("drawtarget","framebuffer") -- 描画先をフレームバッファに戻す。
         obj.load("tempbuffer")  -- ここまでに作成した仮想バッファを読み込む。
