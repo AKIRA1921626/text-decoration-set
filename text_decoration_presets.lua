@@ -130,12 +130,33 @@ function text_decoration_presets(p,b)
         end
     end
 
-    local optiion_judge = obj.getoption("multi_object")
+--　色変更処理
+local is_multi = obj.getoption("multi_object")
+local idx = obj.index + 1
 
-    -- 【1】ベースの色付け（単色化)
-    if(p.char_col0 ~= nil ) then
-        effect("単色化","強さ",100,"色",p.char_col0,"輝度を保持する",0)
+-- 1. まずベースとなる色（全体または指定範囲0）を適用
+if (p.char_col0 ~= nil) then
+    if (not is_multi) then
+        -- 個別オブジェクト無効時は無条件で適用
+        effect("単色化", "強さ", 100, "色", p.char_col0, "輝度を保持する", 0)
+    elseif (idx >= p.char_s0 and idx <= p.char_e0) then
+        -- 個別有効時は範囲内のみ適用
+        effect("単色化", "強さ", 100, "色", p.char_col0, "輝度を保持する", 0)
     end
+end
+
+-- 2. 個別オブジェクト有効時のみ、追加の範囲で上書き判定を行う
+if (is_multi) then
+    -- 色1で上書き（範囲が重なればこちらが優先される）
+    if (p.char_col1 ~= nil and idx >= p.char_s1 and idx <= p.char_e1) then
+        effect("単色化", "強さ", 100, "色", p.char_col1, "輝度を保持する", 0)
+    end
+
+    -- 色2で上書き（さらに範囲が重なればこちらが最終結果になる）
+    if (p.char_col2 ~= nil and idx >= p.char_s2 and idx <= p.char_e2) then
+        effect("単色化", "強さ", 100, "色", p.char_col2, "輝度を保持する", 0)
+    end
+end
 
     -- グラデーションの判定フラグの初期化（全体・個別に共通して使用するスコープ）
     local isInGradationRange = false
@@ -187,11 +208,11 @@ local grd_use_composite1 = {"通常","加算","減算","乗算","スクリーン
 
 if (applyGrd and obj.num == 1) then -- 個別オブジェクトがOFFの時、applyGrdは「効果を反転」のON/OFFにかかわらずtrueが代入される。
     -- 共通グラデーション判定　個別オブジェクトがOFFの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
-    if (p.grd_1 ~= 0 and not optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
+    if (p.grd_1 ~= 0 and not is_multi and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol3, "終了色", p.grde_col1, "no_color2", noCol4)
     -- 個別オブジェクトがOFFの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ1を適用。
     elseif (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        if (not optiion_judge) then -- 条件整理
+        if (not is_multi) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol1, "終了色", p.grde_col0, "no_color2", noCol2)
         end
     end
@@ -207,7 +228,7 @@ end
 if (applyGrd1 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONの時、applyGrd1はisInGradationRange1が代入される。「効果を反転」のチェックでisInGradationRange2となる。
     -- 共通グラデーション判定 (1-5, 11-15番用) 個別オブジェクトがONの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)
     if (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        if (optiion_judge) then -- 条件整理
+        if (is_multi) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol1, "終了色", p.grde_col0, "no_color2", noCol2)
         end
     end
@@ -224,7 +245,7 @@ end
 if (applyGrd2 and obj.num ~= 1) then -- 個別オブジェクトがONの時。-- 個別オブジェクトがONの時、applyGrd2はisInGradationRange2が代入される。「効果を反転」のチェックでisInGradationRange1となる。
     -- 共通グラデーション判定 (1-5, 11-15番用) 個別オブジェクトがONの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
     if (p.grd_1 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        if (optiion_judge) then -- 条件整理
+        if (is_multi) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol1, "終了色", p.grde_col1, "no_color2", noCol2)
         end
     end
