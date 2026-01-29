@@ -57,7 +57,7 @@
 --track@frame_s1:縁取り2開始文字(個別オブジェクト時),0,500,4,1
 --track@frame_e1:縁取り2終了文字(個別オブジェクト時),0,500,6,1
 --track@frame_s2:縁取り3開始文字(個別オブジェクト時),0,500,0,1
---track@frame_e2:縁取り3終了文字(個別オブジェクト時),0,500,0,1
+--track@frame_e2:縁取り3終了文字(個別オブジェクト時),0,500,10,1
 --check@string_integrate1:縁取りテキスト1枚化(個別オブジェクト時),0
 --group
 --check@edge:凸エッジ,0
@@ -531,9 +531,6 @@ local function apply_shadow(target_order)
 end
 
 -- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
-local isInGradationRange = false
-local isInGradationRange1 = false
-local isInGradationRange2 = false
 local isInFramingRange = false
 local isInFramingRange1 = false
 local isInFramingRange2 = false
@@ -542,23 +539,14 @@ local isInBackgroundRange = false
 
 if (obj.num == 1) then -- オブジェクトが全体の時
     -- 全体オブジェクト時は常に全範囲を真とする
-    isInGradationRange = true
     isInFramingRange = true
     isInFramingRange1 = false
     isInFramingRange2 = false
     isInFramingRange3 = false
-    isInGradationRange1 = false
-    isInGradationRange2 = false
 
 else -- オブジェクトが個別の時
     -- 個別オブジェクト時はインデックスに基づいて判定
     local idx = obj.index + 1
-    isInGradationRange1 = ( -- グラデ1の範囲
-        (grd_s0 <= idx and grd_e0 >= idx)
-    )
-    isInGradationRange2 = ( -- グラデ2
-        (grd_s1 <= idx and grd_e1 >= idx)
-    )
     isInFramingRange1 = ( -- 縁取り1の範囲
         (frame_s0 <= idx and frame_e0 >= idx)
     )
@@ -569,31 +557,6 @@ else -- オブジェクトが個別の時
         (frame_s2 <= idx and frame_e2 >= idx)
     )
 end
-
--- 3.で使う変数を宣言。
-local applyGrd = false
-local applyGrd1 = false
-local applyGrd2 = false
--- 3. グラデーション適用ロジックの確定
-if( grd_reverse ~= 0 ) then -- 「効果を反転」がONかOFFかで代入する値を変える。
-    applyGrd1 = isInGradationRange2 -- 「効果を反転」がONなら1に2の値を代入。
-    applyGrd2 = isInGradationRange1 -- 「効果を反転」がONなら2に1の値を代入。
-    applyGrd = isInGradationRange -- 「効果を反転」のON/OFFにかかわらずapplyGrdにはisInGradationRangeを代入。
-else
-    applyGrd1 = isInGradationRange1 -- 「効果を反転」がOFFなら1に1の値を代入。
-    applyGrd2 = isInGradationRange2 -- 「効果を反転」がOFFなら2に2の値を代入。
-    applyGrd = isInGradationRange -- 「効果を反転」のON/OFFにかかわらずapplyGrdにはisInGradationRangeを代入。
-end
-
--- グラデの色が未指定の時に入れる値
-local noCol1 = (grds_col0 == nil) and 1 or 0
-local noCol2 = (grde_col0 == nil) and 1 or 0
-local noCol3 = (grds_col1 == nil) and 1 or 0
-local noCol4 = (grde_col1 == nil) and 1 or 0
-
--- 実際に(4)で使用する変数。"grd_composite"で、grd_use_composite[]配列の値を指定する。
-local grd_use_composite0 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
-local grd_use_composite1 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
 
 -- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
 if(deco ~= nil) then
