@@ -186,16 +186,15 @@ local grd_use_composite0 = {"通常","加算","減算","乗算","スクリーン
 local grd_use_composite1 = {"通常","加算","減算","乗算","スクリーン","オーバーレイ","比較(明)","比較(暗)","輝度","色差","陰影","明暗","差分"}
 
 if (applyGrd and obj.num == 1) then -- 個別オブジェクトがOFFの時、applyGrdは「効果を反転」のON/OFFにかかわらずtrueが代入される。
-    -- 共通グラデーション判定　個別オブジェクトがOFFの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ1を適用。
-    if (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
+    -- 共通グラデーション判定　個別オブジェクトがOFFの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
+    if (p.grd_1 ~= 0 and not optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
+        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol3, "終了色", p.grde_col1, "no_color2", noCol4)
+    -- 個別オブジェクトがOFFの時であり、グラデ1のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ1を適用。
+    elseif (p.grd_0 ~= 0 and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
         if (not optiion_judge) then -- 条件整理
              effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol1, "終了色", p.grde_col0, "no_color2", noCol2)
         end
-    -- 個別オブジェクトがOFFの時であり、グラデ2のチェックがONであり、decoが (1-5, 11-15番用)の時、そこにグラデ2を適用。
-    elseif (p.grd_1 ~= 0 and not optiion_judge and ( (p.deco >= 0 and p.deco <= 5) or (p.deco >= 11 and p.deco <= 15) )) then
-        effect("グラデーション", "強さ", b.grd.pow + p.grd_pow1, "中心X", b.grd.x + p.grd_x1, "中心Y", b.grd.y + p.grd_y1, "角度", b.grd.r + p.grd_rotate1, "幅", ( b.grd.w + p.grd_width1 ) * p.resize, "合成モード", p.grd_composite1,"形状", p.grd_type1, "開始色", p.grds_col1, "no_color", noCol3, "終了色", p.grde_col1, "no_color2", noCol4)
     end
-
     -- 16-20番用の強制グラデーション。個別オブジェクトがOFFであり、チェックの有無に関わらず、decoが16-20の時、そこにグラデ1を適用。
     if (p.deco >= 16 and p.deco <= 20) then
         effect("グラデーション", "強さ", b.grd.pow + p.grd_pow0, "中心X", b.grd.x + p.grd_x0, "中心Y", b.grd.y + p.grd_y0, "角度", b.grd.r + p.grd_rotate0, "幅", ( b.grd.w + p.grd_width0 ) * p.resize, "合成モード", p.grd_composite0,"形状", p.grd_type0, "開始色", p.grds_col0, "no_color", noCol1, "終了色", p.grde_col0, "no_color2", noCol2)
