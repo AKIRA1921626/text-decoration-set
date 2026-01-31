@@ -11,938 +11,306 @@
 --select@deco9:感動テロップ=1, 1:装飾なし=1,2:【ノーマルテロップ】縁取り2枠白文字=2, 3:【ノーマルテロップ】縁取り2枠黒文字=3,4:【ノーマルテロップ】縁取り2枠赤文字=4,5:【ノーマルテロップ】縁取り2枠オレンジ文字=5,6:【ノーマルテロップ】縁取り2枠黄色文字=6,7:【ノーマルテロップ】縁取り2枠緑文字=7,8:【ノーマルテロップ】縁取り2枠水色文字=8,9:【ノーマルテロップ】縁取り2枠青文字=9,10:【ノーマルテロップ】縁取り2枠紫文字=10,11:【ノーマルテロップ】縁取り2枠ピンク文字=11
 --select@deco10:特殊テロップ=1, 1:装飾なし=1,2:【ノーマルテロップ】縁取り2枠白文字=2, 3:【ノーマルテロップ】縁取り2枠黒文字=3,4:【ノーマルテロップ】縁取り2枠赤文字=4,5:【ノーマルテロップ】縁取り2枠オレンジ文字=5,6:【ノーマルテロップ】縁取り2枠黄色文字=6,7:【ノーマルテロップ】縁取り2枠緑文字=7,8:【ノーマルテロップ】縁取り2枠水色文字=8,9:【ノーマルテロップ】縁取り2枠青文字=9,10:【ノーマルテロップ】縁取り2枠紫文字=10,11:【ノーマルテロップ】縁取り2枠ピンク文字=11
 --check@base_reset:装飾の初期値をすべて0にする,0
---check@alter_size:装飾のサイズをテキストのサイズと連動(改行非対応),1
---color@char_col0:文字色1,nil
---check@char_reset1:文字色1リセット,
+--check@alter_size:装飾のサイズをテキストのサイズと連動(改行非対応),0
+--color@char_col1:文字色1,nil
+--check@char_reset1:文字色1リセット,0
 --group:色個別指定,false
---track@char_s0:文字色1開始文字(個別オブジェクト時),0,500,0,1
---track@char_e0:文字色1終了文字(個別オブジェクト時),0,500,2,1
---color@char_col1:文字色2,nil
---check@char_reset2:文字色2リセット,
---track@char_s1:文字色2開始文字(個別オブジェクト時),0,500,3,1
---track@char_e1:文字色2終了文字(個別オブジェクト時),0,500,4,1
---color@char_col2:文字色3,nil
+--track@char_start1:文字色1開始文字(個別オブジェクト時),0,500,0,1
+--track@char_end1:文字色1終了文字(個別オブジェクト時),0,500,2,1
+--color@char_col2:文字色2,nil
+--check@char_reset2:文字色2リセット,0
+--track@char_start2:文字色2開始文字(個別オブジェクト時),0,500,3,1
+--track@char_end2:文字色2終了文字(個別オブジェクト時),0,500,4,1
+--color@char_col3:文字色3,nil
 --check@char_reset3:文字色3リセット,
---track@char_s2:文字色3開始文字(個別オブジェクト時),0,500,5,1
---track@char_e2:文字色3終了文字(個別オブジェクト時),0,500,6,1
+--track@char_start3:文字色3開始文字(個別オブジェクト時),0,500,5,1
+--track@char_end3:文字色3終了文字(個別オブジェクト時),0,500,6,1
 --group
---check@grd_0:グラデーション1,0
---color@grds_col0:グラデ1開始色,0xff0000
---color@grde_col0:グラデ1終了色,0xffff00
+--check@grd_enable1:グラデーション1,0
+--color@grd_start_col1:グラデ1開始色,0xff0000
+--color@grd_end_col1:グラデ1終了色,0xffff00
+--check@grd_integrate1:グラデーションテキスト1枚化A(個別オブジェクト時),0
 --group:グラデ1調整,false
---select@grd_type0:グラデーション1タイプ=1,線形=1,円形=2,矩形=3,凸形=4
---track@grd_pow0:グラデ1強さ,0,100,0,0.1
---track@grd_x0:グラデ1中心X,-5000,5000,0,0.1
---track@grd_y0:グラデ1中心Y,-5000,5000,0,0.1
---track@grd_rotate0:グラデ1角度,-3600,3600,0,0.01
---track@grd_width0:グラデ1幅,0,2000,0,1
---select@grd_composite0:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明) =7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
---track@grd_s0:グラデ1開始文字(個別オブジェクト時),0,500,0,1
---track@grd_e0:グラデ1終了文字(個別オブジェクト時),0,500,2,1
---check@string_int_grd0:グラデーションテキスト1枚化A(個別オブジェクト時),0
+--select@grd_type1:グラデーション1タイプ=1,線形=1,円形=2,矩形=3,凸形=4
+--track@grd_pow1:グラデ1強さ,0,100,0,0.1
+--track@grd_x1:グラデ1中心X,-5000,5000,0,0.1
+--track@grd_y1:グラデ1中心Y,-5000,5000,0,0.1
+--track@grd_rotate1:グラデ1角度,-3600,3600,0,0.01
+--track@grd_width1:グラデ1幅,0,2000,0,1
+--select@grd_composite1:グラデ1合成モード=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
+--track@grd_start1:グラデ1開始文字(個別オブジェクト時),0,500,0,1
+--track@grd_end1:グラデ1終了文字(個別オブジェクト時),0,500,2,1
 --group
---check@grd_1:グラデーション2(個別オブジェクト時),0
---color@grds_col1:グラデ2開始色(個別オブジェクト時),0x00ff00
---color@grde_col1:グラデ2終了色(個別オブジェクト時),0x00ffff
+--check@grd_enable2:グラデーション2(個別オブジェクト時),0
+--color@grd_start_col2:グラデ2開始色(個別オブジェクト時),0x00ff00
+--color@grd_end_col2:グラデ2終了色(個別オブジェクト時),0x00ffff
+--check@grd_integrate2:グラデーションテキスト1枚化B(個別オブジェクト時),0
 --group:グラデ2調整,false
---select@grd_type1:グラデーション2タイプ(個別オブジェクト時)=1,線形=1,円形=2,矩形=3,凸形=4
---track@grd_pow1:グラデ2強さ(個別オブジェクト時),0,100,0,0.1
---track@grd_x1:グラデ2中心X(個別オブジェクト時),-5000,5000,0,0.1
---track@grd_y1:グラデ2中心Y(個別オブジェクト時),-5000,5000,0,0.1
---track@grd_rotate1:グラデ2角度(個別オブジェクト時),-3600,3600,0,0.01
---track@grd_width1:グラデ2幅(個別オブジェクト時),0,2000,0,1
---select@grd_composite1:グラデ2合成モード(個別オブジェクト時)=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
---track@grd_s1:グラデ2開始文字(個別オブジェクト時),0,500,3,1
---track@grd_e1:グラデ2終了文字(個別オブジェクト時),0,500,5,1
+--select@grd_type2:グラデーション2タイプ(個別オブジェクト時)=1,線形=1,円形=2,矩形=3,凸形=4
+--track@grd_pow2:グラデ2強さ(個別オブジェクト時),0,100,0,0.1
+--track@grd_x2:グラデ2中心X(個別オブジェクト時),-5000,5000,0,0.1
+--track@grd_y2:グラデ2中心Y(個別オブジェクト時),-5000,5000,0,0.1
+--track@grd_rotate2:グラデ2角度(個別オブジェクト時),-3600,3600,0,0.01
+--track@grd_width2:グラデ2幅(個別オブジェクト時),0,2000,0,1
+--select@grd_composite2:グラデ2合成モード(個別オブジェクト時)=1,通常=1,加算=2,減算=3,乗算=4,スクリーン=5,オーバーレイ=6,比較(明)=7,比較(暗)=8,輝度=9,色差=10,陰影=11,明暗=12,差分=13
+--track@grd_start2:グラデ2開始文字(個別オブジェクト時),0,500,3,1
+--track@grd_end2:グラデ2終了文字(個別オブジェクト時),0,500,5,1
 --check@grd_reverse:グラデ付与対象を逆転(個別オブジェクト時),0
---check@string_int_grd1:グラデーションテキスト1枚化B個別オブジェクト時),0
 --group
---check@frame0:縁取り1,0
---color@frame_col0:縁取り1色,0xffffff
---check@frame1:縁取り2,0
---color@frame_col1:縁取り2色,0x1ec832
---check@frame2:縁取り3,0
---color@frame_col2:縁取り3色,0x3232c8
+--check@frame_enable1:縁取り1,0
+--color@frame_col1:縁取り1色,0xffffff
+--check@frame_enable2:縁取り2,0
+--color@frame_col2:縁取り2色,0x1ec832
+--check@frame_enable3:縁取り3,0
+--color@frame_col3:縁取り3色,0x3232c8
 --track@frame_size_common:縁取り共通サイズ,0,500,0,1
+--check@frame_integrate:縁取りテキスト1枚化(個別オブジェクト時),0
 --group:縁取り調整,false
---track@frame_size0:縁取り1サイズ,0,500,0,1
---track@frame_blur0:縁取り1ぼかし,0,100,0,1
---track@frame_size1:縁取り2サイズ,0,500,0,1
---track@frame_blur1:縁取り2ぼかし,0,100,0,1
---track@frame_size2:縁取り3サイズ,0,500,0,1
---track@frame_blur2:縁取り3ぼかし,0,100,0,1
+--track@frame_size1:縁取り1サイズ,0,500,0,1
+--track@frame_blur1:縁取り1ぼかし,0,100,0,1
+--track@frame_size2:縁取り2サイズ,0,500,0,1
+--track@frame_blur2:縁取り2ぼかし,0,100,0,1
+--track@frame_size3:縁取り3サイズ,0,500,0,1
+--track@frame_blur3:縁取り3ぼかし,0,100,0,1
 --track@frame_blur_common:縁取り共通ぼかし,0,100,0,1
---track@frame_s0:縁取り1開始文字(個別オブジェクト時),0,500,0,1
---track@frame_e0:縁取り1終了文字(個別オブジェクト時),0,500,3,1
---track@frame_s1:縁取り2開始文字(個別オブジェクト時),0,500,4,1
---track@frame_e1:縁取り2終了文字(個別オブジェクト時),0,500,6,1
---track@frame_s2:縁取り3開始文字(個別オブジェクト時),0,500,0,1
---track@frame_e2:縁取り3終了文字(個別オブジェクト時),0,500,20,1
---check@string_integrate1:縁取りテキスト1枚化(個別オブジェクト時),0
+--track@frame_start1:縁取り1開始文字(個別オブジェクト時),0,500,0,1
+--track@frame_end1:縁取り1終了文字(個別オブジェクト時),0,500,3,1
+--track@frame_start2:縁取り2開始文字(個別オブジェクト時),0,500,4,1
+--track@frame_end2:縁取り2終了文字(個別オブジェクト時),0,500,6,1
+--track@frame_start3:縁取り3開始文字(個別オブジェクト時),0,500,0,1
+--track@frame_end3:縁取り3終了文字(個別オブジェクト時),0,500,20,1
 --group
---check@edge:凸エッジ,0
+--check@edge_enable:凸エッジ,0
 --select@edge_order:凸エッジ適用箇所=1, 1:文字の後=1, 2:縁取り1枠の後=2, 3:縁取り2枠の後=3, 4:縁取り3枠の後=4
 --group:凸エッジ調整,false
---track@edge_width0:凸エッジ幅,0,100,3,1
---track@edge_height0:凸エッジ高さ,0,3,1.75,0.01
---track@edge_angle0:凸エッジ角度,-3600,3600,-75,0.01
+--track@edge_width:凸エッジ幅,0,100,3,1
+--track@edge_height:凸エッジ高さ,0,3,1.75,0.01
+--track@edge_angle:凸エッジ角度,-3600,3600,-75,0.01
 --group
---check@middle_shadow:文字に対して影1を付与,0
---color@shadow_col0:影1色,0xffff00
---select@shadow1_order:影1適用箇所=1, 1:文字の後=1, 2:縁取り1枠の後=2, 3:縁取り2枠の後=3, 4:縁取り3枠の後=4
---check@shadow1_cleary:影1をくっきりさせる,0
+--check@shadow_enable1:文字に対して影1を付与,0
+--color@shadow_col1:影1色,0xffff00
+--select@shadow_order1:影1適用箇所=1, 1:文字の後=1, 2:縁取り1枠の後=2, 3:縁取り2枠の後=3, 4:縁取り3枠の後=4
+--check@shadow_clear1:影1をくっきりさせる,0
 --group:影1調整,false
---track@shadow_x0:影1x,-1000,1000,0,1
---track@shadow_y0:影1y,-1000,1000,0,1
---track@shadow_deep0:影1濃さ,0,100,0,1
---track@shadow_diffusion0:影1拡散,0,500,0,1
+--track@shadow_x1:影1x,-1000,1000,0,1
+--track@shadow_y1:影1y,-1000,1000,0,1
+--track@shadow_deep1:影1濃さ,0,100,0,1
+--track@shadow_diffusion1:影1拡散,0,500,0,1
 --group
---check@subtitle_glow:後方グロー((個別オブジェクト時は使えない)),0
---color@subtile_glow_col:後方グロー色,0xff00ff
+--check@glow_enable:後方グロー(重い),0
+--color@glow_col:後方グロー色,0xff00ff
 --group:後方グロー詳細,false
---track@subtitle_glow_pow:後方グロー強さ,0,500,0,1
---track@subtitle_glow_diffusion:後方グロー拡散,0,500,0,1
---track@subtitle_glow_blur:後方グローぼかし,0,50,0,1
+--track@glow_pow:後方グロー強さ,0,500,0,1
+--track@glow_diffusion:後方グロー拡散,0,500,0,1
+--track@glow_blur:後方グローぼかし,0,50,0,1
 --group
---check@underline0:下線,0
---track@underline_x0:下線サイズx,0,2000,0,1
---track@underline_y0:下線サイズy,0,2000,0,1
---color@underline_col0:下線色,0xc81919
+--check@underline_enable:下線,0
+--track@underline_x:下線サイズx,0,2000,0,1
+--track@underline_y:下線サイズy,0,2000,0,1
+--color@underline_col:下線色,0xffffff
 --group:下線調整(個別オブジェクト時は使えない),false
---track@underline_posx0:下線位置x,-100000,100000,0,1
---track@underline_posy0:下線位置y,-100000,100000,0,1
---track@underline_alpha0:下線透明度,0,100,0,0.1
+--track@underline_posx:下線位置x,-100000,100000,0,1
+--track@underline_posy:下線位置y,-100000,100000,0,1
+--track@underline_alpha:下線透明度,0,100,0,0.1
 --group
---check@underline_shadow:下線に対して影2を付与,0
---color@shadow_col1:影2色,0x00ffff
---check@shadow2_cleary:影2をくっきりさせる,0
+--check@shadow_enable2:下線に対して影2を付与,0
+--color@shadow_col2:影2色,0x00ffff
+--check@shadow_clear2:影2をくっきりさせる,0
 --group:影2調整,false
---track@shadow_x1:影2x,-1000,1000,0,1
---track@shadow_y1:影2y,-1000,1000,0,1
---track@shadow_deep1:影2濃さ,0,100,0,1
---track@shadow_diffusion1:影2拡散,0,500,0,1
+--track@shadow_x2:影2x,-1000,1000,0,1
+--track@shadow_y2:影2y,-1000,1000,0,1
+--track@shadow_deep2:影2濃さ,0,100,0,1
+--track@shadow_diffusion2:影2拡散,0,500,0,1
 --group
---check@background0:ざぶとん(個別オブジェクト時は使えない),0
---track@background_x0:ざぶとんサイズx,0,2000,0,1
---track@background_y0:ざぶとんサイズy,0,2000,0,1
---color@background_col0:ざぶとん色,0xc81919
+--check@bg_enable:ざぶとん(個別オブジェクト時は使えない),0
+--track@bg_x:ざぶとんサイズx,0,2000,0,1
+--track@bg_y:ざぶとんサイズy,0,2000,0,1
+--color@bg_col:ざぶとん色,0xc81919
 --group:ざぶとん調整,false
---track@background_posx0:ざぶとん位置x,-100000,100000,0,1
---track@background_posy0:ざぶとん位置y,-100000,100000,0,1
---track@background_alpha0:ざぶとん透明度,0,100,0,0.1
---track@background_frame0:ざぶとん枠線サイズ,0,500,0,1
---track@background_frame_blur0:ざぶとん枠線ぼかし,0,100,0,1
---color@background_framecol0:ざぶとん枠色,0xffffff
+--track@bg_posx:ざぶとん位置x,-100000,100000,0,1
+--track@bg_posy:ざぶとん位置y,-100000,100000,0,1
+--track@bg_alpha:ざぶとん透明度,0,100,0,0.1
+--track@bg_frame_size:ざぶとん枠線サイズ,0,500,0,1
+--track@bg_frame_blur:ざぶとん枠線ぼかし,0,100,0,1
+--color@bg_frame_col:ざぶとん枠色,0xffffff
 --group
---check@behind_shadow:全体に対して影3を付与,0
---color@shadow_col2:影3色,0x00ffff
---check@shadow3_cleary:影3をくっきりさせる,0
+--check@shadow_enable3:全体に対して影3を付与,0
+--color@shadow_col3:影3色,0x00ffff
+--check@shadow_clear3:影3をくっきりさせる,0
 --group:影3調整,false
---track@shadow_x2:影3x,-1000,1000,0,1
---track@shadow_y2:影3y,-1000,1000,0,1
---track@shadow_deep2:影3濃さ,0,100,0,1
---track@shadow_diffusion2:影3拡散,0,500,0,1
+--track@shadow_x3:影3x,-1000,1000,0,1
+--track@shadow_y3:影3y,-1000,1000,0,1
+--track@shadow_deep3:影3濃さ,0,100,0,1
+--track@shadow_diffusion3:影3拡散,0,500,0,1
 --group
+
+-- モジュールを読み込み
+local decoration = require("text_decoration_presets") -- 構造プリセット
+local telop = require("telop_presets") -- テロッププリセット
+local join = require("Individual_object_join") -- テキスト一枚化
+local parts = require("decoration_parts") -- アンダーラインの描画
+local be = require("buffer_effects") -- グロー処理
+local zabuton = require("zabuton_shapes") -- ざぶとん処理
 
 local effect = obj.effect
-local w,h = obj.getpixel() -- obj.getpixel()は引数を指定しなければ、objの素の縦と横の値を返す。その値にはサイズは適用されるが拡大率は適用されない。
-local resize -- 「装飾のサイズをテキストのサイズと合わせる」で実際に使用する変数。変数には代入を行わなければ勝手にnilが入る。
-if(alter_size ~= 0) then -- 「装飾のサイズをテキストのサイズと合わせる」のcheckがONかOFFか判定。デフォㇽではON。
-    resize = h/100 -- エフェクトのサイズ、グラデ幅に、*resizeを行い、サイズ補正を行う。エフェクトのサイズ、グラデ幅には、拡大率の影響はあるが、サイズの影響はないため、こちらで補正を行う。
+local w, h = obj.getpixel()
+local resize
+local multi = obj.getoption("multi_object")
+
+if(alter_size ~= 0) then
+    resize = h/100
 else
-    resize = 1 -- checkがOFFの場合は、エフェクトのサイズ、グラデ幅に*1を行うことで変更させないようにし、そのまま適用するようにする。
+    resize = 1
 end
 
---[[
-    edge = edge,                            -- 凸エッジ有効化(check)
-    edge_order = edge_order,                -- 凸エッジを有効化させる場所
-    edge_width0 = edge_width0,              -- 凸エッジ幅
-    edge_height0 = edge_height0,            -- 凸エッジ高さ
-    edge_angle0
-]]
+-- 文字色リセット処理
+if(char_reset1 ~= 0) then char_col1 = nil end
+if(char_reset2 ~= 0) then char_col2 = nil end
+if(char_reset3 ~= 0) then char_col3 = nil end
 
--- 凸エッジの描画タイミング用の内部関数
-local function apply_edge(target_order)
-    if (edge ~= 0 and edge_order == target_order) then
-        effect("凸エッジ", "幅", edge_width0, "高さ", edge_height0, "角度", edge_angle0)
-    end
-end
+-- 基本設定テーブル(b)の定義
+local b = {
+    frame = { size = 7, blur = 5 },
+    grd = { pow = 100, x = 0, y = 0, r = 0, w = 100 },
+    shadow1 = { x = 10, y = 10, deep = 70, diffsion = 15 },
+    shadow2 = { x = 10, y = 59, deep = 70, diffsion = 15 },
+    shadow3 = { x = 10, y = 10, deep = 70, diffsion = 15 },
+    underline = { underline_x = 500, underline_y = 20, underline_posx = 0, underline_posy = 50, underline_alpha = 0 },
+    shapes = { sizex = 100, sizey = 20, posx = 0, posy = 0, alpha = 0, frames = 0, frameb = 0 },
+    glow = { pow = 100, diffusion = 60, rotate = 25, threshold = 0, aspcect = 100, blur = 20 }
+}
 
-if(char_reset1 ~= 0) then -- 文字色1のリセット
-    char_col0 = nil
-end
-if(char_reset2 ~= 0) then -- 文字色2のリセット
-    char_col1 = nil
-end
-if(char_reset3 ~= 0) then -- 文字色3のリセット
-    char_col2 = nil
-end
-
-local string_integrate0 = 0 -- グラデ文字テキスト一体化を行うかどうかの変数
-
-if(string_int_grd0 ~= 0 or string_int_grd1 ~= 0) then -- グラデテキスト一体化1,2のどちらかのcheckがONの場合。
-    string_integrate0 = 1
-end
-
-
+-- 外部渡用パラメータ(params)の整理
 local params = {
-    -- 【プリセット定義：deco - deco10】
+    apply_edge = function(target_order)
+        if (edge_enable ~= 0 and edge_order == target_order) then
+            effect("凸エッジ", "幅", edge_width, "高さ", edge_height, "角度", edge_angle)
+        end
+    end,
+
+    apply_shadow = function(target_order)
+        if (shadow_enable1 ~= 0 and shadow_order1 == target_order) then
+            effect("ドロップシャドウ", "X", (b.shadow1.x + shadow_x1) * resize, "Y", (b.shadow1.y + shadow_y1) * resize, "濃さ", b.shadow1.deep + shadow_deep1, "拡散", b.shadow1.diffsion + shadow_diffusion1, "影色", shadow_col1, "影を別オブジェクトで描画", 0)
+        end
+    end,
+
     deco_presets = {
-        -- 構造プリセット (deco)
-        no_deco = 1,                          -- 装飾なし
-        frame1 = 2,                          -- 縁取り1枠
-        frame2 = 3,                          -- 縁取り2枠
-        frame2_linked = 4,                   -- 縁取り2枠(2枠目枠色連動)
-        frame3 = 5,                          -- 縁取り3枠
-        grad_char = 6,                       -- グラデ文字
-        grad_char_frame1 = 7,                -- グラデ文字縁取り1枠
-        grad_char_frame2 = 8,                -- グラデ文字縁取り2枠
-        grad_char_frame2_linked = 9,         -- グラデ文字縁取り2枠(2枠目枠色連動)
-        grad_char_frame3 = 10,               -- グラデ文字縁取り3枠
-        zabuton = 11,                        -- ざぶとん
-        zabuton_frame1 = 12,                 -- ざぶとん縁取り1枠
-        zabuton_frame2 = 13,                 -- ざぶとん縁取り2枠
-        zabuton_frame2_linked = 14,          -- ざぶとん縁取り2枠(2枠目枠色連動)
-        zabuton_frame3 = 15,                 -- ざぶとん縁取り3枠
-        zabuton_grad = 16,                   -- ざぶとんグラデ文字
-        zabuton_grad_frame1 = 17,            -- ざぶとんグラデ文字縁取り1枠
-        zabuton_grad_frame2 = 18,            -- ざぶとんグラデ文字縁取り2枠
-        zabuton_grad_frame2_linked = 19,     -- ざぶとんグラデ文字縁取り2枠(2枠目枠色連動)
-        zabuton_grad_frame3 = 20             -- ざぶとんグラデ文字縁取り3枠
+        no_deco = 1, frame1 = 2, frame2 = 3, frame2_linked = 4, frame3 = 5,
+        grad_char = 6, grad_char_frame1 = 7, grad_char_frame2 = 8, grad_char_frame2_linked = 9, grad_char_frame3 = 10,
+        zabuton = 11, zabuton_frame1 = 12, zabuton_frame2 = 13, zabuton_frame2_linked = 14, zabuton_frame3 = 15,
+        zabuton_grad = 16, zabuton_grad_frame1 = 17, zabuton_grad_frame2 = 18, zabuton_grad_frame2_linked = 19, zabuton_grad_frame3 = 20
     },
-    deco = deco,                             -- 構造プリセット選択
-    deco2 = deco2,                           -- ノーマルテロップ選択
-    deco3 = deco3,                           -- グラデーションテロップ選択
-    deco4 = deco4,                           -- ツッコミテロップ選択
-    deco5 = deco5,                           -- 怒りテロップ選択
-    deco6 = deco6,                           -- 笑いテロップ選択
-    deco7 = deco7,                           -- 悲しみテロップ選択
-    deco8 = deco8,                           -- 照れテロップ選択
-    deco9 = deco9,                           -- 感動テロップ選択
-    deco10 = deco10,                         -- 特殊テロップ選択
+    deco = deco, deco2 = deco2, deco3 = deco3, deco4 = deco4, deco5 = deco5,
+    deco6 = deco6, deco7 = deco7, deco8 = deco8, deco9 = deco9, deco10 = deco10,
 
-    -- 【基本設定】
-    base_reset = base_reset,                 -- 装飾の初期値をすべて0にする
-    alter_size = alter_size,                 -- 装飾のサイズをテキストのサイズと連動
-    resize = resize,                         -- 「装飾のサイズをテキストのサイズと合わせる」
+    base_reset = base_reset, alter_size = alter_size, resize = resize,
 
-    -- 【文字色指定（個別オブジェクト）】
-    char_col0 = char_col0,                   -- 文字色1
-    char_reset1 = char_reset1,               -- 文字色1リセット
-    char_s0 = char_s0,                       -- 文字色1開始文字
-    char_e0 = char_e0,                       -- 文字色1終了文字
-    char_col1 = char_col1,                   -- 文字色2
-    char_reset2 = char_reset2,               -- 文字色2リセット
-    char_s1 = char_s1,                       -- 文字色2開始文字
-    char_e1 = char_e1,                       -- 文字色2終了文字
-    char_col2 = char_col2,                   -- 文字色3
-    char_reset3 = char_reset3,               -- 文字色3リセット
-    char_s2 = char_s2,                       -- 文字色3開始文字
-    char_e2 = char_e2,                       -- 文字色3終了文字
+    -- 文字色
+    char_col1 = char_col1, char_start1 = char_start1, char_end1 = char_end1,
+    char_col2 = char_col2, char_start2 = char_start2, char_end2 = char_end2,
+    char_col3 = char_col3, char_start3 = char_start3, char_end3 = char_end3,
 
-    -- 【グラデーション1】
-    grd_0 = grd_0,                           -- グラデーション1有効化
-    grds_col0 = grds_col0,                   -- グラデ1開始色
-    grde_col0 = grde_col0,                   -- グラデ1終了色
-    grd_type0 = grd_type0,                   -- グラデーション1タイプ
-    grd_pow0 = grd_pow0,                     -- グラデ1強さ
-    grd_x0 = grd_x0,                         -- グラデ1中心X
-    grd_y0 = grd_y0,                         -- グラデ1中心Y
-    grd_rotate0 = grd_rotate0,               -- グラデ1角度
-    grd_width0 = grd_width0,                 -- グラデ1幅
-    grd_composite0 = grd_composite0,         -- グラデ1合成モード
-    grd_s0 = grd_s0,                         -- グラデ1開始文字
-    grd_e0 = grd_e0,                         -- グラデ1終了文字
-    string_int_grd0 = string_int_grd0,       -- グラデーションテキスト1枚化A
+    -- グラデーション1
+    grd_enable1 = grd_enable1, grd_start_col1 = grd_start_col1, grd_end_col1 = grd_end_col1,
+    grd_type1 = grd_type1, grd_pow1 = grd_pow1, grd_x1 = grd_x1, grd_y1 = grd_y1,
+    grd_rotate1 = grd_rotate1, grd_width1 = grd_width1, grd_composite1 = grd_composite1,
+    grd_start1 = grd_start1, grd_end1 = grd_end1, grd_integrate1 = grd_integrate1,
 
-    -- 【グラデーション2（個別オブジェクト）】
-    grd_1 = grd_1,                           -- グラデーション2有効化
-    grds_col1 = grds_col1,                   -- グラデ2開始色
-    grde_col1 = grde_col1,                   -- グラデ2終了色
-    grd_type1 = grd_type1,                   -- グラデーション2タイプ
-    grd_pow1 = grd_pow1,                     -- グラデ2強さ
-    grd_x1 = grd_x1,                         -- グラデ2中心X
-    grd_y1 = grd_y1,                         -- グラデ2中心Y
-    grd_rotate1 = grd_rotate1,               -- グラデ2角度
-    grd_width1 = grd_width1,                 -- グラデ2幅
-    grd_composite1 = grd_composite1,         -- グラデ2合成モード
-    grd_s1 = grd_s1,                         -- グラデ2開始文字
-    grd_e1 = grd_e1,                         -- グラデ2終了文字
-    grd_reverse = grd_reverse,               -- グラデ付与対象を逆転
-    string_int_grd1 = string_int_grd1,       -- グラデーションテキスト1枚化B
+    -- グラデーション2
+    grd_enable2 = grd_enable2, grd_start_col2 = grd_start_col2, grd_end_col2 = grd_end_col2,
+    grd_type2 = grd_type2, grd_pow2 = grd_pow2, grd_x2 = grd_x2, grd_y2 = grd_y2,
+    grd_rotate2 = grd_rotate2, grd_width2 = grd_width2, grd_composite2 = grd_composite2,
+    grd_start2 = grd_start2, grd_end2 = grd_end2, grd_reverse = grd_reverse, grd_integrate2 = grd_integrate2,
 
-    -- 【縁取り】
-    frame0 = frame0,                         -- 縁取り1有効化
-    frame_col0 = frame_col0,                 -- 縁取り1色
-    frame_size0 = frame_size0,               -- 縁取り1サイズ
-    frame_blur0 = frame_blur0,               -- 縁取り1ぼかし
-    frame_s0 = frame_s0,                     -- 縁取り1開始文字
-    frame_e0 = frame_e0,                     -- 縁取り1終了文字
-    
-    frame1 = frame1,                         -- 縁取り2有効化
-    frame_col1 = frame_col1,                 -- 縁取り2色
-    frame_size1 = frame_size1,               -- 縁取り2サイズ
-    frame_blur1 = frame_blur1,               -- 縁取り2ぼかし
-    frame_s1 = frame_s1,                     -- 縁取り2開始文字
-    frame_e1 = frame_e1,                     -- 縁取り2終了文字
+    -- 縁取り
+    frame_enable1 = frame_enable1, frame_col1 = frame_col1, frame_size1 = frame_size1, frame_blur1 = frame_blur1, frame_start1 = frame_start1, frame_end1 = frame_end1,
+    frame_enable2 = frame_enable2, frame_col2 = frame_col2, frame_size2 = frame_size2, frame_blur2 = frame_blur2, frame_start2 = frame_start2, frame_end2 = frame_end2,
+    frame_enable3 = frame_enable3, frame_col3 = frame_col3, frame_size3 = frame_size3, frame_blur3 = frame_blur3, frame_start3 = frame_start3, frame_end3 = frame_end3,
+    frame_size_common = frame_size_common, frame_blur_common = frame_blur_common, frame_integrate = frame_integrate,
 
-    frame2 = frame2,                         -- 縁取り3有効化
-    frame_col2 = frame_col2,                 -- 縁取り3色
-    frame_size2 = frame_size2,               -- 縁取り3サイズ
-    frame_blur2 = frame_blur2,               -- 縁取り3ぼかし
-    frame_s2 = frame_s2,                     -- 縁取り3開始文字
-    frame_e2 = frame_e2,                     -- 縁取り3終了文字
+    -- 凸エッジ
+    edge_enable = edge_enable, edge_order = edge_order, edge_width = edge_width, edge_height = edge_height, edge_angle = edge_angle,
 
-    frame_size_common = frame_size_common,   -- 縁取り共通サイズ
-    frame_blur_common = frame_blur_common,   -- 縁取り共通ぼかし
-    string_integrate1 = string_integrate1,   -- 縁取りテキスト1枚化
+    -- 影1
+    shadow_enable1 = shadow_enable1, shadow_col1 = shadow_col1, shadow_order1 = shadow_order1, shadow_clear1 = shadow_clear1,
+    shadow_x1 = shadow_x1, shadow_y1 = shadow_y1, shadow_deep1 = shadow_deep1, shadow_diffusion1 = shadow_diffusion1,
 
-    -- 【凸エッジ】
-    edge = edge,                             -- 凸エッジ有効化
-    edge_order = edge_order,                 -- 凸エッジ適用箇所
-    edge_width0 = edge_width0,               -- 凸エッジ幅
-    edge_height0 = edge_height0,             -- 凸エッジ高さ
-    edge_angle0 = edge_angle0,               -- 凸エッジ角度
+    -- 後方グロー
+    glow_enable = glow_enable, glow_col = glow_col, glow_pow = glow_pow, glow_diffusion = glow_diffusion, glow_blur = glow_blur,
 
-    -- 【影1（文字・縁取り後）】
-    middle_shadow = middle_shadow,           -- 文字に対して影1を付与
-    shadow_col0 = shadow_col0,               -- 影1色
-    shadow1_order = shadow1_order,           -- 影1適用箇所
-    shadow1_cleary = shadow1_cleary,         -- 影1をくっきりさせる
-    shadow_x0 = shadow_x0,                   -- 影1x
-    shadow_y0 = shadow_y0,                   -- 影1y
-    shadow_deep0 = shadow_deep0,             -- 影1濃さ
-    shadow_diffusion0 = shadow_diffusion0,   -- 影1拡散
+    -- 下線
+    underline_enable = underline_enable, underline_x = underline_x, underline_y = underline_y, underline_col = underline_col,
+    underline_posx = underline_posx, underline_posy = underline_posy, underline_alpha = underline_alpha,
 
-    -- 【後方グロー】
-    subtitle_glow = subtitle_glow,           -- 後方グロー有効化
-    subtile_glow_col = subtile_glow_col,     -- 後方グロー色
-    subtitle_glow_pow = subtitle_glow_pow,   -- 後方グロー強さ
-    subtitle_glow_diffusion = subtitle_glow_diffusion, -- 後方グロー拡散
-    subtitle_glow_blur = subtitle_glow_blur, -- 後方グローぼかし
+    -- 影2 (下線用)
+    shadow_enable2 = shadow_enable2, shadow_col2 = shadow_col2, shadow_clear2 = shadow_clear2,
+    shadow_x2 = shadow_x2, shadow_y2 = shadow_y2, shadow_deep2 = shadow_deep2, shadow_diffusion2 = shadow_diffusion2,
 
-    -- 【下線】
-    underline0 = underline0,                 -- 下線有効化
-    underline_x0 = underline_x0,             -- 下線サイズx
-    underline_y0 = underline_y0,             -- 下線サイズy
-    underline_col0 = underline_col0,         -- 下線色
-    underline_posx0 = underline_posx0,       -- 下線位置x
-    underline_posy0 = underline_posy0,       -- 下線位置y
-    underline_alpha0 = underline_alpha0,     -- 下線透明度
+    -- ざぶとん
+    bg_enable = bg_enable, bg_x = bg_x, bg_y = bg_y, bg_col = bg_col, bg_posx = bg_posx, bg_posy = bg_posy, bg_alpha = bg_alpha,
+    bg_frame_size = bg_frame_size, bg_frame_blur = bg_frame_blur, bg_frame_col = bg_frame_col,
 
-    -- 【影2（下線用）】
-    underline_shadow = underline_shadow,     -- 下線に対して影2を付与
-    shadow_col1 = shadow_col1,               -- 影2色
-    shadow2_cleary = shadow2_cleary,         -- 影2をくっきりさせる
-    shadow_x1 = shadow_x1,                   -- 影2x
-    shadow_y1 = shadow_y1,                   -- 影2y
-    shadow_deep1 = shadow_deep1,             -- 影2濃さ
-    shadow_diffusion1 = shadow_diffusion1,   -- 影2拡散
-
-    -- 【ざぶとん】
-    background0 = background0,               -- ざぶとん有効化
-    background_x0 = background_x0,           -- ざぶとんサイズx
-    background_y0 = background_y0,           -- ざぶとんサイズy
-    background_col0 = background_col0,       -- ざぶとん色
-    background_posx0 = background_posx0,     -- ざぶとん位置x
-    background_posy0 = background_posy0,     -- ざぶとん位置y
-    background_alpha0 = background_alpha0,   -- ざぶとん透明度
-    background_frame0 = background_frame0,   -- ざぶとん枠線サイズ
-    background_frame_blur0 = background_frame_blur0, -- ざぶとん枠線ぼかし
-    background_framecol0 = background_framecol0, -- ざぶとん枠色
-
-    -- 【影3（全体用）】
-    behind_shadow = behind_shadow,           -- 全体に対して影3を付与
-    shadow_col2 = shadow_col2,               -- 影3色
-    shadow3_cleary = shadow3_cleary,         -- 影3をくっきりさせる
-    shadow_x2 = shadow_x2,                   -- 影3x
-    shadow_y2 = shadow_y2,                   -- 影3y
-    shadow_deep2 = shadow_deep2,             -- 影3濃さ
-    shadow_diffusion2 = shadow_diffusion2    -- 影3拡散
+    -- 影3 (全体用)
+    shadow_enable3 = shadow_enable3, shadow_col3 = shadow_col3, shadow_clear3 = shadow_clear3,
+    shadow_x3 = shadow_x3, shadow_y3 = shadow_y3, shadow_deep3 = shadow_deep3, shadow_diffusion3 = shadow_diffusion3
 }
 
--- 【グラデーション設定の定義】をここで判定して更新する。
--- grd_type (1-4) の定義。
-if(grd_type0 == 1) then
-    params.grd_type0 = "線形"
-elseif(grd_type0 == 2) then
-    params.grd_type0 = "円形"
-elseif(grd_type0 == 3) then
-    params.grd_type0 = "矩形"
-elseif(grd_type0 == 4) then
-    params.grd_type0 = "凸形"
-end
-
--- grd_composite (1-13) の定義。をここで判定して更新する。
-if(grd_composite0 == 1) then
-    params.grd_composite0 = "通常"
-elseif(grd_composite0 == 2) then
-    params.grd_composite0 = "加算"
-elseif(grd_composite0 == 3) then
-    params.grd_composite0 = "減算"
-elseif(grd_composite0 == 4) then
-    params.grd_composite0 = "乗算"
-elseif(grd_composite0 == 5) then
-    params.grd_composite0 = "スクリーン"
-elseif(grd_composite0 == 6) then
-    params.grd_composite0 = "オーバーレイ"
-elseif(grd_composite0 == 7) then
-    params.grd_composite0 = "比較(明)"
-elseif(grd_composite0 == 8) then
-    params.grd_composite0 = "比較(暗)"
-elseif(grd_composite0 == 9) then
-    params.grd_composite0 = "輝度"
-elseif(grd_composite0 == 10) then
-    params.grd_composite0 = "色差"
-elseif(grd_composite0 == 11) then
-    params.grd_composite0 = "陰影"
-elseif(grd_composite0 == 12) then
-    params.grd_composite0 = "明暗"
-elseif(grd_composite0 == 13) then
-    params.grd_composite0 = "差分"
-end
-
--- 基本的なベースとなる値を格納するテーブル変数を作成。
-local b = {}
-
-b = { -- bはbase_settingsの略称という意味で、書きやすいようにbとしている。
-    frame = { -- 縁取り
-        size = 7, -- 縁取りサイズ 
-        blur = 5  -- 縁取りぼかし
-    },
-    grd = { -- グラデーション
-        pow = 100, -- グラデーション強さ
-        x = 0,     -- グラデーション中心x
-        y = 0, -- グラデーション中心y
-        r = 0, -- グラデーション角度
-        w = 100, -- グラデーション幅
-    },
-    shadow1 = { -- 影1
-        x = 10, -- 影1X
-        y = 10, -- 影1Y
-        deep = 70, -- 影1濃さ
-        diffsion = 15, -- 影1拡散
-    },
-
-    shadow2 = { -- 影2
-        x = 10, -- 影2X
-        y = 59, -- 影2Y
-        deep = 70, -- 影2濃さ
-        diffsion = 15, -- 影2拡散
-    },
-
-    shadow3 = { -- 影3
-        x = 10, -- 影3X
-        y = 10, -- 影3Y
-        deep = 70, -- 影3濃さ
-        diffsion = 15, -- 影3拡散
-    },
-
-    underline = { -- 下線
-        underline_x0 = 500, -- 下線サイズx
-        underline_y0 = 20, -- 下線サイズy
-        underline_posx0 = 0, -- 下線位置x
-        underline_posy0 = 50, -- 下線位置y
-        underline_alpha0 = 0, -- 下線透明度
-    },
-
-    shapes = { -- ざぶとん
-        sizex = 100, -- ざぶとんサイズX
-        sizey = 20, -- ざぶとんサイズY
-        posx = 0, -- ざぶとん位置X
-        posy = 0, -- ざぶとん位置Y 
-        alpha = 0, -- ざぶとん透明度
-        frames = 0, -- ざぶとん枠線サイズ
-        frameb = 0,  -- ざぶとん枠線ぼかし
-    },
-    glow = { -- 後方グロー
-        pow = 100, --グロー強さ
-        diffusion = 60, -- グロー拡散
-        rotate = 25, -- グロー角度
-        threshold = 0, -- グローしきい値
-        aspcect = 100, -- グロー比率
-        blur = 20, -- グローぼかし
-    }
-}
-
---　テロップリストが有効なら下記を実行
-
+-- 数値プリセット適用
 if(deco2 ~= 1 or deco3 ~= 1 or deco4 ~= 1 or deco5 ~= 1 or deco6 ~= 1 or deco7 ~= 1 or deco8 ~= 1 or deco9 ~= 1 or deco10 ~= 1) then
-    require("telop_presets") -- モジュールの呼び出しと同時に変数に代入。
-    telop_presets(params,b) -- 配列paramsを渡している。
+    telop.telop_presets(params, b)
 end
 
--- 「装飾のサイズをすべて0」のチェックがONなら下記を実行。
 if(base_reset ~= 0) then
-    b = { -- bはbase_settingsの略称という意味で、書きやすいようにbとしている。
-        frame = {
-            size = 0, -- 縁取りサイズ 
-            blur = 5  -- 縁取りぼかし
-        },
-        grd = {
-            pow = 100, -- グラデーション強さ
-            x = 0,     -- グラデーション中心x
-            y = 0, -- グラデーション中心y
-            r = 0, -- グラデーション角度
-            w = 100, -- グラデーション幅
-        },
-
-        shadow1 = { -- 影1
-            x = 10, -- 影1X
-            y = 10, -- 影1Y
-            deep = 0, -- 影1濃さ
-            diffsion = 15, -- 影1拡散
-        },
-
-        shadow2 = { -- 影2
-            x = 10, -- 影2X
-            y = 59, -- 影2Y
-            deep = 0, -- 影2濃さ
-            diffsion = 15, -- 影2拡散
-        },
-
-        shadow3 = { -- 影3
-            x = 10, -- 影3X
-            y = 10, -- 影3Y
-            deep = 0, -- 影3濃さ
-            diffsion = 15, -- 影3拡散
-        },
-        underline = {
-            underline_x0 = 0, -- 下線サイズx
-            underline_y0 = 0, -- 下線サイズy
-            underline_posx0 = 0, -- 下線位置x
-            underline_posy0 = 50, -- 下線位置y
-            underline_alpha0 = 0, -- 下線透明度
-        },
-        shapes = {
-            sizex = 0, -- ざぶとんサイズX
-            sizey = 0, -- ざぶとんサイズY
-            posx = 0, -- ざぶとん位置X
-            posy = 0, -- ざぶとん位置Y 
-            alpha = 0, -- ざぶとん透明度
-            frames = 0, -- ざぶとん枠線サイズ
-            frameb = 0  -- ざぶとん枠線ぼかし
-        },
-        glow = { -- 後方グロー
-            pow = 0, --グロー強さ
-            diffusion = 120, -- グロー拡散
-            rotate = 25, -- グロー角度
-            threshold = 0, -- グローしきい値
-            aspcect = 100, -- グロー比率
-            blur = 20, -- グローぼかし
-        }
-    }
+    b.frame.size = 0
+    b.shadow1.deep = 0
+    b.shadow2.deep = 0
+    b.shadow3.deep = 0
+    b.underline.underline_x0 = 0
+    b.underline.underline_y0 = 0
+    b.shapes.sizex = 0
+    b.shapes.sizey = 0
+    b.glow.pow = 0
 end
 
-if(shadow1_cleary ~= 0) then -- 「影1をくっきりさせる」のcheckがONならば、影1のテーブルb数値をくっきりした影用に変更。
-    b.shadow1 = { -- 影1
-            x = 3, -- 影1X
-            y = 5, -- 影1Y
-            deep = 100, -- 影1濃さ
-            diffsion = 0, -- 影1拡散
-        }
-end
-
-if(shadow2_cleary ~= 0) then -- 「影2をくっきりさせる」のcheckがONならば、影2のテーブルb数値をくっきりした影用に変更。
-    b.shadow2 = { -- 影1
-            x = 3, -- 影1X
-            y = 54, -- 影1Y
-            deep = 100, -- 影1濃さ
-            diffsion = 0, -- 影1拡散
-        }
-end
-
-if(shadow3_cleary ~= 0) then -- 「影3をくっきりさせる」のcheckがONならば、影3のテーブルb数値をくっきりした影用に変更。
-    b.shadow3 = { -- 影1
-            x = 3, -- 影1X
-            y = 5, -- 影1Y
-            deep = 100, -- 影1濃さ
-            diffsion = 0, -- 影1拡散
-        }
-end
-
---[[
-テーブル変数bの値
-
-shadow1 = { -- 影1
-            x = 10, -- 影1X
-            y = 10, -- 影1Y
-            deep = 0, -- 影1濃さ
-            diffsion = 15, -- 影1拡散
-        },
-
-トラックバーの値
-middle_shadow:文字に対して影1を付与,0
-shadow_col0:影1色,0xffff00
-shadow1_order:影1適用箇所=1, 1:文字の後=1, 2:縁取り1枠の後=2, 3:縁取り2枠の後=3, 4:縁取り3枠の後=4
-shadow1_cleary:影1をくっきりさせる,0
-shadow_x0:影1x,-1000,1000,0,1
-shadow_y0:影1y,-1000,1000,0,1
-shadow_deep0:影1濃さ,0,100,0,1
-shadow_diffusion0:影1拡散,0,500,0,1
-]]
-
--- 影1描画の描画タイミング用の内部関数
-local function apply_shadow(target_order)
-    if (middle_shadow ~= 0 and shadow1_order == target_order) then
-        effect("ドロップシャドウ", "X",( b.shadow1.x + shadow_x0 ) * resize, "Y", ( b.shadow1.y + shadow_y0 ) * resize, "濃さ", b.shadow1.deep + shadow_deep0, "拡散", b.shadow1.diffsion  + shadow_diffusion0, "影色", params.shadow_col0, "影を別オブジェクトで描画", 0)
-
-    end
-end
-
--- 2. 判定フラグの初期化（全体・個別に共通して使用するスコープ）
-local isInFramingRange = false
-local isInFramingRange1 = false
-local isInFramingRange2 = false
-local isInFramingRange3 = false
-local isInBackgroundRange = false
-
-if (obj.num == 1) then -- オブジェクトが全体の時
-    -- 全体オブジェクト時は常に全範囲を真とする
-    isInFramingRange = true
-    isInFramingRange1 = false
-    isInFramingRange2 = false
-    isInFramingRange3 = false
-
-else -- オブジェクトが個別の時
-    -- 個別オブジェクト時はインデックスに基づいて判定
-    local idx = obj.index + 1
-    isInFramingRange1 = ( -- 縁取り1の範囲
-        (frame_s0 <= idx and frame_e0 >= idx)
-    )
-    isInFramingRange2 = ( -- 縁取り2の範囲
-        (frame_s1 <= idx and frame_e1 >= idx)
-    )
-    isInFramingRange3 = ( -- 縁取り3の範囲
-        (frame_s2 <= idx and frame_e2 >= idx)
-    )
-end
-
--- プリセットが適用されていればluaファイルを呼び出し、「プリセット」を適用させている。
+-- 構造プリセットを適用 ここで文字色変え グラデーション 縁取り 凸エッジ ドロップシャドウを行っている。
 if(deco ~= nil) then
-    require("text_decoration_presets") -- モジュールの呼び出しと同時に変数に代入。
-    text_decoration_presets(params,b) -- 配列paramsを渡している。
+    decoration.text_decoration_presets(params, b)
 end
 
---[[
-グラデーションのテーブル変数の値
-b.grd.pow = 100 -- グラデーション強さ
-b.grd.w = 0 -- グラデーション中心x
-b.grd.y = 0 -- グラデーション中心y
-b.grd.r = 0 -- グラデーション角度
-b.grd.w = 100 -- グラデーション幅
+--[[ グロー用の一枚化
+if(glow_enable ~= 0 and multi == true) then
+    join.object_join(w, h)
+end
 ]]
 
--- 「テキスト一枚化」で使用する変数。のちの「テキスト一枚化」でも同様のものを使用する。
-local w,h = 0,0
-if(obj.getoption("multi_object") and string_integrate0 ~= 0) then -- 文字ごとに個別オブジェが有効であり、グラデーション1のcheckがON場合の「テキスト一枚化」の適用。
-    for i=0, obj.num do
-        local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
-        w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
-    end
-
-    --luaファイルを呼び出し、グラデーションの場合の「テキスト一枚化」を行っている。
-    if(string_integrate0 ~= 0) then
-        if(require("Individual_object_join")) then
-            Individual_object_join(w,h)
-        end
-    end
+-- グロー
+if(glow_enable ~= 0) then
+    be.draw_with_glow(params, b, resize)
 end
 
--- 5.(6)で使う変数を宣言と初期化。
-local applyFrm = true
-local applyFrm1 = false
-local applyFrm2 = false
-local applyFrm3 = false
-
--- 6.縁取りのcheckがONの時の縁取り実行の設定。
-if(frame0 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り1のチェックがONならば
-    applyFrm1 = isInFramingRange1
+--[[ 下線用の一枚化
+if(underline_enable ~= 0 and multi == true) then
+    join.object_join(w, h)
 end
-if(frame0 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り1のチェックがONならば
-    applyFrm1 = true
-end
-if(frame1 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り2のチェックがONならば
-    applyFrm2 = isInFramingRange2
-end
-if(frame1 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り2のチェックがONならば
-    applyFrm2 = true
-end
-if(frame2 ~= 0 and obj.num ~= 1) then -- 個別オブジェクトがONで縁取り3のチェックがONならば
-    applyFrm3 = isInFramingRange3
-end
-if(frame2 ~= 0 and obj.num == 1) then -- 個別オブジェクトがOFFで縁取り3のチェックがONならば
-    applyFrm3 = true
-end
-
-if(string_integrate0 ~= 0)then -- グラデーションの項目での「テキスト一体化」がONの時の処理。
---[[
-    縁取りのテーブル変数の値
-    b.frame.size = 7 -- 縁取りサイズ 
-    b.frame.blur = 5 -- 縁取りぼかし
-]]
-    -- 6. 縁取り実行
-    if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
-        if (frame0 ~= 0 and not (
-            (deco >= 2 and deco <= 5) or 
-            (deco >= 7 and deco <= 10) or 
-            (deco >= 12 and deco <= 15) or
-            (deco >= 17 and deco <= 20) )
-            ) then -- 個別オブジェクトがOFFであり、プリセットで縁取り1が指定されておらず、縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 ) * resize + frame_size_common, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", params.frame_col0)
-            apply_edge(2)
-            apply_shadow(2)
-        end
-
-        if (frame1 ~= 0 and not (
-            (deco >= 3 and deco <= 5) or 
-            (deco >= 8 and deco <= 10) or
-            (deco >= 13 and deco <= 15) or
-            (deco >= 18 and deco <= 20) )
-        ) then -- 個別オブジェクトがOFFであり、プリセットで縁取り2が指定されておらず、縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 ) * resize + frame_size_common, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", params.frame_col1)
-            apply_edge(3)
-            apply_shadow(3)
-        end
-        if (frame2 ~= 0 and not (
-            (deco == 5 ) or
-            (deco == 10 ) or
-            (deco == 15 ) or
-            (deco == 20 ) )
-        ) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", params.frame_col2)
-            apply_edge(4)
-            apply_shadow(4)
-        end
-    end
-
-    if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
-        if (frame0 ~= 0 and not (
-            (deco >= 2 and deco <= 5) or 
-            (deco >= 7 and deco <= 10) or 
-            (deco >= 12 and deco <= 15) or
-            (deco >= 17 and deco <= 20) )
-        )  then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", params.frame_col0)
-            apply_edge(2)
-            apply_shadow(2)
-        end
-        if (frame1 ~= 0 and not (
-            (deco >= 3 and deco <= 5) or 
-            (deco >= 8 and deco <= 10) or
-            (deco >= 13 and deco <= 15) or
-            (deco >= 18 and deco <= 20) )
-        ) then
-            effect("縁取り", "サイズ",( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", params.frame_col1)
-            apply_edge(3)
-            apply_shadow(3)
-        end
-        if (frame2 ~= 0 and not (
-            (deco == 5 ) or
-            (deco == 10 ) or
-            (deco == 15 ) or
-            (deco == 20 ) )
-        ) then
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", params.frame_col2)
-            apply_edge(4)
-            apply_shadow(4)
-        end
-    end
-
-else -- グラデーションの項目での「テキスト一体化」がOFFの時の処理。
-
-    if (applyFrm and obj.num == 1) then -- 個別オブジェクトがOFFの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
-        if (frame0 ~= 0 and not (
-            (deco >= 2 and deco <= 5) or 
-            (deco >= 7 and deco <= 10) or 
-            (deco >= 12 and deco <= 15) or
-            (deco >= 17 and deco <= 20) )
-        ) then -- 個別オブジェクトがOFFの時。縁取り1がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", params.frame_col0)
-            apply_edge(2)
-            apply_shadow(2)
-        end
-        if (frame1 ~= 0 and not (
-            (deco >= 3 and deco <= 5) or 
-            (deco >= 8 and deco <= 10) or
-            (deco >= 13 and deco <= 15) or
-            (deco >= 18 and deco <= 20) )
-        ) then -- 個別オブジェクトがOFFの時。縁取り2がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", params.frame_col1)
-            apply_edge(3)
-            apply_shadow(3)
-        end
-        if (frame2 ~= 0 and not (
-            (deco == 5 ) or
-            (deco == 10 ) or
-            (deco == 15 ) or
-            (deco == 20 ) )
-        ) then -- 個別オブジェクトがOFFの時。縁取り3がONなら、全体に縁取り。
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", params.frame_col2)
-            apply_edge(4)
-            apply_shadow(4)
-        end
-    end
-
-    if (applyFrm and obj.num ~= 1) then -- 個別オブジェクトがONの時。「テキスト一体化」のcheckの有無に関わらず、テキストオブジェクト自体で最初に「文字ごとに個別オブジェクト」にcheckが入っているか否かに左右される。
-        if (frame0 ~= 0 and applyFrm1 and not (
-            (deco >= 2 and deco <= 5) or 
-            (deco >= 7 and deco <= 10) or 
-            (deco >= 12 and deco <= 15) or
-            (deco >= 17 and deco <= 20) )
-        ) then -- 個別オブジェクトがONの時。縁取り1がONなら、
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size0 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur0 + frame_blur_common, "縁色", params.frame_col0)
-            apply_edge(2)
-            apply_shadow(2)
-        end
-        if (frame1 ~= 0 and applyFrm2 and not (
-            (deco >= 3 and deco <= 5) or 
-            (deco >= 8 and deco <= 10) or
-            (deco >= 13 and deco <= 15) or
-            (deco >= 18 and deco <= 20) )
-        ) then
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size1 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur1 + frame_blur_common, "縁色", params.frame_col1)
-            apply_edge(3)
-            apply_shadow(3)
-        end
-        if (frame2 ~= 0 and applyFrm3 and not (
-            (deco == 5 ) or
-            (deco == 10 ) or
-            (deco == 15 ) or
-            (deco == 20 ) )
-        ) then
-            effect("縁取り", "サイズ", ( b.frame.size + frame_size2 + frame_size_common ) * resize, "ぼかし", b.frame.blur + frame_blur2 + frame_blur_common, "縁色", params.frame_col2)
-            apply_edge(4)
-            apply_shadow(4)
-        end
-    end
-end
-
-if(obj.getoption("multi_object") and string_integrate0 == 0) then -- 文字ごとに個別オブジェが有効であり、グラデーションの「テキスト一枚化」が行われていないときのみ適用。
-    for i=0, obj.num do
-        local aw,ah = obj.getpixel() -- obj.getpixeは引数を渡さなければ素の縦と横を戻りとして返す。
-        w,h = (w+aw) * obj.sx * obj.sy * obj.sz,(h+ah) * obj.sx * obj.sy * obj.sz -- wにw*縦、横、奥行きの拡大率をかけたものを代入。hにh*縦、横、奥行きの拡大率をかけたものを代入。
-    end
-    --luaファイルを呼び出し、縁取りの場合の「テキスト一枚化」を行っている。
-    if(string_integrate1 ~= 0) then
-        if(require("Individual_object_join")) then
-            Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
-        end
-    end
-end
-
--- ここでアンダーライン処理を呼び出す。
--- アンダーラインは、縁取りの後であり、後方グローの前であり、座布団の前である必要があるため。
-
---[[
-underline = {
-        underline_x0 = 50, -- アンダーラインサイズx
-        underline_y0 = 100, -- アンダーラインサイズy
-        underline_posx0 = 0, -- アンダーライン位置x
-        underline_posy0 = 0, -- アンダーライン位置y
-        underline_alpha0 = 0, -- アンダーライン透明度
-        underline_frame0 = 0, -- アンダーライン枠線サイズ
-        underline_frame_blur0 = 0, -- アンダーライン枠線ぼかし
-
-        underline0 -- アンダーラインcheck
-        underline_x0 -- アンダーラインサイズx
-        underline_y0 -- アンダーラインサイズy
-        underline_col0:アンダーライン色,0xc81919
-        underline_posx0:アンダーライン位置x,-100000,100000,0,1
-        underline_posy0:アンダーライン位置y,-100000,100000,0,1
-        underline_alpha0:アンダーライン透明度,0,100,0,0.1
-        underline_frame0:アンダーライン枠線サイズ,0,500,0,1
-        underline_frame_blur0:アンダーライン枠線ぼかし,0,100,0,1
-        underline_framecol0:アンダーライン枠色,0xffffff
-        underline_shadow:アンダーラインに対して影2を付与,0
-        shadow_col1:影2色,0x00ffff
-        shadow2_cleary:影2をくっきりさせる,0
-    },
 ]]
 
-local underline_w,underline_h = obj.getpixel()
-local under_buffer_w
-local under_buffer_h
---ここにアンダーラインの処理内容を記述、もしくは、requireで.luaを呼び出す。
-if(underline0 ~=0) then -- アンダーラインのチェックがONであり、なおかつ個別オブジェクトの場合にのみ実行。
-    obj.copybuffer("cache:soushoku_underline_text","obj")
-    under_buffer_w = ( underline_w + ( b.underline.underline_x0 + underline_x0 ) + math.abs( ( b.underline.underline_posx0 + underline_posx0 ) ) ) * resize
-    under_buffer_h = ( underline_h + ( b.underline.underline_y0 + underline_y0 ) + math.abs( ( b.underline.underline_posy0 + underline_posy0 ) ) ) * resize
-    -- obj.setoption("drawtarget","tempbuffer",under_buffer_w,under_buffer_h + 500) -- 座布団を使うとき、こちらをONにしていると不具合が発生するためコメントアウトしておく。原因は（私には）不明。
-    obj.setoption("drawtarget","tempbuffer",obj.screen_w,obj.screen_h)
-    obj.load("figure", "四角形", params.underline_col0, 100)
-    effect("リサイズ", "拡大率", 50, "X", b.underline.underline_x0 + underline_x0 , "Y", b.underline.underline_y0 + underline_y0 )
-    obj.draw( ( b.underline.underline_posx0 + underline_posx0 ) * resize, ( b.underline.underline_posy0 + underline_posy0 ) * resize, 0, 1,math.max(0, 1 - (b.underline.underline_alpha0 + underline_alpha0 / 100)))
-    if(underline_shadow ~= 0) then -- 「全体に対して影2付与」にチェックが入っていた時のみドロップシャドウを実行。
-        effect("ドロップシャドウ", "X", ( b.shadow2.x + shadow_x1 ) * resize, "Y", ( b.shadow2.y + shadow_y1 ) * resize, "濃さ", b.shadow2.deep + shadow_deep1, "拡散", b.shadow2.diffsion + shadow_diffusion1, "影色", params.shadow_col1, "影を別オブジェクトで描画", 1)
-    end
-    obj.copybuffer("obj","cache:soushoku_underline_text")
-    obj.draw()
-    obj.load("tempbuffer")
-    obj.clearbuffer("tempbuffer")
-    obj.setoption("drawtarget","framebuffer")
+-- 下線
+if(underline_enable ~= 0) then
+    parts.draw_underline(params, b, resize)
 end
 
---[[ 後方グローを実施
-
-bテーブル数値
-b.glow.pow:後方グロー強さ,100
-b.glow.diffusion:後方グロー拡散,120
-b.glow.rotate:後方グロー角度,25
-b.glow.threshold:後方グローしきい値,0
-b.glow.aspect:後方グロー比率,100
-b.glow.blur:後方グローぼかし,20
+--[[ ざぶとん用の一枚化
+if(bg_enable ~= 0 and multi == true) then
+    join.object_join(w, h)
+end
 ]]
-local glow_w,glow_h = obj.getpixel()
 
-if(subtitle_glow ~= 0 ) then -- 後方グローにcheckが入っている時のみ、形状は"通常"で固定、"光成分のみ"でグローを実施。
-    -- ”光成分のみ"を行うと、光だけが表示されることになりテロップは表示されないため、一旦仮想バッファに避難。
-    obj.copybuffer("cache:soushoku_glow","obj")
-    obj.setoption("drawtarget","tempbuffer",glow_w + ( b.glow.diffusion + subtitle_glow_diffusion ),glow_h + ( b.glow.diffusion + subtitle_glow_diffusion ))
-    effect("グロー", "強さ", ( b.glow.pow + subtitle_glow_pow ) * resize, "拡散", ( b.glow.diffusion + subtitle_glow_diffusion ), "角度", 0, "しきい値", 0,"比率", 100,"ぼかし", ( b.glow.blur + subtitle_glow_blur ),"形状" , "通常", "光色", params.subtile_glow_col,"光成分のみ", 1,"サイズ固定" , 0)
-    obj.draw()
-    obj.copybuffer("obj","cache:soushoku_glow")
-    obj.draw()
-    obj.load("tempbuffer")
-    obj.clearbuffer("tempbuffer")
-    obj.setoption("drawtarget","framebuffer")
+-- ざぶとん
+if(bg_enable ~= 0 or (deco >= 11 and deco <= 21)) then
+    zabuton.zabuton_shapes(b, params)
 end
 
---[[
-obj.getoption("multi_object")
-                        戻り値  : true=有効 / false=無効
-
-]]
-if(background0 ~= 0 and obj.getoption("multi_object") == true) then -- ざぶとんのチェックがONであり、個別オブジェクトがOFFである場合のみ実行。
-    if(require("Individual_object_join")) then
-        Individual_object_join(w,h) -- グラデーションのテキスト1枚化の近くで作成した変数を引数に渡している。
-    end
-end
-
--- 8. ざぶとん処理を、ここで呼び出した.luaに任せる。
-if(background0 ~= 0 or ( deco >=11 and deco <=21 ) )then
-    if(require("zabuton_shapes")) then
-        zabuton_shapes(b,params)
-    end
-end
-
---[[
---check@behind_shadow:全体に対して影3を付与,0
---color@shadow_col2:影3色,0x00ffff
---check@shadow3_cleary:影3をくっきりさせる,0
---group:影3調整,false
---track@shadow_x2:影3x,-1000,1000,0,1
---track@shadow_y2:影3y,-1000,1000,0,1
---track@shadow_deep2:影3濃さ,0,100,0,1
---track@shadow_diffusion2:影3拡散,0,500,0,1
-
-    shadow3 = { -- 影3
-        x = 10, -- 影3X
-        y = 10, -- 影3Y
-        deep = 70, -- 影3濃さ
-        diffsion = 15, -- 影3拡散
-]]
--- 「全体に対して」の影2を実行
-if(behind_shadow ~= 0) then -- 「全体に対して影3付与」にチェックが入っていた時のみドロップシャドウを実行。
-    effect("ドロップシャドウ", "X", ( b.shadow3.x + shadow_x2 ) * resize, "Y", ( b.shadow3.y + shadow_y2 ) * resize, "濃さ", b.shadow3.deep + shadow_deep2, "拡散", b.shadow3.diffsion + shadow_diffusion2, "影色", params.shadow_col2, "影を別オブジェクトで描画", 0)
+-- 全体影
+if(shadow_enable3 ~= 0) then
+    effect("ドロップシャドウ", "X", (b.shadow3.x + shadow_x3) * resize, "Y", (b.shadow3.y + shadow_y3) * resize, "濃さ", b.shadow3.deep + shadow_deep3, "拡散", b.shadow3.diffsion + shadow_diffusion3, "影色", shadow_col3, "影を別オブジェクトで描画", 0)
 end

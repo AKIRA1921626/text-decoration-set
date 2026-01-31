@@ -1,44 +1,50 @@
 --[[
-装飾セット.anm2などで使う用の.luaファイル。
-個別オブジェクトを１つの単一のオブジェクトにするための処理を行っている。
-rikky氏の「テキスト一体化」スクリプトのようなことを簡易的に行っている。
-他の所でも使いまわしをする予定があるので、.luaファイルに個別にまとめている。
-
-このファイルを皆様の使用するスクリプトと同等のファイルに配置し、そのコード内で、
-
-if(require("Individual_object_join")) then
-    Individual_object_join(w,h) --  仮想バッファを初期化する時の縦と横のサイズを引数に渡す。
-end
-
-と記述すれば他のスクリプトでも使用することができます。
+Individual_object_join.lua
+個別オブジェクトを1つの単一オブジェクトとして統合するモジュール。
 ]]
-function Individual_object_join(w,h) -- w = 仮想バッファを初期化する時の横のサイズ,h = 仮想バッファを初期化する時の縦のサイズ
 
-if(obj.index == 0) then -- indexが0のときだけ(1文字目の時だけ)実行する。
-    if(w == nil)then
-            w = obj.screen_w
+local M = {}
+
+function M.object_join(w, h)
+    -- index 0 の時にバッファを初期化
+    if (obj.index == 0) then
+        -- サイズ未指定時は画面サイズをデフォルトにする
+        w = w or obj.screen_w
+        h = h or obj.screen_h
+        
+        -- 仮想バッファの作成（初期化）
+        obj.setoption("drawtarget", "tempbuffer", w, h)
+        obj.clearbuffer("tempbuffer")
+    else
+        -- 2文字目以降は既存のバッファをターゲットに設定
+        obj.setoption("drawtarget", "tempbuffer")
     end
-    if(h == nil)then
-        h = obj.screen_h
+
+    -- 拡大率と透明度の取得
+    -- ※AviUtlの内部仕様により obj.sx 等を統合して扱う
+    local scale = obj.sx
+    local alpha = obj.getvalue("alpha")
+
+    -- 仮想バッファへの描画
+    -- 相対座標(ox, oy, oz)に加えて、バッファ中央(w/2, h/2)を基準にする場合は座標調整が必要
+    -- ここでは元のロジックを継承しつつ描画
+    obj.draw(obj.ox, obj.oy, obj.oz, scale, alpha, obj.rx, obj.ry, obj.rz)
+
+    -- 最後の文字ではない場合：元の文字を表示させないための処理
+    if (obj.index ~= obj.num - 1) then
+        obj.setoption("drawtarget", "framebuffer")
+        obj.load("tempbuffer") -- バッファをロード
+        obj.alpha = 0
+        obj.draw(obj.ox, obj.oy, obj.oz, scale, 0, obj.rx, obj.ry, obj.rz)
+    else
+        -- 最後の文字の場合：統合されたバッファをメインに描画
+        obj.setoption("drawtarget", "framebuffer")
+        obj.load("tempbuffer")
+        obj.clearbuffer("tempbuffer")
+        -- 描画後は他のスクリプトへの影響を防ぐためバッファをクリア
+        -- ただし、直後に obj.draw() が呼ばれることを前提とする
+        -- obj.clearbuffer("tempbuffer") -- 必要に応じてコメント解除
     end
-        obj.setoption("drawtarget","tempbuffer",w,h) -- 引数のw,h仮想バッファを新規に作成。
-    end
-
-    obj.setoption("drawtarget","tempbuffer")  --  if内の仮想バッファは1回目のみなので、2回目以降はifの外で、初期化せずに作成。
-
-    local scale = obj.sx * obj.sy * obj.sz -- obj.sx,obj.sy,obj.sz,はx,y,zの拡大率であり、Aviutl2から実装されたようだ。このscaleを拡大率とする。
-    local alpha = obj.getvalue("alpha") -- alpha変数があった方がコードが見やすいと思ったので、ここの記述は必要はないが作っておく。
-
-    obj.draw(obj.ox,obj.oy,obj.oz,scale,alpha,obj.rx,obj.ry,obj.rz) -- 拡大率はscaleに1つにまとめて引数として渡す。
-
-if (obj.index ~= obj.num - 1) then -- indexが最後の文字でないときだけ実行。
-    obj.load(" ")-- 切り替え効果「ランダム感覚で落ちながら登場」を選べば分かるが、これを行わなければ、普通のテキストが残ってしまうので、透明な文字をload。空の文字列だとうまくいかない。
-    obj.setoption("drawtarget","framebuffer")
-    obj.draw()
 end
-    if (obj.index == obj.num - 1) then -- indexが-1のときだけ(最後の文字の時だけ)実行する処理。最後のオブジェクトはこの部分に来る前のobj.drawですでに仮想バッファに描画されている。
-        obj.setoption("drawtarget","framebuffer") -- 描画先をフレームバッファに戻す。
-        obj.load("tempbuffer")  -- ここまでに作成した仮想バッファを読み込む。
-        obj.clearbuffer("tempbuffer") -- 仮想バッファをクリア。仮想バッファは共有らしいので念のために消去。
-    end
-end
+
+return M
