@@ -45,7 +45,7 @@ end
     end
 
     -- 3. 色変更（単色化）
-    if (p.char_col1 ~= nil) then
+   if (p.char_col1 ~= nil) then
         if (not is_multi or (idx >= p.char_start1 and idx <= p.char_end1)) then
             effect("単色化", "強さ", 100, "色", p.char_col1, "輝度を保持する", 0)
         end
