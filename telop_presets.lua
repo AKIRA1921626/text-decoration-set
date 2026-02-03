@@ -163,6 +163,321 @@ function M.telop_presets(p,b)
         return { text_col = (color_key == "white" and C_WHITE or main_col), effects = effects }
     end
 
+    -- グラデーション
+    local or_gradation_start = 0xff3232
+    local or_gradation_end = 0xffc800
+    local grd_width_max = 100
+    local grd_width_30 = 30
+    local grd_width_20 = 20
+    local grd_type1 = "線形"
+    local grd_type2 = "凸型"
+    local grd_mode1 = "通常"
+
+    Styles.gradation = {
+        [1] = { text_col = 0xebebeb, effects = {} },
+        [2] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            }
+        },
+        [3] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            }
+        },
+        [4] = {
+            text_col = 0xff9632,
+                        effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+                        }
+        },
+        [5] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            }
+        },
+        [6] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [7] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            }
+        },
+        [8] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [9] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [10] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [11] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [12] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [13] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [14] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [15] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [16] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [17] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [18] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [19] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=14, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [20] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=14, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [21] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            }
+        },
+        [22] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [23] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
+            }
+        },
+        [24] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [25] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            }
+        },
+        [26] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_WHITE},
+            {type="縁取り", size=7, blur=10, col=C_SKIN},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=7, blur=10, col=C_BLACK},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [27] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            }
+        },
+        [28] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [29] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            }
+        },
+        [30] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+        [31] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            }
+        },
+        [32] = {
+            text_col = 0xff9632,
+            effects = {
+            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
+            {type="縁取り", size=3, blur=10, col=C_BLACK},
+            {type="縁取り", size=20, blur=10, col=C_WHITE},
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
+            }
+        },
+    }
+
     -- -----------------------------------------------------------------------------
     -- 3. 特殊テロップの定義 (special)
     -- -----------------------------------------------------------------------------
@@ -173,19 +488,235 @@ function M.telop_presets(p,b)
             effects = {
                 {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
                 {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-                {type="縁取り", size=7, blur=10, col=0xebebeb}, {type="縁取り", size=7, blur=10, col=0xd50c0c},
-                {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414},
+            }
+        },
+        [3] = {
+            text_col = 0xff9632,
+            effects = {
+                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
+                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
+                {type="縁取り", size=7, blur=10, col=0xebebeb},
+            }
+        },
+        [4] = {
+            text_col = 0xff9632,
+            effects = {
+                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
+                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
+                {type="縁取り", size=7, blur=10, col=0xebebeb}, 
+                {type="縁取り", size=7, blur=10, col=0xd50c0c},
+            }
+        },
+        [5] = {
+            text_col = 0xff9632,
+            effects = {
+                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
+                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
+                {type="縁取り", size=7, blur=10, col=0xebebeb}, 
+                {type="縁取り", size=7, blur=10, col=0xd50c0c},
+                {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+                {type="縁取り", size=7, blur=10, col=0x141414},
+            }
+        },
+        [6] = {
+            text_col = 0xff9632,
+            effects = {
+                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
+                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
+                {type="縁取り", size=7, blur=10, col=0xebebeb},
+                {type="縁取り", size=7, blur=10, col=0xd50c0c},
+                {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+                {type="縁取り", size=7, blur=10, col=0x141414},
                 {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
             }
         },
-        [3] = { text_col = 0xff2b2c, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [4] = { text_col = 0xff9632, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [5] = { text_col = 0xf7ff2b, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [6] = { text_col = 0x2bff2b, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [7] = { text_col = 0x39ffff, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [8] = { text_col = 0x2626ff, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [9] = { text_col = 0xba26ff, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [10] = { text_col = 0xff26b1, effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, {type="縁取り", size=3, blur=10, col=0xebebeb}, {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, {type="縁取り", size=7, blur=10, col=0x141414}, {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
+        [7] = {
+             text_col = 0xff2b2c,
+             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+            } 
+        },
+        [8] = {
+             text_col = 0xff2b2c,
+             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+             {type="縁取り", size=3, blur=10, col=0xebebeb},
+            } 
+        },
+        [9] = {
+             text_col = 0xff2b2c,
+             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+             {type="縁取り", size=3, blur=10, col=0xebebeb},
+             {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+             {type="縁取り", size=7, blur=10, col=0x141414},
+            } 
+        },
+        [10] = {
+             text_col = 0xff2b2c,
+             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+             {type="縁取り", size=3, blur=10, col=0xebebeb},
+             {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+             {type="縁取り", size=7, blur=10, col=0x141414},
+             {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
+            } 
+        },
+        [11] = { 
+            text_col = 0xff9632, 
+            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+        }
+    },
+        [12] = { 
+            text_col = 0xff9632, 
+            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+            {type="縁取り", size=3, blur=10, col=0xebebeb},
+        }
+    },
+        [13] = { 
+            text_col = 0xff9632, 
+            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+            {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
+            {type="縁取り", size=7, blur=10, col=0x141414}, 
+        }
+    },
+        [14] = { 
+            text_col = 0xff9632, 
+            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+            {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
+            {type="縁取り", size=7, blur=10, col=0x141414}, 
+            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
+        }
+    },
+        [15] = { text_col = 0xf7ff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+     } },
+        [16] = { text_col = 0xf7ff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+     } },
+        [17] = { text_col = 0xf7ff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+     } },
+        [18] = { text_col = 0xf7ff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
+     } },
+        [19] = { text_col = 0x2bff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+     } },
+        [20] = { text_col = 0x2bff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+     } },
+        [21] = { text_col = 0x2bff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+     } },
+        [22] = { text_col = 0x2bff2b,
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
+     } },
+        [23] = { text_col = 0x39ffff,
+        effects =
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+    } },
+        [24] = { text_col = 0x39ffff,
+        effects =
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+    } },
+        [25] = { text_col = 0x39ffff,
+        effects =
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+    } },
+        [26] = { text_col = 0x39ffff,
+        effects =
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} 
+    } },
+        [27] = { text_col = 0x2626ff, 
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+     } },
+        [28] = { text_col = 0x2626ff, 
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},} },
+        [29] = { text_col = 0x2626ff, 
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414}, } },
+        [30] = { text_col = 0x2626ff, 
+        effects = 
+        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
+        [31] = { text_col = 0xba26ff,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+ } },
+        [32] = { text_col = 0xba26ff,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+    } },
+        [33] = { text_col = 0xba26ff,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+ } },
+        [34] = { text_col = 0xba26ff,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb},
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
+        {type="縁取り", size=7, blur=10, col=0x141414},
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
+        [35] = { text_col = 0xff26b1,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+} },
+        [36] = { text_col = 0xff26b1,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+     } },
+        [37] = { text_col = 0xff26b1,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
+        {type="縁取り", size=7, blur=10, col=0x141414}, 
+    } },
+        [38] = { text_col = 0xff26b1,
+        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
+        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
+        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
+        {type="縁取り", size=7, blur=10, col=0x141414}, 
+        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
     }
 
     -- -----------------------------------------------------------------------------
@@ -204,7 +735,7 @@ function M.telop_presets(p,b)
     if(p.deco14 and p.deco14 ~= 1) then
         data = Styles.special[p.deco14]
     elseif(p.deco13 and p.deco13 ~= 1) then
-        data = Styles.special[p.deco13] -- gradationをspecialに統合
+        data = Styles.gradation[p.deco13]
     elseif(p.deco12 and p.deco12 ~= 1) then
         data = Styles.pink[p.deco12]
     elseif(p.deco11 and p.deco11 ~= 1) then
