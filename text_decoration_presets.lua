@@ -86,12 +86,14 @@ end
 
     -- テキスト一枚化処理 (グラデーション用)
     local w, h = 0, 0
+    local permanent_aw, permanent_ah = obj.getpixel()
+    h = (h+permanent_ah) * obj.sx * obj.sy * obj.sz
     local succes_grd_integrate = 0
     local succes_frame_integrate = 0
     if(is_multi and ( p.grd_integrate1 ~= 0 or p.grd_integrate2 ~= 0 ) and not ( succes_frame_integrate ~= 0 ) ) then
         for i=0, obj.num do
-            local aw, ah = obj.getpixel()
-         w, h = (w+aw) * obj.sx * obj.sy * obj.sz, (h+ah) * obj.sx * obj.sy * obj.sz
+            local aw = obj.getpixel()
+         w = (w+aw) * obj.sx * obj.sy * obj.sz
         end
         join.object_join(w, h)
         succes_grd_integrate = 1

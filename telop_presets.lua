@@ -1,25 +1,25 @@
 local M = {}
-function M.telop_presets(p,b)
+
+function M.telop_presets(p, b_obj)
 
     local Styles = {}
 
-    -- -----------------------------------------------------------------------------
-    -- 1. カラー定義と定数
-    -- -----------------------------------------------------------------------------
-    local C_WHITE = 0xebebeb
-    local C_BLACK = 0x141414
-    local C_PALE_RED = 0xff848a
-    local C_SKIN  = 0xffc084
-    local C_BLOND = 0xfbff84
+    -- =============================================================================
+    -- 1. 定数・カラー定義
+    -- =============================================================================
+    local C_WHITE      = 0xebebeb
+    local C_BLACK      = 0x141414
+    local C_SKIN       = 0xffc084
+    local C_PALE_RED   = 0xff848a
+    local C_BLOND      = 0xfbff84
     local C_PALE_GREEN = 0xc0ff84
     local C_MINT_GREEN = 0x84ff8b
-    local C_PALE_BLUE = 0x84fbff
-    local C_SKY_BLUE = 0x8491ff
-    local C_LAVENDER = 0xda84ff
-    local C_PALE_PINK = 0xff84e8
+    local C_PALE_BLUE  = 0x84fbff
+    local C_SKY_BLUE   = 0x8491ff
+    local C_LAVENDER   = 0xda84ff
+    local C_PALE_PINK  = 0xff84e8
 
-
-
+    -- 標準デコレーション(deco2-12)用のベースカラー
     local base_colors = {
         white        = 0xebebeb, -- deco2
         black        = 0x141414, -- deco3
@@ -34,694 +34,187 @@ function M.telop_presets(p,b)
         pink         = 0xff1ec8, -- deco12
     }
 
-    -- -----------------------------------------------------------------------------
-    -- 2. 標準デコレーション生成関数 (1-58)
-    -- -----------------------------------------------------------------------------
+    -- =============================================================================
+    -- 2. 共通ヘルパー関数 (エフェクト生成用)
+    -- =============================================================================
+    -- 縁取り
+    local function b(size, col) 
+        return {type="縁取り", size=size, blur=10, col=col} 
+    end
+
+    -- シャドウ
+    local function s(x, y, alpha, diff, col) 
+        return {type="シャドウ", x=x, y=y, alpha=alpha, diff=diff, col=col or C_BLACK} 
+    end
+
+    -- ノイズ
+    local function get_noise(ntype)
+        return {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=ntype}
+    end
+
+    -- グラデーション
+    local function get_grad(start_c, end_c, width, mode)
+        return {type="グラデーション", pow=100, x=0, y=0, angle=0, width=width or 100, mode=mode or "通常", shape="線形", start_c=start_c, end_c=end_c}
+    end
+
+-- =============================================================================
+    -- 3. 標準デコレーション生成ロジック (Styles[name][1-92])
+    -- =============================================================================
     local function get_effect_template(main_col, id, color_key)
         if id == 1 then return { text_col = (color_key == "white" and C_WHITE or main_col), effects = {} } end
 
         local effects = {}
-        local F_WHITE = {type="縁取り", size=7, blur=10, col=C_WHITE}
-        local F_BLACK = {type="縁取り", size=7, blur=10, col=C_BLACK}
-        local F_MAIN  = {type="縁取り", size=7, blur=10, col=main_col}
-        local H_BLACK = {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK}
-        local H_WHITE = {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE}
-        local H_MAIN  = {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=main_col}
-        local S_BLACK = {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
 
+        -- 反転・シャドウ判定ロジックを統合した色取得関数
+        local function get_smart_col(target_col)
+            local final_col = target_col
+            local is_white_target = (color_key == "white" and (
+                (id >= 22 and id <= 27) or (id >= 30 and id <= 33) or 
+                (id >= 36 and id <= 49) or (id >= 53 and id <= 54)
+            ))
+            local is_black_target = (color_key == "black" and (
+                (id >= 6 and id <= 21) or (id >= 26 and id <= 29) or 
+                (id >= 34 and id <= 35) or (id >= 55 and id <= 92)
+            ))
+
+            if is_white_target or is_black_target then
+                local prev = effects[#effects]
+                if not (prev and prev.type == "シャドウ") then
+                    if target_col == C_WHITE then final_col = C_BLACK
+                    elseif target_col == C_BLACK then final_col = C_WHITE end
+                end
+            end
+            return final_col
+        end
+
+        -- 既存の分岐ロジックに合わせて table.insert を使用
         if id == 2 then 
-            table.insert(effects, (color_key == "white") and F_BLACK or F_WHITE)
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE)))
         elseif id == 3 then
-            table.insert(effects, (color_key == "white") and F_BLACK or F_WHITE); table.insert(effects, S_BLACK)
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, s(10, 10, 30, 10, S_BLACK))
         elseif id == 4 then
-            table.insert(effects, (color_key == "white") and F_BLACK or F_WHITE); table.insert(effects, H_BLACK)
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, H_BLACK)
         elseif id == 5 then
-            table.insert(effects, (color_key == "white") and F_BLACK or F_WHITE)
-            if color_key == "black" then table.insert(effects, H_WHITE) else table.insert(effects, H_BLACK) end
-            table.insert(effects, S_BLACK)
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE)))
+            table.insert(effects, (color_key == "black") and H_WHITE or H_BLACK)
+            table.insert(effects, s(10, 10, 30, 10, S_BLACK))
         elseif id == 6 then
-            table.insert(effects, F_BLACK); table.insert(effects, F_WHITE)
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
         elseif id == 7 then
-            table.insert(effects, F_BLACK); table.insert(effects, F_WHITE); table.insert(effects, S_BLACK)
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(10, 10, 30, 10, S_BLACK))
         elseif id >= 8 and id <= 9 then
-            table.insert(effects, F_BLACK); table.insert(effects, F_WHITE); table.insert(effects, H_BLACK)
-            if id == 9 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, H_BLACK)
+            if id == 9 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 10 and id <= 13 then
-            table.insert(effects, F_BLACK); table.insert(effects, (color_key == "white") and H_BLACK or H_WHITE); table.insert(effects, F_WHITE)
-            if id == 11 or id == 13 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, (color_key == "white") and H_BLACK or H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 11 or id == 13 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 14 or id == 15 then
-            table.insert(effects, F_BLACK)
-            if id == 15 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            if id == 15 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 16 or id == 17 then
-            table.insert(effects, H_BLACK); table.insert(effects, F_BLACK)
-            if id == 17 then table.insert(effects, S_BLACK) end
+            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            if id == 17 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 18 or id == 19 then
-            table.insert(effects, F_BLACK); table.insert(effects, F_WHITE)
-            if id == 19 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 19 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 20 or id == 21 then
-            table.insert(effects, F_BLACK); table.insert(effects, H_BLACK); table.insert(effects, F_WHITE)
-            if id == 21 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 21 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 22 and id <= 23 then
-            table.insert(effects, F_WHITE); table.insert(effects, F_MAIN)
-            if id == 23 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 23 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 24 and id <= 25 then
-            table.insert(effects, F_WHITE); table.insert(effects, H_MAIN); table.insert(effects, F_MAIN)
-            if id == 25 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(7, 7, 100, 0, main_col)); table.insert(effects, b(7, main_col))
+            if id == 25 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 26 and id <= 27 then
-            table.insert(effects, H_BLACK); table.insert(effects, F_WHITE); table.insert(effects, F_MAIN)
-            if id == 27 then table.insert(effects, S_BLACK) end
+            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 27 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 28 and id <= 29 then
-            table.insert(effects, H_BLACK); table.insert(effects, F_BLACK); table.insert(effects, F_WHITE); table.insert(effects, F_MAIN)
-            if id == 29 then table.insert(effects, S_BLACK) end
+            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 29 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 30 and id <= 31 then
-            table.insert(effects, F_WHITE); table.insert(effects, H_MAIN); table.insert(effects, F_BLACK); table.insert(effects, F_WHITE); table.insert(effects, F_MAIN)
-            if id == 31 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(7, 7, 100, 0, main_col)); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 31 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 32 and id <= 33 then
-            table.insert(effects, F_WHITE); table.insert(effects, H_BLACK); table.insert(effects, F_BLACK); table.insert(effects, F_WHITE)
-            table.insert(effects, (color_key == "black") and F_WHITE or F_MAIN)
-            if id == 33 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, (color_key == "black") and b(7, get_smart_col(C_WHITE)) or b(7, main_col))
+            if id == 33 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 34 or id == 35 then
-            table.insert(effects, {type="縁取り", size=14, blur=10, col=C_BLACK}); table.insert(effects, F_WHITE)
-            table.insert(effects, H_BLACK); table.insert(effects, F_BLACK); table.insert(effects, F_WHITE)
-            if id == 35 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(14, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 35 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 36 and id <= 37 then
-            table.insert(effects, H_WHITE); table.insert(effects, F_WHITE); table.insert(effects, F_MAIN)
-            if id == 37 then table.insert(effects, S_BLACK) end
+            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 37 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id >= 38 and id <= 43 then
-            table.insert(effects, H_WHITE); table.insert(effects, F_WHITE)
-            if id == 38 or id == 39 then table.insert(effects, H_MAIN) end
-            if id == 40 or id == 41 then table.insert(effects, H_MAIN) end
+            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 38 or id == 39 then table.insert(effects, s(7, 7, 100, 0, main_col)) end
+            if id == 40 or id == 41 then table.insert(effects, s(7, 7, 100, 0, main_col)) end
             if id == 42 or id == 43 then table.insert(effects, H_BLACK) end
-            table.insert(effects, (id >= 40) and F_BLACK or F_MAIN)
-            if id % 2 ~= 0 then table.insert(effects, S_BLACK) end
+            table.insert(effects, (id >= 40) and b(7, get_smart_col(C_BLACK)) or b(7, main_col))
+            if id % 2 ~= 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 44 or id == 45 then
-            table.insert(effects, {type="縁取り", size=20, blur=10, col=C_WHITE}); table.insert(effects, F_BLACK)
-            if id == 45 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(20, get_smart_col(C_WHITE))); table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            if id == 45 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 46 or id == 47 then
-            table.insert(effects, H_WHITE); table.insert(effects, F_WHITE); table.insert(effects, F_BLACK); table.insert(effects, F_WHITE)
-            if id == 47 then table.insert(effects, S_BLACK) end
+            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 47 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 48 or id == 49 then
-            table.insert(effects, F_WHITE); table.insert(effects, {type="縁取り", size=30, blur=70, col=C_WHITE})
-            if id == 49 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, {type="縁取り", size=30, blur=70, col=get_smart_col(C_WHITE)})
+            if id == 49 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         elseif id == 50 then
-            table.insert(effects, {type="シャドウ", x=0, y=0, alpha=50, diff=10, col=C_BLACK})
+            table.insert(effects, s(0, 0, 50, 10, C_BLACK))
         elseif id == 51 or id == 52 then
-            table.insert(effects, {type="縁取り", size=50, blur=100, col=(color_key == "white" and C_WHITE or C_BLACK)})
-            if id == 52 then table.insert(effects, S_BLACK) end
+            table.insert(effects, {type="縁取り", size=50, blur=100, col=get_smart_col(color_key == "white" and C_WHITE or C_BLACK)})
+            if id == 52 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+    -- 53-54: b(20, WHITE)
         elseif id >= 53 and id <= 54 then
-            table.insert(effects, {type="縁取り", size=20, blur=10, col=C_WHITE}); table.insert(effects, F_BLACK); table.insert(effects, H_BLACK)
-            if id == 54 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(20, get_smart_col(C_WHITE)))
+            if id == 54 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+
+        -- 55-56: b(20, WHITE) + b(7, BLACK)
         elseif id >= 55 and id <= 56 then
-            table.insert(effects, {type="縁取り", size=20, blur=10, col=C_BLACK}); table.insert(effects, F_WHITE); table.insert(effects, H_WHITE)
-            if id == 56 then table.insert(effects, S_BLACK) end
-        elseif id >= 57 and id <= 74 then
-            table.insert(effects, F_BLACK);
-            if id >= 57 and id <= 58 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_RED}) end
-            if id >= 59 and id <= 60 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_SKIN}) end
-            if id >= 61 and id <= 62 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_BLOND}) end
-            if id >= 63 and id <= 64 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_GREEN}) end
-            if id >= 65 and id <= 66 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_MINT_GREEN}) end
-            if id >= 67 and id <= 68 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_BLUE}) end
-            if id >= 69 and id <= 70 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_SKY_BLUE}) end
-            if id >= 71 and id <= 72 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_LAVENDER}) end
-            if id >= 73 and id <= 74 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_PINK}) end
-            if id % 2 == 0 then table.insert(effects, S_BLACK) end
-        elseif id >= 75 and id <= 92 then
-            table.insert(effects, F_BLACK); table.insert(effects, F_WHITE); table.insert(effects, F_BLACK)
-            if id >= 75 and id <= 76 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_RED}) end
-            if id >= 77 and id <= 78 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_SKIN}) end
-            if id >= 79 and id <= 80 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_BLOND}) end
-            if id >= 81 and id <= 82 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_GREEN}) end
-            if id >= 83 and id <= 84 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_MINT_GREEN}) end
-            if id >= 85 and id <= 86 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_BLUE}) end
-            if id >= 87 and id <= 88 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_SKY_BLUE}) end
-            if id >= 89 and id <= 90 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_LAVENDER}) end
-            if id >= 91 and id <= 92 then table.insert(effects, {type="縁取り", size=30, blur=70, col=C_PALE_PINK}) end
-            if id % 2 == 0 then table.insert(effects, S_BLACK) end
+            table.insert(effects, b(20, get_smart_col(C_WHITE)))
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            if id == 56 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+
+        -- 57-58: b(20, WHITE) + b(7, BLACK) + H_BLACK
+        elseif id >= 57 and id <= 58 then
+            table.insert(effects, b(20, get_smart_col(C_WHITE)))
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            table.insert(effects, H_BLACK)
+            if id == 58 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+
+        -- 59-60 (旧55-56): b(20, BLACK) + b(7, WHITE) + H_WHITE
+        elseif id >= 59 and id <= 60 then
+            table.insert(effects, b(20, get_smart_col(C_BLACK)))
+            table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, H_WHITE)
+            if id == 60 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+
+        -- 61-78 (旧57-74): カラー縁取りシリーズ 1
+        elseif id >= 61 and id <= 78 then
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            local col_map = {C_PALE_RED, C_SKIN, C_BLOND, C_PALE_GREEN, C_MINT_GREEN, C_PALE_BLUE, C_SKY_BLUE, C_LAVENDER, C_PALE_PINK}
+            local col_idx = math.floor((id - 61) / 2) + 1
+            table.insert(effects, {type="縁取り", size=30, blur=70, col=col_map[col_idx]})
+            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+
+        -- 79-96 (旧75-92): カラー縁取りシリーズ 2
+        elseif id >= 79 and id <= 96 then
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            local col_map = {C_PALE_RED, C_SKIN, C_BLOND, C_PALE_GREEN, C_MINT_GREEN, C_PALE_BLUE, C_SKY_BLUE, C_LAVENDER, C_PALE_PINK}
+            local col_idx = math.floor((id - 79) / 2) + 1
+            table.insert(effects, {type="縁取り", size=30, blur=70, col=col_map[col_idx]})
+            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
         end
 
         return { text_col = (color_key == "white" and C_WHITE or main_col), effects = effects }
     end
 
-    -- グラデーション
-    local or_gradation_start = 0xff3232
-    local or_gradation_end = 0xffc800
-    local grd_width_max = 100
-    local grd_width_30 = 30
-    local grd_width_20 = 20
-    local grd_type1 = "線形"
-    local grd_type2 = "凸型"
-    local grd_mode1 = "通常"
-
-    Styles.gradation = {
-        [1] = { text_col = 0xebebeb, effects = {} },
-        [2] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            }
-        },
-        [3] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            }
-        },
-        [4] = {
-            text_col = 0xff9632,
-                        effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-                        }
-        },
-        [5] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            }
-        },
-        [6] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [7] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            }
-        },
-        [8] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [9] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [10] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [11] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [12] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [13] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [14] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [15] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [16] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [17] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [18] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [19] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=14, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [20] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=14, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [21] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            }
-        },
-        [22] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [23] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
-            }
-        },
-        [24] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_SKIN},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [25] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            }
-        },
-        [26] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_WHITE},
-            {type="縁取り", size=7, blur=10, col=C_SKIN},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=7, blur=10, col=C_BLACK},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [27] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            }
-        },
-        [28] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [29] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            }
-        },
-        [30] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-        [31] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            }
-        },
-        [32] = {
-            text_col = 0xff9632,
-            effects = {
-            {type="グラデーション", pow=100, x=0, y=0, angle=0, width=grd_width_max, mode=grd_mode1, shape=grd_type1, start_c=or_gradation_start, end_c=or_gradation_end},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=C_BLACK},
-            {type="縁取り", size=3, blur=10, col=C_BLACK},
-            {type="縁取り", size=20, blur=10, col=C_WHITE},
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=C_BLACK}
-            }
-        },
-    }
-
-    -- -----------------------------------------------------------------------------
-    -- 3. 特殊テロップの定義 (special)
-    -- -----------------------------------------------------------------------------
-    Styles.special = {
-        [1] = { text_col = 0xebebeb, effects = {} },
-        [2] = {
-            text_col = 0xff9632,
-            effects = {
-                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
-                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-            }
-        },
-        [3] = {
-            text_col = 0xff9632,
-            effects = {
-                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
-                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-                {type="縁取り", size=7, blur=10, col=0xebebeb},
-            }
-        },
-        [4] = {
-            text_col = 0xff9632,
-            effects = {
-                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
-                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-                {type="縁取り", size=7, blur=10, col=0xebebeb}, 
-                {type="縁取り", size=7, blur=10, col=0xd50c0c},
-            }
-        },
-        [5] = {
-            text_col = 0xff9632,
-            effects = {
-                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
-                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-                {type="縁取り", size=7, blur=10, col=0xebebeb}, 
-                {type="縁取り", size=7, blur=10, col=0xd50c0c},
-                {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-                {type="縁取り", size=7, blur=10, col=0x141414},
-            }
-        },
-        [6] = {
-            text_col = 0xff9632,
-            effects = {
-                {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=2},
-                {type="グラデーション", pow=100, x=0, y=0, angle=0, width=43, mode="加算", shape="線形", start_c=0xff0000, end_c=0x8e8e37},
-                {type="縁取り", size=7, blur=10, col=0xebebeb},
-                {type="縁取り", size=7, blur=10, col=0xd50c0c},
-                {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-                {type="縁取り", size=7, blur=10, col=0x141414},
-                {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
-            }
-        },
-        [7] = {
-             text_col = 0xff2b2c,
-             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-            } 
-        },
-        [8] = {
-             text_col = 0xff2b2c,
-             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-             {type="縁取り", size=3, blur=10, col=0xebebeb},
-            } 
-        },
-        [9] = {
-             text_col = 0xff2b2c,
-             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-             {type="縁取り", size=3, blur=10, col=0xebebeb},
-             {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-             {type="縁取り", size=7, blur=10, col=0x141414},
-            } 
-        },
-        [10] = {
-             text_col = 0xff2b2c,
-             effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-             {type="縁取り", size=3, blur=10, col=0xebebeb},
-             {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-             {type="縁取り", size=7, blur=10, col=0x141414},
-             {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
-            } 
-        },
-        [11] = { 
-            text_col = 0xff9632, 
-            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-        }
-    },
-        [12] = { 
-            text_col = 0xff9632, 
-            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-            {type="縁取り", size=3, blur=10, col=0xebebeb},
-        }
-    },
-        [13] = { 
-            text_col = 0xff9632, 
-            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-            {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
-            {type="縁取り", size=7, blur=10, col=0x141414}, 
-        }
-    },
-        [14] = { 
-            text_col = 0xff9632, 
-            effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-            {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-            {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
-            {type="縁取り", size=7, blur=10, col=0x141414}, 
-            {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
-        }
-    },
-        [15] = { text_col = 0xf7ff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-     } },
-        [16] = { text_col = 0xf7ff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-     } },
-        [17] = { text_col = 0xf7ff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-     } },
-        [18] = { text_col = 0xf7ff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3}, 
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
-     } },
-        [19] = { text_col = 0x2bff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-     } },
-        [20] = { text_col = 0x2bff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-     } },
-        [21] = { text_col = 0x2bff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-     } },
-        [22] = { text_col = 0x2bff2b,
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414}
-     } },
-        [23] = { text_col = 0x39ffff,
-        effects =
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-    } },
-        [24] = { text_col = 0x39ffff,
-        effects =
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-    } },
-        [25] = { text_col = 0x39ffff,
-        effects =
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-    } },
-        [26] = { text_col = 0x39ffff,
-        effects =
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} 
-    } },
-        [27] = { text_col = 0x2626ff, 
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-     } },
-        [28] = { text_col = 0x2626ff, 
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},} },
-        [29] = { text_col = 0x2626ff, 
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414}, } },
-        [30] = { text_col = 0x2626ff, 
-        effects = 
-        { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [31] = { text_col = 0xba26ff,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
- } },
-        [32] = { text_col = 0xba26ff,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-    } },
-        [33] = { text_col = 0xba26ff,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
- } },
-        [34] = { text_col = 0xba26ff,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb},
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414},
-        {type="縁取り", size=7, blur=10, col=0x141414},
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-        [35] = { text_col = 0xff26b1,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-} },
-        [36] = { text_col = 0xff26b1,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-     } },
-        [37] = { text_col = 0xff26b1,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
-        {type="縁取り", size=7, blur=10, col=0x141414}, 
-    } },
-        [38] = { text_col = 0xff26b1,
-        effects = { {type="ノイズ", pow=71, speedX=0, speedY=90.5, cycleX=8.15, cycleY=3.55, mode="明るさと乗算", n_type=3},
-        {type="縁取り", size=3, blur=10, col=0xebebeb}, 
-        {type="シャドウ", x=7, y=7, alpha=100, diff=0, col=0x141414}, 
-        {type="縁取り", size=7, blur=10, col=0x141414}, 
-        {type="シャドウ", x=10, y=10, alpha=30, diff=10, col=0x141414} } },
-    }
-
-    -- -----------------------------------------------------------------------------
-    -- 4. 構築
-    -- -----------------------------------------------------------------------------
+    -- 標準カテゴリ(deco2-12)をループで一括生成
     for name, main_col in pairs(base_colors) do
         Styles[name] = {}
         for i = 1, 92 do
@@ -729,44 +222,137 @@ function M.telop_presets(p,b)
         end
     end
 
-    -- データ選択ロジック
-    local data = { text_col = nil, effects = {} }
+-- =============================================================================
+    -- 4. グラデーション装飾 (deco13用)
+    -- =============================================================================
+    Styles.gradation = { [1] = { text_col = C_WHITE, effects = {} } }
+    
+    local s_std  = s(10, 10, 30, 10)
+    local s_hard = s(7, 7, 100, 0)
 
-    if(p.deco14 and p.deco14 ~= 1) then
-        data = Styles.special[p.deco14]
-    elseif(p.deco13 and p.deco13 ~= 1) then
-        data = Styles.gradation[p.deco13]
-    elseif(p.deco12 and p.deco12 ~= 1) then
-        data = Styles.pink[p.deco12]
-    elseif(p.deco11 and p.deco11 ~= 1) then
-        data = Styles.purple[p.deco11]
-    elseif(p.deco10 and p.deco10 ~= 1) then
-        data = Styles.blue[p.deco10]
-    elseif(p.deco9 and p.deco9 ~= 1) then
-        data = Styles.light_blue[p.deco9]
-    elseif(p.deco8 and p.deco8 ~= 1) then
-        data = Styles.green[p.deco8]
-    elseif(p.deco7 and p.deco7 ~= 1) then
-        data = Styles.yellow_green[p.deco7]
-    elseif(p.deco6 and p.deco6 ~= 1) then
-        data = Styles.yellow[p.deco6]
-    elseif(p.deco5 and p.deco5 ~= 1) then
-        data = Styles.orange[p.deco5]
-    elseif(p.deco4 and p.deco4 ~= 1) then
-        data = Styles.red[p.deco4]
-    elseif(p.deco3 and p.deco3 ~= 1) then
-        data = Styles.black[p.deco3]
-    elseif(p.deco2 and p.deco2 ~= 1) then
-        data = Styles.white[p.deco2]
+    -- グラデーション基本設定リスト (提示された7種)
+    local g_bases = {
+        {sc=0xff9632, ec=0xffffff, w=100, sh="線形"}, -- 1(A): 橙白
+        {sc=0xffffff, ec=0x1e64c8, w=100, sh="凸型"}, -- 2(B): 白青
+        {sc=0xffffff, ec=0x4c4c4c, w=30,  sh="凸型"}, -- 3(C): 白灰
+        {sc=0xfaff42, ec=0xffd126, w=20,  sh="凸型"}, -- 4(D): 黄橙
+        {sc=0xff3621, ec=0xde471d, w=100, sh="線形"}, -- 5(E): 赤朱 (反転対象)
+        {sc=0xff2b2c, ec=0xebebeb, w=100, sh="線形"}, -- 6(F): 赤白
+        {sc=0x1e32e6, ec=0x0a0a0a, w=20,  sh="線形"}, -- 7(G): 青黒 (反転対象)
+    }
+
+    -- 全パターン生成 (7種 × 20パターン = 140種類)
+    for b_idx, base in ipairs(g_bases) do
+        
+        -- 条件: 5(E)と7(G)のときだけ反転フラグを立てる
+        local should_invert = (b_idx == 5 or b_idx == 7)
+
+        -- 既存の装飾パターン構造 (元の定数 C_WHITE, C_BLACK を使用)
+        local current_decorations = {
+            [1]={}, [2]={}, [3]={b(7,C_WHITE)}, [4]={b(7,C_BLACK),s_std},
+            [5]={b(7,C_BLACK),b(7,C_WHITE)}, [6]={b(7,C_BLACK),b(7,C_WHITE),s_std},
+            [7]={b(7,C_BLACK),s_hard,b(7,C_WHITE)}, [8]={b(7,C_BLACK),s_hard,b(7,C_WHITE),s_std},
+            [9]={b(7,C_BLACK),b(7,C_SKIN)}, [10]={b(7,C_BLACK),b(7,C_SKIN),s_std},
+            [11]={b(7,C_BLACK),s(7,7,100,0,C_SKIN),b(7,C_SKIN)}, [12]={b(7,C_BLACK),s(7,7,100,0,C_SKIN),b(7,C_SKIN),s_std},
+            [13]={s_hard,b(7,C_BLACK),b(7,C_WHITE),b(7,C_SKIN)}, [14]={s_hard,b(7,C_BLACK),b(7,C_WHITE),b(7,C_SKIN),s_std},
+            [15]={b(7,C_BLACK),s_hard,b(3,C_BLACK),b(7,C_WHITE),b(7,C_SKIN)}, [16]={b(7,C_BLACK),s_hard,b(3,C_BLACK),b(7,C_WHITE),b(7,C_SKIN),s_std},
+            [17]={b(20,C_BLACK),b(3,C_WHITE)}, [18]={b(20,C_BLACK),b(3,C_WHITE),s_std},
+            [19]={b(20,C_BLACK),s_hard,b(3,C_BLACK),b(20,C_WHITE)}, [20]={b(20,C_BLACK),s_hard,b(3,C_BLACK),b(20,C_WHITE),s_std}
+        }
+
+        for d_idx, effs in ipairs(current_decorations) do
+            local target_idx = (b_idx - 1) * 20 + d_idx
+            local grad_effect = {
+                type="グラデーション", pow=100, x=0, y=0, angle=0, 
+                width=base.w, mode="通常", shape=base.sh, 
+                start_c=base.sc, end_c=base.ec
+            }
+            local final_effs = { grad_effect }
+
+            for i, v in ipairs(effs) do
+                local processed_v = v
+                -- 反転条件を満たし、かつエフェクトが「縁取り」の場合のみ判定
+                if should_invert and v.type == "縁取り" then
+                    -- 直前のエフェクト(final_effsの最後)を確認
+                    local prev_eff = final_effs[#final_effs]
+                    -- 直前が「シャドウ」でない場合のみ、白と黒を反転させる
+                    if prev_eff.type ~= "シャドウ" then
+                        if v.col == C_WHITE then
+                            processed_v = {type="縁取り", size=v.size, blur=v.blur, col=C_BLACK}
+                        elseif v.col == C_BLACK then
+                            processed_v = {type="縁取り", size=v.size, blur=v.blur, col=C_WHITE}
+                        end
+                    end
+                end
+                table.insert(final_effs, processed_v)
+            end
+            
+            Styles.gradation[target_idx] = { text_col = base.sc, effects = final_effs }
+        end
     end
 
-    -- 描画処理
-    if(data.text_col ~= nil) then
+    -- =============================================================================
+    -- 5. 特殊テロップ (deco14用) - 整理済み
+    -- =============================================================================
+    Styles.special = { [1] = { text_col = C_WHITE, effects = {} } }
+
+    -- [2-6] 特殊グラデーション系列
+    local sp_grad = get_grad(0xff0000, 0x8e8e37, 43, "加算")
+    local base_a  = { get_noise(2), sp_grad }
+    local patterns_a = {
+        [2] = {},
+        [3] = { b(7, 0xebebeb) },
+        [4] = { b(7, 0xebebeb), b(7, 0xd50c0c) },
+        [5] = { b(7, 0xebebeb), b(7, 0xd50c0c), s(7, 7, 100, 0), b(7, 0x141414) },
+        [6] = { b(7, 0xebebeb), b(7, 0xd50c0c), s(7, 7, 100, 0), b(7, 0x141414), s(10, 10, 30, 10) }
+    }
+    for i, effs in pairs(patterns_a) do
+        local final_effs = { unpack(base_a) }
+        for _, e in ipairs(effs) do table.insert(final_effs, e) end
+        Styles.special[i] = { text_col = 0xff9632, effects = final_effs }
+    end
+
+    -- [7以降] 色バリエーション系列
+    local sp_colors = {0xff2b2c, 0xff9632, 0xf7ff2b, 0x2bff2b, 0x39ffff, 0x2626ff, 0xba26ff, 0xff26b1}
+    local cur_idx = 7
+    for _, col in ipairs(sp_colors) do
+        local noise = get_noise(3)
+        Styles.special[cur_idx]     = { text_col = col, effects = { noise } }
+        Styles.special[cur_idx + 1] = { text_col = col, effects = { noise, b(3, 0xebebeb) } }
+        Styles.special[cur_idx + 2] = { text_col = col, effects = { noise, b(3, 0xebebeb), s(7, 7, 100, 0), b(7, 0x141414) } }
+        Styles.special[cur_idx + 3] = { text_col = col, effects = { noise, b(3, 0xebebeb), s(7, 7, 100, 0), b(7, 0x141414), s(10, 10, 30, 10) } }
+        cur_idx = cur_idx + 4
+    end
+
+    -- =============================================================================
+    -- 6. データ選択ロジック
+    -- =============================================================================
+    local data = { text_col = nil, effects = {} }
+
+    if     (p.deco14 and p.deco14 ~= 1) then data = Styles.special[p.deco14]
+    elseif (p.deco13 and p.deco13 ~= 1) then data = Styles.gradation[p.deco13]
+    elseif (p.deco12 and p.deco12 ~= 1) then data = Styles.pink[p.deco12]
+    elseif (p.deco11 and p.deco11 ~= 1) then data = Styles.purple[p.deco11]
+    elseif (p.deco10 and p.deco10 ~= 1) then data = Styles.blue[p.deco10]
+    elseif (p.deco9  and p.deco9  ~= 1) then data = Styles.light_blue[p.deco9]
+    elseif (p.deco8  and p.deco8  ~= 1) then data = Styles.green[p.deco8]
+    elseif (p.deco7  and p.deco7  ~= 1) then data = Styles.yellow_green[p.deco7]
+    elseif (p.deco6  and p.deco6  ~= 1) then data = Styles.yellow[p.deco6]
+    elseif (p.deco5  and p.deco5  ~= 1) then data = Styles.orange[p.deco5]
+    elseif (p.deco4  and p.deco4  ~= 1) then data = Styles.red[p.deco4]
+    elseif (p.deco3  and p.deco3  ~= 1) then data = Styles.black[p.deco3]
+    elseif (p.deco2  and p.deco2  ~= 1) then data = Styles.white[p.deco2]
+    end
+
+    -- =============================================================================
+    -- 7. AviUtlオブジェクトへの反映 (描画)
+    -- =============================================================================
+    if data.text_col then
         obj.effect("単色化", "強さ", 100, "色", data.text_col, "輝度を保持する", 0)
     end
 
     for _, eff in ipairs(data.effects) do
-        if eff == nil then break end
+        if not eff then break end
         
         if eff.type == "縁取り" then
             obj.effect("縁取り", "サイズ", eff.size * p.prisets_resize, "ぼかし", eff.blur, "縁色", eff.col)
