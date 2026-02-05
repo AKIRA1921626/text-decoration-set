@@ -91,106 +91,106 @@ function M.telop_presets(p, b_obj)
         if id == 2 then 
             table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE)))
         elseif id == 3 then
-            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, s(10, 10, 30, 10, S_BLACK))
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, s(10, 10, 30, 10, C_BLACK))
         elseif id == 4 then
-            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, H_BLACK)
+            table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE))); table.insert(effects, s(10, 10, 100, 0, C_BLACK) )
         elseif id == 5 then
             table.insert(effects, b(7, get_smart_col((color_key == "white") and C_BLACK or C_WHITE)))
-            table.insert(effects, (color_key == "black") and H_WHITE or H_BLACK)
-            table.insert(effects, s(10, 10, 30, 10, S_BLACK))
+            table.insert(effects, (color_key == "black") and s(10, 10, 100, 0, C_WHITE)  or s(10, 10, 100, 0, C_BLACK) )
+            table.insert(effects, s(10, 10, 30, 10, C_BLACK))
         elseif id == 6 then
             table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
         elseif id == 7 then
-            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(10, 10, 30, 10, S_BLACK))
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(10, 10, 30, 10, C_BLACK))
         elseif id >= 8 and id <= 9 then
-            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, H_BLACK)
-            if id == 9 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(10, 10, 100, 0, C_BLACK) )
+            if id == 9 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 10 and id <= 13 then
-            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, (color_key == "white") and H_BLACK or H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            if id == 11 or id == 13 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, (color_key == "white") and s(10, 10, 100, 0, C_BLACK)  or s(10, 10, 100, 0, C_WHITE) ); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 11 or id == 13 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 14 or id == 15 then
             table.insert(effects, b(7, get_smart_col(C_BLACK)))
-            if id == 15 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 15 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 16 or id == 17 then
-            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK)))
-            if id == 17 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_BLACK)))
+            if id == 17 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 18 or id == 19 then
             table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            if id == 19 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 19 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 20 or id == 21 then
-            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            if id == 21 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 21 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 22 and id <= 23 then
             table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
-            if id == 23 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 23 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 24 and id <= 25 then
             table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(7, 7, 100, 0, main_col)); table.insert(effects, b(7, main_col))
-            if id == 25 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 25 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 26 and id <= 27 then
-            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
-            if id == 27 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 27 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 28 and id <= 29 then
-            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
-            if id == 29 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 29 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 30 and id <= 31 then
             table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(7, 7, 100, 0, main_col)); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
-            if id == 31 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 31 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 32 and id <= 33 then
-            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
             table.insert(effects, (color_key == "black") and b(7, get_smart_col(C_WHITE)) or b(7, main_col))
-            if id == 33 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 33 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 34 or id == 35 then
             table.insert(effects, b(14, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            table.insert(effects, H_BLACK); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            if id == 35 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_BLACK) ); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 35 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 36 and id <= 37 then
-            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
-            if id == 37 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_WHITE) ); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, main_col))
+            if id == 37 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id >= 38 and id <= 43 then
-            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            table.insert(effects, s(10, 10, 100, 0, C_WHITE) ); table.insert(effects, b(7, get_smart_col(C_WHITE)))
             if id == 38 or id == 39 then table.insert(effects, s(7, 7, 100, 0, main_col)) end
             if id == 40 or id == 41 then table.insert(effects, s(7, 7, 100, 0, main_col)) end
-            if id == 42 or id == 43 then table.insert(effects, H_BLACK) end
+            if id == 42 or id == 43 then table.insert(effects, s(10, 10, 100, 0, C_BLACK) ) end
             table.insert(effects, (id >= 40) and b(7, get_smart_col(C_BLACK)) or b(7, main_col))
-            if id % 2 ~= 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id % 2 ~= 0 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 44 or id == 45 then
             table.insert(effects, b(20, get_smart_col(C_WHITE))); table.insert(effects, b(7, get_smart_col(C_BLACK)))
-            if id == 45 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 45 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 46 or id == 47 then
-            table.insert(effects, H_WHITE); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            if id == 47 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_WHITE) ); table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, b(7, get_smart_col(C_BLACK))); table.insert(effects, b(7, get_smart_col(C_WHITE)))
+            if id == 47 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 48 or id == 49 then
             table.insert(effects, b(7, get_smart_col(C_WHITE))); table.insert(effects, {type="縁取り", size=30, blur=70, col=get_smart_col(C_WHITE)})
-            if id == 49 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 49 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         elseif id == 50 then
             table.insert(effects, s(0, 0, 50, 10, C_BLACK))
         elseif id == 51 or id == 52 then
             table.insert(effects, {type="縁取り", size=50, blur=100, col=get_smart_col(color_key == "white" and C_WHITE or C_BLACK)})
-            if id == 52 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 52 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
     -- 53-54: b(20, WHITE)
         elseif id >= 53 and id <= 54 then
             table.insert(effects, b(20, get_smart_col(C_WHITE)))
-            if id == 54 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 54 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
 
         -- 55-56: b(20, WHITE) + b(7, BLACK)
         elseif id >= 55 and id <= 56 then
             table.insert(effects, b(20, get_smart_col(C_WHITE)))
             table.insert(effects, b(7, get_smart_col(C_BLACK)))
-            if id == 56 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id == 56 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
 
-        -- 57-58: b(20, WHITE) + b(7, BLACK) + H_BLACK
+        -- 57-58: b(20, WHITE) + b(7, BLACK) + s(10, 10, 100, 0, C_BLACK) 
         elseif id >= 57 and id <= 58 then
             table.insert(effects, b(20, get_smart_col(C_WHITE)))
             table.insert(effects, b(7, get_smart_col(C_BLACK)))
-            table.insert(effects, H_BLACK)
-            if id == 58 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_BLACK) )
+            if id == 58 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
 
-        -- 59-60 (旧55-56): b(20, BLACK) + b(7, WHITE) + H_WHITE
+        -- 59-60 (旧55-56): b(20, BLACK) + b(7, WHITE) + s(10, 10, 100, 0, C_WHITE) 
         elseif id >= 59 and id <= 60 then
             table.insert(effects, b(20, get_smart_col(C_BLACK)))
             table.insert(effects, b(7, get_smart_col(C_WHITE)))
-            table.insert(effects, H_WHITE)
-            if id == 60 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            table.insert(effects, s(10, 10, 100, 0, C_WHITE) )
+            if id == 60 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
 
         -- 61-78 (旧57-74): カラー縁取りシリーズ 1
         elseif id >= 61 and id <= 78 then
@@ -198,7 +198,7 @@ function M.telop_presets(p, b_obj)
             local col_map = {C_PALE_RED, C_SKIN, C_BLOND, C_PALE_GREEN, C_MINT_GREEN, C_PALE_BLUE, C_SKY_BLUE, C_LAVENDER, C_PALE_PINK}
             local col_idx = math.floor((id - 61) / 2) + 1
             table.insert(effects, {type="縁取り", size=30, blur=70, col=col_map[col_idx]})
-            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
 
         -- 79-96 (旧75-92): カラー縁取りシリーズ 2
         elseif id >= 79 and id <= 96 then
@@ -208,7 +208,7 @@ function M.telop_presets(p, b_obj)
             local col_map = {C_PALE_RED, C_SKIN, C_BLOND, C_PALE_GREEN, C_MINT_GREEN, C_PALE_BLUE, C_SKY_BLUE, C_LAVENDER, C_PALE_PINK}
             local col_idx = math.floor((id - 79) / 2) + 1
             table.insert(effects, {type="縁取り", size=30, blur=70, col=col_map[col_idx]})
-            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, S_BLACK)) end
+            if id % 2 == 0 then table.insert(effects, s(10, 10, 30, 10, C_BLACK)) end
         end
 
         return { text_col = (color_key == "white" and C_WHITE or main_col), effects = effects }
@@ -217,7 +217,7 @@ function M.telop_presets(p, b_obj)
     -- 標準カテゴリ(deco2-12)をループで一括生成
     for name, main_col in pairs(base_colors) do
         Styles[name] = {}
-        for i = 1, 92 do
+        for i = 1, 96 do
             Styles[name][i] = get_effect_template(main_col, i, name)
         end
     end
@@ -230,7 +230,7 @@ function M.telop_presets(p, b_obj)
     local s_std  = s(10, 10, 30, 10)
     local s_hard = s(7, 7, 100, 0)
 
-    -- グラデーション基本設定リスト (提示された7種)
+    -- グラデーション基本設定リスト
     local g_bases = {
         {sc=0xff9632, ec=0xffffff, w=100, sh="線形"}, -- 1(A): 橙白
         {sc=0xffffff, ec=0x1e64c8, w=100, sh="凸型"}, -- 2(B): 白青
@@ -239,6 +239,17 @@ function M.telop_presets(p, b_obj)
         {sc=0xff3621, ec=0xde471d, w=100, sh="線形"}, -- 5(E): 赤朱 (反転対象)
         {sc=0xff2b2c, ec=0xebebeb, w=100, sh="線形"}, -- 6(F): 赤白
         {sc=0x1e32e6, ec=0x0a0a0a, w=20,  sh="線形"}, -- 7(G): 青黒 (反転対象)
+        {sc=0x2caa13, ec=0x21ff51, w=20,  sh="線形"}, -- 8 緑
+        {sc=0x1398aa, ec=0x21ffed, w=20,  sh="線形"}, -- 9 水色
+        {sc=0x132faa, ec=0x3c21ff, w=20,  sh="線形"}, -- 10 青
+        {sc=0x8113aa, ec=0x9b21ff, w=20,  sh="線形"}, -- 11 紫
+        {sc=0xc216a4, ec=0xff21c7, w=20,  sh="線形"}, -- 12 ピンク
+        {sc=0xff842b, ec=0xff5c21, w=20,  sh="線形"}, -- 13 オレンジ
+        {sc=0xfff521, ec=0xffdd2b, w=20,  sh="線形"}, -- 14 黄色
+        {sc=0x2bff26, ec=0xf3ff2b, w=20,  sh="線形"}, -- 15 緑黄色
+        {sc=0x26fff6, ec=0xf3ff2b, w=20,  sh="線形"}, -- 16 水色黄色
+        {sc=0x2697ff, ec=0x2bf0ff, w=20,  sh="線形"}, -- 17 青水色
+        {sc=0x2697ff, ec=0x472bff, w=20,  sh="線形"}, -- 18 水色青
     }
 
     -- 全パターン生成 (7種 × 20パターン = 140種類)
